@@ -1,25 +1,24 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
+import firestore from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyDNeY8JakZDlnlx9j7nsZ2GzNN9URQ8fnI',
-  authDomain: 'moon-cinema-rest-api.firebaseapp.com',
-  projectId: 'moon-cinema-rest-api',
-  storageBucket: 'moon-cinema-rest-api.appspot.com',
-  messagingSenderId: '154369509850',
-  appId: '1:154369509850:web:51f1d73f0eede8816ed8e3',
-  measurementId: 'G-QJ331BDXDH'
+  apiKey: 'AIzaSyAsAjkjqEjyA37m3udux5tbOiwLIKmr5jM',
+  authDomain: 'ctsereactnativeneutron.firebaseapp.com',
+  projectId: 'ctsereactnativeneutron',
+  storageBucket: 'ctsereactnativeneutron.appspot.com',
+  messagingSenderId: '903672387594',
+  appId: '1:903672387594:web:ea722c9046369bd29927f3'
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-const analytics = getAnalytics(app);
+const Firebase = getStorage(app);
+Firebase.firestore();
 
-export { storage, storage as default };
+export { Firebase, Firebase as default };
