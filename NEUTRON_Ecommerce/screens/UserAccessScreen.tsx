@@ -18,8 +18,8 @@ export default function UserAccessScreen() {
   return (
     <SafeAreaView style={style.container}>
       <PublicHeader loginPage={true} />
-      {/* <Login /> */}
-      <RegisterForm/>
+      <Login />
+      {/* <RegisterForm/> */}
     </SafeAreaView>
   );
 }

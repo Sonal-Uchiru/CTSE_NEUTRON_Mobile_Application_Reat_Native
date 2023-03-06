@@ -1,4 +1,4 @@
-import { storage } from './Configuration';
+import { Firebase } from './Configuration';
 import {
   ref,
   uploadBytesResumable,
@@ -9,7 +9,7 @@ import {
 
 export function uploadFile(file: File[]) {
   const storageRef: StorageReference = ref(
-    storage,
+    Firebase,
     `Movies(images)/${file[0].name}`
   );
   const uploadTask: UploadTask = uploadBytesResumable(storageRef, file[0]);

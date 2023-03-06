@@ -1,14 +1,12 @@
-import { StyleSheet, SafeAreaView, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { LoginValidationSchema } from './LoginFormValidations';
 import i18n from 'i18n-js';
 import FormGroup from '../../../../molecules/FormGroup';
 import { LoginInitialValues } from './LoginFormInitialValues';
-import CircularsImage from '../../../../atoms/images/CircularsImage';
 import useThemedStyles from '../../../../../theme/hooks/UseThemedStyles';
 import useTheme from '../../../../../theme/hooks/UseTheme';
-import HeadLine3 from '../../../../atoms/typographies/HeadLine3';
 import ModalButton from '../../../../atoms/buttons/ModalButton';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import ParagraphBold from '../../../../atoms/typographies/ParagraphBold';
@@ -16,7 +14,6 @@ import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import GoogleButton from '../../../../atoms/buttons/GoogleButton';
 import { Logo } from '../../../../../assets/image';
 import { ILoginFormFields } from './ILoginFormFields';
-import UserAuthenticationApi from '../../../../../api/exclusives/usersApi/UserAuthenticationApi';
 import { ILoginResponse } from '../../../../../types/users/ILoginResponse';
 import { AxiosResponse } from 'axios';
 import ExpoLocalStorage from '../../../../../authentication/secure_stores/ExpoLocalStorage';
@@ -31,21 +28,21 @@ export default function Login() {
   const [selected, setSelected] = useState<boolean>(false);
 
   const loginAsync = async (values: ILoginFormFields) => {
-    try {
-      const response: AxiosResponse = await UserAuthenticationApi.loginAsync(
-        values
-      );
-      const data: ILoginResponse = response.data;
+    // try {
+    //   const response: AxiosResponse = await UserAuthenticationApi.loginAsync(
+    //     values
+    //   );
+    //   const data: ILoginResponse = response.data;
 
-      await ExpoLocalStorage.setTokenToLocalStorageAsync(data.token);
-      await ExpoLocalStorage.setRoleToLocalStorageAsync(data.role);
-      //navigate to home
+    //   await ExpoLocalStorage.setTokenToLocalStorageAsync(data.token);
+    //   await ExpoLocalStorage.setRoleToLocalStorageAsync(data.role);
+    //   //navigate to home
 
-      console.log(data);
-    } catch (error: any) {
-      setIsError(true);
-      console.log(error);
-    }
+    //   console.log(data);
+    // } catch (error: any) {
+    //   setIsError(true);
+    //   console.log(error);
+    // }
   };
   return (
     <>
