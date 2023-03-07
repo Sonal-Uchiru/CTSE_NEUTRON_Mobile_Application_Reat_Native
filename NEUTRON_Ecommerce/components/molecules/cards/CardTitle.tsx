@@ -54,7 +54,7 @@ export default function CardTitleView({
         )}
         right={() => (
           <IconButton
-            icon={visible ? 'chevron-down' : 'chevron-up'}
+            icon={visible ? 'chevron-up' : 'chevron-down'}
             onPress={changeVisible}
             iconColor={theme.COLORS.PRIMARY}
             size={50}

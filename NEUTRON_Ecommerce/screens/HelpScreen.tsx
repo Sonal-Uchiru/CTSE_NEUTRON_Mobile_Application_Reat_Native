@@ -21,6 +21,7 @@ export default function HelpScreen() {
   const [locale, setLocale] = useState(Localization.locale);
   const [showProfile, setShowProfile] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [showCard, setShowCard] = useState(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
@@ -77,6 +78,28 @@ export default function HelpScreen() {
         />
         <Card.Content
           style={showCart ? style.cardContent : style.hiddenCardContent}
+        >
+          <ParagraphBold
+            value={i18n.t('helpPage.step01')}
+            color={theme.COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={
+              'Lorem ipsum dolor sit amet, consectetui Lorem ipsum dolor sit amet, consectetui'
+            }
+            marginTop={5}
+          />
+        </Card.Content>
+      </Card>
+      <Card mode="outlined" style={style.cardStyle}>
+        <CardTitleView
+          visible={showCard}
+          changeVisible={() => setShowCard(!showCard)}
+          headerIcon={'credit-card'}
+          cardTopic={i18n.t('helpPage.cardTopic')}
+        />
+        <Card.Content
+          style={showCard ? style.cardContent : style.hiddenCardContent}
         >
           <ParagraphBold
             value={i18n.t('helpPage.step01')}
