@@ -1,8 +1,9 @@
-// import { Firebase } from '../../utils/firebase/cloud_storage/Configuration';
+// import { Store } from "../../utils/firebase/firestore/Configuration";
+
 
 // class ItemRepository{
 //     addItemAsync(data: JSON): Promise<any>{
-//         Firebase.fire
+//         Stor
 //     }
 // }
 
