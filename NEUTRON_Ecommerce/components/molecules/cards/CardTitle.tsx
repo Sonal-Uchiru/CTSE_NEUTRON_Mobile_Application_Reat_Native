@@ -8,12 +8,18 @@ import useTheme from '../../../theme/hooks/UseTheme';
 import useThemedStyles from '../../../theme/hooks/UseThemedStyles';
 import ParagraphBold from '../../atoms/typographies/ParagraphBold';
 import Paragraph from '../../atoms/typographies/Paragraph';
+import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
 
-export default function CardTitleView() {
+interface props {
+  visible: Boolean;
+  changeVisible: any;
+  headerIcon: IconSource;
+}
+
+export default function CardTitleView({ visible, changeVisible, headerIcon }: props) {
   const [locale, setLocale] = useState(Localization.locale);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
   const changeLanguage = () => {
     if (locale == 'sin') {
       setLocale('en');
@@ -35,15 +41,15 @@ export default function CardTitleView() {
               // alignSelf: 'flex-end'
               paddingEnd: 20
             }}
-            icon="account"
+            icon={headerIcon}
             iconColor={theme.COLORS.PRIMARY}
             size={40}
           />
         )}
         right={() => (
           <IconButton
-            icon="chevron-down"
-            onPress={() => {}}
+            icon={visible ? 'chevron-down' : 'chevron-up'}
+            onPress={changeVisible}
             iconColor={theme.COLORS.PRIMARY}
             size={50}
           />

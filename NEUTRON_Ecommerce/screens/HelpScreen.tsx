@@ -19,6 +19,7 @@ import CardTitleView from '../components/molecules/cards/CardTitle';
 
 export default function HelpScreen() {
   const [locale, setLocale] = useState(Localization.locale);
+  const [showProfile, setShowProfile] = useState(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
@@ -47,8 +48,14 @@ export default function HelpScreen() {
       </View>
 
       <Card mode="outlined" style={style.cardStyle}>
-        <CardTitleView />
-        <Card.Content style={style.cardContent}>
+        <CardTitleView
+          visible={showProfile}
+          changeVisible={() => setShowProfile(!showProfile)}
+          headerIcon={'account'}
+        />
+        <Card.Content
+          style={showProfile ? style.cardContent : style.hiddenCardContent}
+        >
           <ParagraphBold
             value={i18n.t('helpPage.step01')}
             color={theme.COLORS.PRIMARY}
@@ -79,12 +86,15 @@ const styles = (theme: {
       //   paddingStart: 20
     },
     cardStyle: {
-      width: 380,
+      width: 385,
       borderColor: theme.COLORS.PRIMARY,
       backgroundColor: theme.COLORS.WHITE
     },
     cardContent: {
-      alignItems: 'stretch'
+      display: 'flex'
+    },
+    hiddenCardContent: {
+      display: 'none'
     },
     headerStyle: {
       alignSelf: 'flex-start',
