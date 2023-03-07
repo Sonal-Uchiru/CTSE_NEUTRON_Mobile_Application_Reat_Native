@@ -7,7 +7,9 @@ import {
   doc,
   deleteDoc,
   getDoc,
-  setDoc
+  setDoc,
+  QueryDocumentSnapshot,
+  DocumentData
 } from 'firebase/firestore';
 
 class ItemRepository {
@@ -35,9 +37,9 @@ class ItemRepository {
     }
   }
 
-  async getItemListAsync(): Promise<any> {
+  async getItemListAsync(): Promise<QueryDocumentSnapshot<DocumentData>> {
     try {
-      const docRef = doc(FireStoreDB, 'cities', 'SF');
+      const docRef = doc(FireStoreDB, 'items');
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
