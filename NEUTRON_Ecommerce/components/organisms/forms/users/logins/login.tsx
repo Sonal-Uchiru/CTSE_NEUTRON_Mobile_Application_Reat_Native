@@ -67,7 +67,7 @@ export default function Login() {
   
 
     if (!result.canceled) {
-      console.log(await uploadFile(result.assets[0]));
+      console.log(await uploadFile(result.assets[0],'Items'));
     }
   };
 
