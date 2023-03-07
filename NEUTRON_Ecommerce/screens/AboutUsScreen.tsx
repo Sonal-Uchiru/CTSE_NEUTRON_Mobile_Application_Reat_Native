@@ -1,20 +1,12 @@
 import { StyleSheet, SafeAreaView, Text, Image, View } from 'react-native';
 import React, { useState } from 'react';
-import { Formik } from 'formik';
 import i18n from 'i18n-js';
-import Login from '../components/organisms/forms/users/logins/login';
-import PublicHeader from '../components/molecules/PublicHeader';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
 import HeadLine3 from '../components/atoms/typographies/HeadLine3';
 import * as Localization from 'expo-localization';
-import HeadLine4 from '../components/atoms/typographies/HeadLine4';
-import { Card } from 'react-native-paper';
-import ParagraphBold from '../components/atoms/typographies/ParagraphBold';
 import Paragraph from '../components/atoms/typographies/Paragraph';
-import CardTitleView from '../components/molecules/cards/CardTitle';
-import { Padlock } from '../assets/image';
-import Information from '../components/atoms/typographies/Information';
+import { AboutUs } from '../assets/image';
 import Hyperlink from '../components/atoms/typographies/HyperLink';
 
 export default function AboutUsScreen() {
@@ -39,11 +31,11 @@ export default function AboutUsScreen() {
       <HeadLine3
         value={i18n.t('aboutUsPage.aboutUs')}
         color={theme.COLORS.PRIMARY}
-        marginBottom={20}
+        marginBottom={10}
       />
-      <Image source={Padlock} style={{ height: 240, width: 240 }} />
+      <Image source={AboutUs} style={{ height: 250, width: 250 }} />
       <View style={style.paragraphStyle}>
-        <Paragraph value={i18n.t('aboutUsPage.para1')} marginTop={5} />
+        <Paragraph value={i18n.t('aboutUsPage.para1')} />
         <Paragraph value={i18n.t('aboutUsPage.para2')} marginTop={20} />
       </View>
       <Hyperlink value={i18n.t('aboutUsPage.back')} />
