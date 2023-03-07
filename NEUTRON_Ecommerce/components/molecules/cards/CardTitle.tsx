@@ -14,9 +14,15 @@ interface props {
   visible: Boolean;
   changeVisible: any;
   headerIcon: IconSource;
+  cardTopic: String;
 }
 
-export default function CardTitleView({ visible, changeVisible, headerIcon }: props) {
+export default function CardTitleView({
+  visible,
+  changeVisible,
+  headerIcon,
+  cardTopic
+}: props) {
   const [locale, setLocale] = useState(Localization.locale);
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -34,7 +40,7 @@ export default function CardTitleView({ visible, changeVisible, headerIcon }: pr
       <Card.Title
         titleVariant={'headlineSmall'}
         titleStyle={style.titleStyle}
-        title={i18n.t('helpPage.profileTopic')}
+        title = {cardTopic}
         left={() => (
           <IconButton
             style={{

@@ -112,7 +112,7 @@ const en = {
     subTopic: 'Choose an area you need help',
     profileTopic: 'Manage your profile',
     cartTopic: 'Add Items To Cart',
-    manageYourCart: 'Manage your Cards',
+    cardTopic: 'Manage your Cards',
     step01: 'Step 01'
   }
 };

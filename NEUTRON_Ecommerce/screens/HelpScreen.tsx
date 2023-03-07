@@ -20,6 +20,7 @@ import CardTitleView from '../components/molecules/cards/CardTitle';
 export default function HelpScreen() {
   const [locale, setLocale] = useState(Localization.locale);
   const [showProfile, setShowProfile] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
@@ -43,18 +44,39 @@ export default function HelpScreen() {
           value={i18n.t('helpPage.subTopic')}
           color={theme.COLORS.BLACK}
           marginTop={20}
-          marginBottom={20}
         />
       </View>
-
       <Card mode="outlined" style={style.cardStyle}>
         <CardTitleView
           visible={showProfile}
           changeVisible={() => setShowProfile(!showProfile)}
           headerIcon={'account'}
+          cardTopic={i18n.t('helpPage.profileTopic')}
         />
         <Card.Content
           style={showProfile ? style.cardContent : style.hiddenCardContent}
+        >
+          <ParagraphBold
+            value={i18n.t('helpPage.step01')}
+            color={theme.COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={
+              'Lorem ipsum dolor sit amet, consectetui Lorem ipsum dolor sit amet, consectetui'
+            }
+            marginTop={5}
+          />
+        </Card.Content>
+      </Card>
+      <Card mode="outlined" style={style.cardStyle}>
+        <CardTitleView
+          visible={showCart}
+          changeVisible={() => setShowCart(!showCart)}
+          headerIcon={'cart'}
+          cardTopic={i18n.t('helpPage.cartTopic')}
+        />
+        <Card.Content
+          style={showCart ? style.cardContent : style.hiddenCardContent}
         >
           <ParagraphBold
             value={i18n.t('helpPage.step01')}
@@ -88,7 +110,8 @@ const styles = (theme: {
     cardStyle: {
       width: 385,
       borderColor: theme.COLORS.PRIMARY,
-      backgroundColor: theme.COLORS.WHITE
+      backgroundColor: theme.COLORS.WHITE,
+      marginTop: 40
     },
     cardContent: {
       display: 'flex'
