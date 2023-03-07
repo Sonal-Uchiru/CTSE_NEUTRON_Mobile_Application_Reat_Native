@@ -1,4 +1,4 @@
-import { storage } from './Configuration';
+import { getBlobFroUriAsync } from './UriToBlobConverter';
 import {
   ref,
   uploadBytesResumable,
@@ -6,13 +6,20 @@ import {
   StorageReference,
   UploadTask
 } from '@firebase/storage';
+import { Stroage } from '../Configuration';
+import * as ImagePicker from 'expo-image-picker';
 
-export function uploadFile(file: File[]) {
+export const uploadFile = async (
+  file: ImagePicker.ImagePickerAsset,
+  folderName: String
+): Promise<String> => {
+  const image: any = getBlobFroUriAsync(file.uri);
+
   const storageRef: StorageReference = ref(
-    storage,
-    `Movies(images)/${file[0].name}`
+    Stroage,
+    `${folderName}(images)/${file.fileName}`
   );
-  const uploadTask: UploadTask = uploadBytesResumable(storageRef, file[0]);
+  const uploadTask: UploadTask = uploadBytesResumable(storageRef, image);
   return new Promise((resolve, reject) => {
     uploadTask.on(
       'state_changed',
@@ -27,8 +34,9 @@ export function uploadFile(file: File[]) {
         }
       },
       (error) => {
+        console.log(error);
         reject(error);
       }
     );
   });
-}
+};
