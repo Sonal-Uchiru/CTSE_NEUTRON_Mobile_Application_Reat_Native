@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Image, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -13,6 +13,9 @@ import { Card } from 'react-native-paper';
 import ParagraphBold from '../components/atoms/typographies/ParagraphBold';
 import Paragraph from '../components/atoms/typographies/Paragraph';
 import CardTitleView from '../components/molecules/cards/CardTitle';
+import { Padlock } from '../assets/image';
+import Information from '../components/atoms/typographies/Information';
+import Hyperlink from '../components/atoms/typographies/HyperLink';
 
 export default function AboutUsScreen() {
   const [locale, setLocale] = useState(Localization.locale);
@@ -36,7 +39,14 @@ export default function AboutUsScreen() {
       <HeadLine3
         value={i18n.t('aboutUsPage.aboutUs')}
         color={theme.COLORS.PRIMARY}
+        marginBottom={20}
       />
+      <Image source={Padlock} style={{ height: 240, width: 240 }} />
+      <View style={style.paragraphStyle}>
+        <Paragraph value={i18n.t('aboutUsPage.para1')} marginTop={5} />
+        <Paragraph value={i18n.t('aboutUsPage.para2')} marginTop={20} />
+      </View>
+      <Hyperlink value={i18n.t('aboutUsPage.back')} />
     </SafeAreaView>
   );
 }
@@ -52,22 +62,9 @@ const styles = (theme: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
       alignItems: 'center'
-      //   paddingStart: 20
     },
-    cardStyle: {
-      width: 385,
-      borderColor: theme.COLORS.PRIMARY,
-      backgroundColor: theme.COLORS.WHITE,
-      marginTop: 40
-    },
-    cardContent: {
-      display: 'flex'
-    },
-    hiddenCardContent: {
-      display: 'none'
-    },
-    headerStyle: {
-      alignSelf: 'flex-start',
-      marginStart: 20
+    paragraphStyle: {
+      textAlign: 'justify',
+      padding: 20
     }
   });
