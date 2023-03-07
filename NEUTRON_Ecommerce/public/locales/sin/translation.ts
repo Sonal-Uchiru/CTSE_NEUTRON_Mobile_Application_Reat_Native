@@ -126,6 +126,9 @@ const sin = {
     step01: 'පියවර 01',
     step02: 'පියවර 02',
     step03: 'පියවර 03'
+  },
+  aboutUsPage: {
+    aboutUs: 'About Us',
   }
 };
 

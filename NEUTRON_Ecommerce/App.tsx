@@ -1,7 +1,6 @@
 import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
-
 // i18n
 //@ts-ignore
 import en from './public/locales/en/translation.ts';
@@ -15,6 +14,7 @@ import TabNavigation from './Navigation/TabNavigation';
 import { mainStyle } from './responsive/GlobalStyle';
 import AppHeader from './Navigation/appbar/Appbar';
 import ThemeProvider from './theme/hooks/ThemeProvider';
+
 
 export default function App() {
   const [locale, setLocale] = useState(Localization.locale);

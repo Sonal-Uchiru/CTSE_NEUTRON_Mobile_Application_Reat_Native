@@ -125,6 +125,9 @@ const en = {
     step01: 'Step 01',
     step02: 'Step 02',
     step03: 'Step 03'
+  },
+  aboutUsPage: {
+    aboutUs: 'About Us',
   }
 };
 
