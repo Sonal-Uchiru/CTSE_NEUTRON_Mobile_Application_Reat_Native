@@ -1,4 +1,4 @@
-const LIGHT_GREEN = '#03C988';
+const LIGHT_GREEN = '#163172';
 const CREAM = '#FFF6EA';
 const LIGHT_BLUE = '#54A7FF';
 const GREY = '#D0D0D0';

@@ -13,9 +13,9 @@ import * as Localization from 'expo-localization';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import { Avatar, Card, IconButton } from 'react-native-paper';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import CardContentView from '../components/molecules/cards/CardContent';
 import ParagraphBold from '../components/atoms/typographies/ParagraphBold';
 import Paragraph from '../components/atoms/typographies/Paragraph';
+import CardTitleView from '../components/molecules/cards/CardTitle';
 
 export default function HelpScreen() {
   const [locale, setLocale] = useState(Localization.locale);
@@ -33,36 +33,26 @@ export default function HelpScreen() {
 
   return (
     <SafeAreaView style={style.container}>
-      <HeadLine3 value={i18n.t('helpPage.help')} color={theme.COLORS.PRIMARY} />
-      <HeadLine4
-        value={i18n.t('helpPage.subTopic')}
-        color={theme.COLORS.BLACK}
-        marginTop={20}
-        marginBottom={20}
-      />
-      <Card mode="outlined" style={style.cardStyle}>
-        <Card.Title
-          titleVariant={'headlineSmall'}
-          titleStyle={{ color: theme.COLORS.PRIMARY }}
-          title={i18n.t('helpPage.profileTopic')}
-          left={() => (
-            <IconButton
-              icon="account"
-              iconColor={theme.COLORS.PRIMARY}
-              size={30}
-            />
-          )}
-          right={() => (
-            <IconButton
-              icon="chevron-down"
-              onPress={() => {}}
-              iconColor={theme.COLORS.PRIMARY}
-              size={50}
-            />
-          )}
+      <View style={style.headerStyle}>
+        <HeadLine3
+          value={i18n.t('helpPage.help')}
+          color={theme.COLORS.PRIMARY}
         />
+        <HeadLine4
+          value={i18n.t('helpPage.subTopic')}
+          color={theme.COLORS.BLACK}
+          marginTop={20}
+          marginBottom={20}
+        />
+      </View>
+
+      <Card mode="outlined" style={style.cardStyle}>
+        <CardTitleView />
         <Card.Content style={style.cardContent}>
-          <ParagraphBold value={'Step 1'} color={theme.COLORS.PRIMARY} />
+          <ParagraphBold
+            value={i18n.t('helpPage.step01')}
+            color={theme.COLORS.PRIMARY}
+          />
           <Paragraph
             value={
               'Lorem ipsum dolor sit amet, consectetui Lorem ipsum dolor sit amet, consectetui'
@@ -95,5 +85,9 @@ const styles = (theme: {
     },
     cardContent: {
       alignItems: 'stretch'
+    },
+    headerStyle: {
+      alignSelf: 'flex-start',
+      marginStart: 20
     }
   });

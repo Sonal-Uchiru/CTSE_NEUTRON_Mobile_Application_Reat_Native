@@ -9,7 +9,7 @@ import useThemedStyles from '../../../theme/hooks/UseThemedStyles';
 import ParagraphBold from '../../atoms/typographies/ParagraphBold';
 import Paragraph from '../../atoms/typographies/Paragraph';
 
-export default function CardContentView() {
+export default function CardTitleView() {
   const [locale, setLocale] = useState(Localization.locale);
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -25,7 +25,30 @@ export default function CardContentView() {
 
   return (
     <>
-      
+      <Card.Title
+        titleVariant={'headlineSmall'}
+        titleStyle={style.titleStyle}
+        title={i18n.t('helpPage.profileTopic')}
+        left={() => (
+          <IconButton
+            style={{
+              // alignSelf: 'flex-end'
+              paddingEnd: 20
+            }}
+            icon="account"
+            iconColor={theme.COLORS.PRIMARY}
+            size={40}
+          />
+        )}
+        right={() => (
+          <IconButton
+            icon="chevron-down"
+            onPress={() => {}}
+            iconColor={theme.COLORS.PRIMARY}
+            size={50}
+          />
+        )}
+      />
     </>
   );
 }
@@ -39,5 +62,10 @@ const styles = (theme: {
   StyleSheet.create({
     container: {
       alignItems: 'stretch'
+    },
+    titleStyle: {
+      flexDirection: 'row',
+      color: theme.COLORS.PRIMARY,
+      alignSelf: 'flex-start'
     }
   });
