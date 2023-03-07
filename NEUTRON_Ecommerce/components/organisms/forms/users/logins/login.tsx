@@ -52,24 +52,6 @@ export default function Login() {
     // }
   };
 
-  const [image, setImage] = useState<any>(null);
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      selectionLimit: 1
-    });
-
-  
-
-    if (!result.canceled) {
-      console.log(await uploadFile(result.assets[0],'Items'));
-    }
-  };
 
   return (
     <>
@@ -170,11 +152,6 @@ export default function Login() {
         dismissFunc={() => {
           setIsError(false);
         }}
-      />
-      <ModalButton
-        value={i18n.t('loginPage.login')}
-        color={theme.COLORS.PRIMARY}
-        callFunction={() => pickImage()}
       />
     </>
   );
