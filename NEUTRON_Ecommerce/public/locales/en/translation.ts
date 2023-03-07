@@ -106,6 +106,14 @@ const en = {
     registerBtnTitle: 'Create Account',
     termsAndConditions:
       'By clicking on create account button you agree to the terms and conditions.'
+  },
+  helpPage: {
+    help: 'Help',
+    subTopic: 'Choose an area you need help',
+    profileTopic: 'Manage your profile',
+    cartTopic: 'Add Items To Cart',
+    manageYourCart: 'Manage your Cards',
+    step01: 'Step 01'
   }
 };
 
