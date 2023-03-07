@@ -113,7 +113,18 @@ const en = {
     profileTopic: 'Manage your profile',
     cartTopic: 'Add Items To Cart',
     cardTopic: 'Manage your Cards',
-    step01: 'Step 01'
+    cardStep01: 'Select the card icon in the navigation tab',
+    cardStep02: 'Add new card by pressing the "Add New Card button"',
+    cardStep03: 'Edit cards by pressing "Edit Card button"',
+    cartStep01: 'Press "Add to cart" button to add items to your cart',
+    cartStep02: 'Update cart quantity by pressing "+" and "-" button',
+    cartStep03: 'Complete the payment by pressing "Proceed to checkout" button',
+    profileStep01: 'Go to profile by pressing "Profile" in headet',
+    profileStep02: 'Edit the profile details by pressing the "Edit" button',
+    profileStep03: 'Delete the profile by pressing the "Delete" button',
+    step01: 'Step 01',
+    step02: 'Step 02',
+    step03: 'Step 03'
   }
 };
 

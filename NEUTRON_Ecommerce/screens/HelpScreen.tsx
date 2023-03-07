@@ -61,12 +61,19 @@ export default function HelpScreen() {
             value={i18n.t('helpPage.step01')}
             color={theme.COLORS.PRIMARY}
           />
-          <Paragraph
-            value={
-              'Lorem ipsum dolor sit amet, consectetui Lorem ipsum dolor sit amet, consectetui'
-            }
-            marginTop={5}
+          <Paragraph value={i18n.t('helpPage.profileStep01')} marginTop={5} />
+          <ParagraphBold
+            value={i18n.t('helpPage.step02')}
+            color={theme.COLORS.PRIMARY}
+            marginTop={20}
           />
+          <Paragraph value={i18n.t('helpPage.profileStep02')} marginTop={5} />
+          <ParagraphBold
+            value={i18n.t('helpPage.step03')}
+            color={theme.COLORS.PRIMARY}
+            marginTop={20}
+          />
+          <Paragraph value={i18n.t('helpPage.profileStep03')} marginTop={5} />
         </Card.Content>
       </Card>
       <Card mode="outlined" style={style.cardStyle}>
@@ -83,12 +90,19 @@ export default function HelpScreen() {
             value={i18n.t('helpPage.step01')}
             color={theme.COLORS.PRIMARY}
           />
-          <Paragraph
-            value={
-              'Lorem ipsum dolor sit amet, consectetui Lorem ipsum dolor sit amet, consectetui'
-            }
-            marginTop={5}
+          <Paragraph value={i18n.t('helpPage.cardStep01')} marginTop={5} />
+          <ParagraphBold
+            value={i18n.t('helpPage.step02')}
+            color={theme.COLORS.PRIMARY}
+            marginTop={20}
           />
+          <Paragraph value={i18n.t('helpPage.cardStep02')} marginTop={5} />
+          <ParagraphBold
+            value={i18n.t('helpPage.step03')}
+            color={theme.COLORS.PRIMARY}
+            marginTop={20}
+          />
+          <Paragraph value={i18n.t('helpPage.cardStep03')} marginTop={5} />
         </Card.Content>
       </Card>
       <Card mode="outlined" style={style.cardStyle}>
@@ -105,12 +119,19 @@ export default function HelpScreen() {
             value={i18n.t('helpPage.step01')}
             color={theme.COLORS.PRIMARY}
           />
-          <Paragraph
-            value={
-              'Lorem ipsum dolor sit amet, consectetui Lorem ipsum dolor sit amet, consectetui'
-            }
-            marginTop={5}
+          <Paragraph value={i18n.t('helpPage.cartStep01')} marginTop={5} />
+          <ParagraphBold
+            value={i18n.t('helpPage.step02')}
+            color={theme.COLORS.PRIMARY}
+            marginTop={20}
           />
+          <Paragraph value={i18n.t('helpPage.cartStep02')} marginTop={5} />
+          <ParagraphBold
+            value={i18n.t('helpPage.step03')}
+            color={theme.COLORS.PRIMARY}
+            marginTop={20}
+          />
+          <Paragraph value={i18n.t('helpPage.cartStep03')} marginTop={5} />
         </Card.Content>
       </Card>
     </SafeAreaView>
