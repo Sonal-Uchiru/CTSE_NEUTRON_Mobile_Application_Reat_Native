@@ -1,0 +1,14 @@
+import { ICordinationsModel } from "./ICordinationsModel";
+
+ export interface IUpdateItemData{
+    docId: string
+    itemName: string
+    category: string
+    quantity: number
+    unitPrice: number
+    brand: string
+    description: string
+    availableAddresses: string
+    cordinations: ICordinationsModel
+    stockKeepingUnits: string
+}

@@ -20,7 +20,7 @@ import ExpoLocalStorage from '../../../../../authentication/secure_stores/ExpoLo
 import ErrorDialog from '../../../../../hooks/dialogs/Error';
 import ItemRepository from '../../../../../api/repositories/ItemRepository';
 import * as ImagePicker from 'expo-image-picker';
-import authenticationTest from '../../../../../api/repositories/authenticationTest';
+import authenticationTest from '../../../../../api/repositories/AuthenticationRepository';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
 
 export default function Login() {
