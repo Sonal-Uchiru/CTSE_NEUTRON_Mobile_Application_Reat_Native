@@ -18,6 +18,10 @@ import { ILoginResponse } from '../../../../../types/users/ILoginResponse';
 import { AxiosResponse } from 'axios';
 import ExpoLocalStorage from '../../../../../authentication/secure_stores/ExpoLocalStorage';
 import ErrorDialog from '../../../../../hooks/dialogs/Error';
+import ItemRepository from '../../../../../api/repositories/ItemRepository';
+import * as ImagePicker from 'expo-image-picker';
+import authenticationTest from '../../../../../api/repositories/authenticationTest';
+import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -28,13 +32,16 @@ export default function Login() {
   const [selected, setSelected] = useState<boolean>(false);
 
   const loginAsync = async (values: ILoginFormFields) => {
+    console.log('d');
+    //await ItemRepository.AddItemAsync();
+    await authenticationTest.registerAsync();
     // try {
     //   const response: AxiosResponse = await UserAuthenticationApi.loginAsync(
     //     values
     //   );
     //   const data: ILoginResponse = response.data;
 
-    //   await ExpoLocalStorage.setTokenToLocalStorageAsync(data.token);
+    // await ExpoLocalStorage.setTokenToLocalStorageAsync(data.token);
     //   await ExpoLocalStorage.setRoleToLocalStorageAsync(data.role);
     //   //navigate to home
 
@@ -44,6 +51,26 @@ export default function Login() {
     //   console.log(error);
     // }
   };
+
+  const [image, setImage] = useState<any>(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      selectionLimit: 1
+    });
+
+  
+
+    if (!result.canceled) {
+      console.log(await uploadFile(result.assets[0]));
+    }
+  };
+
   return (
     <>
       <View style={style.tabView}>
@@ -143,6 +170,11 @@ export default function Login() {
         dismissFunc={() => {
           setIsError(false);
         }}
+      />
+      <ModalButton
+        value={i18n.t('loginPage.login')}
+        color={theme.COLORS.PRIMARY}
+        callFunction={() => pickImage()}
       />
     </>
   );
