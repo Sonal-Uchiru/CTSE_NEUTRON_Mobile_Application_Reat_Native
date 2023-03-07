@@ -7,7 +7,8 @@ import { typographyProps } from '../../../types/TypographyTypes';
 export default function HeadLine3({
   value,
   marginLeft,
-  color = COLORS.BLACK
+  color = COLORS.BLACK,
+  marginTop
 }: typographyProps) {
   return (
     <Text
@@ -15,7 +16,8 @@ export default function HeadLine3({
         fontSize: TYPOGRAPHY.FONT_SIZE.M1,
         fontWeight: 'bold',
         color: color,
-        marginLeft: marginLeft
+        marginLeft: marginLeft,
+        marginTop: marginTop
       }}
     >
       {value}

@@ -12,8 +12,7 @@ export default function Paragraph({
     <Text
       style={{
         fontSize: TYPOGRAPHY.FONT_SIZE.S1,
-        color: color,
-        fontWeight: 'bold'
+        color: color
       }}
     >
       {value}
