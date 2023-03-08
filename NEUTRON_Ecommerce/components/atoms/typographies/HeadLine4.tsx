@@ -7,7 +7,8 @@ export default function HeadLine4({
   value,
   color = COLORS.BLACK,
   marginTop = 0,
-  marginBottom = 0
+  marginBottom = 0,
+  marginLeft = 0
 }: typographyProps) {
   return (
     <Text
@@ -16,6 +17,7 @@ export default function HeadLine4({
         fontWeight: 'bold',
         color: color,
         marginTop: marginTop,
+        marginLeft: marginLeft,
         marginBottom: marginBottom
       }}
     >

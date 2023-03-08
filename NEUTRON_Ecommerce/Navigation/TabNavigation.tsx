@@ -9,6 +9,7 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import UserAccessScreen from '../screens/UserAccessScreen';
 import HelpScreen from '../screens/HelpScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
+import SavedCards from '../screens/SaveCardsScreen';
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
@@ -22,7 +23,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={AboutUsScreen} />
+        <Tab.Screen name="Login" component={SavedCards} />
         <Tab.Screen name="Demo" component={Lazy} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
