@@ -1,10 +1,5 @@
-export class CreateCardData {
-  displayName: string;
-  cardNumber: number;
-  nameOnCard: string;
-  expiryDate: Date;
-  uid: string;
-
+import { CardBaseModel } from './CardBaseModel';
+export class CreateCardData extends CardBaseModel {
   constructor(
     displayName: string,
     cardNumber: number,
@@ -12,10 +7,6 @@ export class CreateCardData {
     expiryDate: Date,
     uid: string
   ) {
-    this.displayName = displayName;
-    this.cardNumber = cardNumber;
-    this.nameOnCard = nameOnCard;
-    this.expiryDate = expiryDate;
-    this.uid = uid;
+    super(displayName, cardNumber, nameOnCard, expiryDate, uid);
   }
 }
