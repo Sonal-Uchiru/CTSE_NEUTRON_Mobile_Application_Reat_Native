@@ -141,6 +141,53 @@ const en = {
     buttonEditCard: 'Edit Card',
     searchLabel: 'Search Cards',
     searchPlaceHolder: 'Search Cards....'
+  },
+  addItemsForm: {
+    title: 'Add New Item',
+    subTitle: 'Add your items',
+    addItem: 'Add Item',
+    locationText: 'Set Item’s Actual location',
+    next: 'Next',
+
+    itemCategory: 'Item Category',
+    itemCategoryRequiredError: 'Item Category is required',
+    itemCategoryPlaceholder: 'Enter Item Category',
+
+    itemName: 'Item Name',
+    itemNameRequiredError: 'Item Name is required',
+    itemNamePlaceholder: 'Enter Item Name',
+
+    brand: 'Brand',
+    brandRequiredError: 'Brand is required',
+    brandPlaceholder: 'Enter Brand',
+
+    quantity: 'Quantity',
+    quantityRequiredError: 'Quantity is required',
+    quantityPlaceholder: 'Enter Quantity',
+
+    unitPrice: 'Unit Price (LKR.)',
+    unitPriceRequiredError: 'Unit Price is required',
+    unitPricePlaceholder: 'Enter Unit Price',
+
+    skuNumber: 'SKU Number',
+    skuNumberRequiredError: 'SKU Number is required',
+    skuNumberPlaceholder: 'Enter SKU Number',
+
+    description: 'Description',
+    descriptionRequiredError: 'Description is required',
+    descriptionPlaceholder: 'Enter Description',
+
+    itemAddress: 'Item available Address',
+    itemAddressRequiredError: 'Item Address is required',
+    itemAddressPlaceholder: 'Enter Item Address',
+
+    longtitude: 'Longitude ',
+    longtitudeRequiredError: 'Longtitude is required',
+    longtitudePlaceholder: 'Enter Longtitude',
+
+    latitude: 'Latitude',
+    latitudeRequiredError: 'Latitude is required',
+    latitudePlaceholder: 'Enter Latitude'
   }
 };
 
