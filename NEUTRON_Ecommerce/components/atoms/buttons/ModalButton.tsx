@@ -14,6 +14,7 @@ export interface props {
   marginRight?: number;
   marginTop?: number;
   marginBottom?: number;
+  width?: number;
 }
 
 export default function ModalButton({
@@ -25,18 +26,19 @@ export default function ModalButton({
   marginLeft = 0,
   marginRight = 0,
   marginTop = 0,
-  marginBottom = 0
+  marginBottom = 0,
+  width = 110
 }: props) {
   return (
     <Button
       style={{
-        width: 110,
+        width: width,
         backgroundColor: color,
         borderRadius: 6,
         marginLeft: marginLeft,
         marginRight: marginRight,
         marginTop: marginTop,
-        marginBottom: marginBottom,
+        marginBottom: marginBottom
       }}
       mode="contained"
       onPress={() => callFunction()}

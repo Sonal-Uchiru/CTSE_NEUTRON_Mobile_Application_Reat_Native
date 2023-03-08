@@ -133,6 +133,12 @@ const en = {
       "At Neutron, we all come to work everyday because we want to solve the biggest problem in mobile. Everyone is guessing. Publishers don't know what apps to build, how to monetize them, or given what to price them at. Advertizers and brands don't know where there target users are, how to reach them, or even how much they need to spend in order to do so. Investors aren't sure which apps and genres are proving the quickest, and where users are really spending there time(and money).",
     para2:
       'Throughout the history of buisness, people use data to make more informed decisions. Our mission at Neutron is to make the app economy more transparent. Today we provide the most actionable mobile app data and insights in the industry. We want to make this data available to as many people as possible.(not just the top %5)'
+  },
+  savedCardsPage: {
+    title: 'Your Cards',
+    subTitle: 'All your cards',
+    buttonAddCard: 'Add New Card',
+    searchLabel: 'Search Cards....'
   }
 };
 
