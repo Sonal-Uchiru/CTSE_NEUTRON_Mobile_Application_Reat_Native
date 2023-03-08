@@ -142,7 +142,8 @@ const sin = {
     title: 'ඔබේ කාඩ්පත්',
     subTitle: 'ඔබගේ සියලුම කාඩ්පත්',
     buttonAddCard: 'නව කාඩ්පත එක් කරන්න',
-    searchLabel: 'කාඩ්පත් සොයන්න....'
+    searchLabel: 'කාඩ්පත් සොයන්න....',
+    searchPlaceHolder: 'කාඩ්පත් සොයන්න'
   }
 };
 

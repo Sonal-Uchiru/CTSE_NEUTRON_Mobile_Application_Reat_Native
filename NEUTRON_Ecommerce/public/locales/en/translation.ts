@@ -138,7 +138,8 @@ const en = {
     title: 'Your Cards',
     subTitle: 'All your cards',
     buttonAddCard: 'Add New Card',
-    searchLabel: 'Search Cards....'
+    searchLabel: 'Search Cards',
+    searchPlaceHolder: 'Search Cards....'
   }
 };
 

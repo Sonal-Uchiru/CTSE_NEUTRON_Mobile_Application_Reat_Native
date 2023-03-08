@@ -23,6 +23,7 @@ import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
 
 export default function SavedCards() {
   const [locale, setLocale] = useState(Localization.locale);
+  const [searchText, setSearchText] = useState('');
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const array = [1, 2, 3, 4, 5];
@@ -48,17 +49,15 @@ export default function SavedCards() {
         />
       </View>
       <FormGroupWithIcon
-        name={''}
-        id={''}
-        fieldvalue={''}
-        placeholder={''}
+        name={i18n.t('savedCardsPage.searchLabel')}
+        id={'search'}
+        fieldvalue={searchText}
+        placeholder={i18n.t('savedCardsPage.searchPlaceHolder')}
         fieldstyle={style.textInput}
         onChangeText={undefined}
-        onBlur={undefined}
         error={undefined}
         iconFirst={'magnify'}
         iconSecond={'magnify'}
-        hiddenStatus={false}
         callFunction={undefined}
       />
       <ScrollView>
