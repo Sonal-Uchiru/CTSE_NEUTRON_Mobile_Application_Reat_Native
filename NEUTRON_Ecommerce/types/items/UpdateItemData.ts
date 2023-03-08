@@ -1,16 +1,7 @@
+import { ItemBaseModel } from './ItemBaseModel';
 
-export class UpdateItemData {
+export class UpdateItemData extends ItemBaseModel {
   docId: string;
-  itemName: string;
-  category: string;
-  quantity: number;
-  unitPrice: number;
-  brand: string;
-  description: string;
-  availableAddresses: string;
-  latitude: number;
-  longitude: number;
-  stockKeepingUnits: string;
 
   constructor(
     docId: string,
@@ -25,16 +16,18 @@ export class UpdateItemData {
     longitude: number,
     stockKeepingUnits: string
   ) {
+    super(
+      itemName,
+      category,
+      quantity,
+      unitPrice,
+      brand,
+      description,
+      availableAddresses,
+      latitude,
+      longitude,
+      stockKeepingUnits
+    );
     this.docId = docId;
-    this.itemName = itemName;
-    this.category = category;
-    this.quantity = quantity;
-    this.unitPrice = unitPrice;
-    this.brand = brand;
-    this.description = description;
-    this.availableAddresses = availableAddresses;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.stockKeepingUnits = stockKeepingUnits;
   }
 }

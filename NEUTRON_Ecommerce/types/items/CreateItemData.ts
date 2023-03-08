@@ -1,16 +1,6 @@
+import { ItemBaseModel } from './ItemBaseModel';
 
-export class CreateItemData {
-  itemName: string;
-  category: string;
-  quantity: number;
-  unitPrice: number;
-  brand: string;
-  description: string;
-  availableAddresses: string;
-  latitude: number;
-  longitude: number;
-  stockKeepingUnits: string;
-
+export class CreateItemData extends ItemBaseModel {
   constructor(
     itemName: string,
     category: string,
@@ -23,15 +13,17 @@ export class CreateItemData {
     longitude: number,
     stockKeepingUnits: string
   ) {
-    this.itemName = itemName;
-    this.category = category;
-    this.quantity = quantity;
-    this.unitPrice = unitPrice;
-    this.brand = brand;
-    this.description = description;
-    this.availableAddresses = availableAddresses;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.stockKeepingUnits = stockKeepingUnits;
+    super(
+      itemName,
+      category,
+      quantity,
+      unitPrice,
+      brand,
+      description,
+      availableAddresses,
+      latitude,
+      longitude,
+      stockKeepingUnits
+    );
   }
 }
