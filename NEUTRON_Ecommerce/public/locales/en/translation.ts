@@ -148,6 +148,7 @@ const en = {
     addItem: 'Add Item',
     locationText: 'Set Item’s Actual location',
     next: 'Next',
+    back: 'Back',
 
     itemCategory: 'Item Category',
     itemCategoryRequiredError: 'Item Category is required',

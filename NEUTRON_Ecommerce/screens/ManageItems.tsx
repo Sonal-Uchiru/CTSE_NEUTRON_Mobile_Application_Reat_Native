@@ -36,11 +36,7 @@ export default function ManageItems() {
           color={theme.COLORS.BLACK}
         />
       </View>
-      <View style={style.row}>
-        <Image resizeMode="contain" source={Iphone} style={style.imageStyle} />
 
-        <Ionicons name={'pencil-outline'} style={style.icon} />
-      </View>
       <AddItemsForm />
     </SafeAreaView>
   );
@@ -80,13 +76,5 @@ const styles = (theme: {
       width: '80%',
       marginTop: 25,
       backgroundColor: theme.COLORS.WHITE
-    },
-    imageStyle: { height: 150, width: 200 },
-    editImageStyle: { height: 200, width: 250, marginBottom: 20 },
-    column: { flexDirection: 'column' },
-    row: { flexDirection: 'row' },
-    icon: {
-      fontSize: theme.TYPOGRAPHY.FONT_SIZE.M2,
-      color: theme.COLORS.PRIMARY
     }
   });

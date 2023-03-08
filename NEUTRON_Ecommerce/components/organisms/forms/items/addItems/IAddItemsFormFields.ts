@@ -1,4 +1,4 @@
-export interface IRegisterFormFields {
+export interface IAddItemsFormFields {
   itemCategory: string;
   itemName: string;
   brand: string;

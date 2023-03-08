@@ -1,4 +1,4 @@
-export const RegisterModel = {
+export const AddItemsFormModel = {
   itemCategory: {
     initialValue: '',
     itemCategoryPlaceholder: 'addItemsForm.itemCategoryPlaceholder',

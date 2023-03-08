@@ -152,6 +152,8 @@ const sin = {
     addItem: 'අයිතමය එකතු කරන්න',
     locationText: 'අයිතමයේ සැබෑ ස්ථානය සකසන්න',
     next: 'ඊළඟ',
+    back: 'ආපසු යන්න',
+
     itemCategory: 'අයිතම කාණ්ඩය',
     itemCategoryRequiredError: 'පළමු නම අවශ්ය වේ',
     itemCategoryPlaceholder: 'මුල් නම ඇතුලත් කරන්න',
