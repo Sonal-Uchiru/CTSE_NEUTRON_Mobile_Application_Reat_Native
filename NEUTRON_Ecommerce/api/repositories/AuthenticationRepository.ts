@@ -1,35 +1,39 @@
-// import { IRegisterData } from './../../types/users/IRegisterData';
-// import { Auth } from '../../utils/firebase/Configuration';
-// import { UserCredential, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-// import { IRegisterResponse } from '../../types/users/IRegisterResponse';
+import { AuthenticationData } from '../../types/authentication/AuthenticationData';
+import { Auth } from '../../utils/firebase/Configuration';
+import {
+  UserCredential,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 
-// class AuthenticationRepository {
-//   async registerAsync(
-//     userData:IRegisterData
-//   ): Promise<IRegisterResponse> {
-//     try {
-//       const user: UserCredential = await createUserWithEmailAndPassword(
-//         Auth,
-//         userData.email,
-//         userData.password
-//       );
+class AuthenticationRepository {
+  async registerAsync(userData: AuthenticationData): Promise<UserCredential> {
+    try {
+      const user: UserCredential = await createUserWithEmailAndPassword(
+        Auth,
+        userData.email,
+        userData.password
+      );
 
-//       const updatedUser:IRegisterResponse = await this.createUserAccountAsync(user, userData);
+      return user;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
 
-//       return updatedUser;
+  async loginAsync(credentials: AuthenticationData): Promise<any> {
+    try {
+      const user: UserCredential = await signInWithEmailAndPassword(
+        Auth,
+        credentials.email,
+        credentials.password
+      );
 
-//     } catch (error) {
-//       throw new Error((error as Error).message);
-//     }
-//   }
+      return user;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+}
 
-//   async createUserAccountAsync(user: UserCredential, userData:IRegisterData): Promise<IRegisterResponse> {
-//     try {
-//       await updateProfile(user, {})
-//     } catch (error) {
-//       throw new Error((error as Error).message);
-//     }
-//   }
-// }
-
-// export default new AuthenticationRepository();
+export default new AuthenticationRepository();

@@ -14,7 +14,8 @@ export class ItemModel extends ItemBaseModel{
       availableAddresses: string,
       latitude: number,
       longitude: number,
-      stockKeepingUnits: string
+      stockKeepingUnits: string,
+      imageUrl: string,
     ) {
       super(
         itemName,
@@ -26,7 +27,8 @@ export class ItemModel extends ItemBaseModel{
         availableAddresses,
         latitude,
         longitude,
-        stockKeepingUnits
+        stockKeepingUnits,
+        imageUrl
       );
       this.docId = docId;
     }

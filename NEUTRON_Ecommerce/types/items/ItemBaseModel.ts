@@ -9,6 +9,7 @@ export class ItemBaseModel {
     latitude: number;
     longitude: number;
     stockKeepingUnits: string;
+    imageUrl: string;
   
     constructor(
       itemName: string,
@@ -20,7 +21,8 @@ export class ItemBaseModel {
       availableAddresses: string,
       latitude: number,
       longitude: number,
-      stockKeepingUnits: string
+      stockKeepingUnits: string,
+      imageUrl: string
     ) {
       this.itemName = itemName;
       this.category = category;
@@ -32,5 +34,6 @@ export class ItemBaseModel {
       this.latitude = latitude;
       this.longitude = longitude;
       this.stockKeepingUnits = stockKeepingUnits;
+      this.imageUrl = imageUrl;
     }
 }

@@ -11,7 +11,8 @@ export class CreateItemData extends ItemBaseModel {
     availableAddresses: string,
     latitude: number,
     longitude: number,
-    stockKeepingUnits: string
+    stockKeepingUnits: string,
+    imageUrl: string,
   ) {
     super(
       itemName,
@@ -23,7 +24,8 @@ export class CreateItemData extends ItemBaseModel {
       availableAddresses,
       latitude,
       longitude,
-      stockKeepingUnits
+      stockKeepingUnits,
+      imageUrl
     );
   }
 }

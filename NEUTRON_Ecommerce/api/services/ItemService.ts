@@ -53,7 +53,8 @@ class ItemService {
               item['availableAddresses'],
               item['latitude'],
               item['longitude'],
-              item['stockKeepingUnits']
+              item['stockKeepingUnits'],
+              item['imageUrl']
             )
           );
         });
@@ -82,7 +83,8 @@ class ItemService {
         content['availableAddresses'],
         content['latitude'],
         content['longitude'],
-        content['stockKeepingUnits']
+        content['stockKeepingUnits'],
+        content['imageUrl']
       );
     } catch (error) {
       throw new Error((error as Error).message);
