@@ -65,7 +65,7 @@ class ItemService {
     }
   }
 
-  async getItemByIdAsync(docId: string): Promise<any> {
+  async getItemByIdAsync(docId: string): Promise<ItemModel> {
     try {
       const querySnapshot: DocumentData = await ItemRepository.getItemByIdAsync(
         docId

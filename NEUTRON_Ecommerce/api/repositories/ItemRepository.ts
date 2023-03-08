@@ -55,7 +55,7 @@ class ItemRepository {
         return docSnap;
       } else {
         // doc.data() will be undefined in this case
-        throw new Error('items not found');
+        throw new Error('Items not found');
       }
     } catch (error) {
       throw new Error((error as Error).message);

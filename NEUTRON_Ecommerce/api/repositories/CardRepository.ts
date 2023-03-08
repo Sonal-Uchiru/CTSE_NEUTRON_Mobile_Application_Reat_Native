@@ -55,7 +55,7 @@ class CardRepository {
         return docSnap;
       } else {
         // doc.data() will be undefined in this case
-        throw new Error('cards not found');
+        throw new Error('Cards not found');
       }
     } catch (error) {
       throw new Error((error as Error).message);
