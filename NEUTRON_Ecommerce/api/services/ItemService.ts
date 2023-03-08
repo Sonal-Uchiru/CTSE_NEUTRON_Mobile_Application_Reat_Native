@@ -33,7 +33,7 @@ class ItemService {
 
   async getItemListAsync(): Promise<ItemModel[]> {
     try {
-      let items: ItemModel[] = [];
+      const items: ItemModel[] = [];
 
       const querySnapshots: QuerySnapshot<DocumentData> =
         await ItemRepository.getItemListAsync();
