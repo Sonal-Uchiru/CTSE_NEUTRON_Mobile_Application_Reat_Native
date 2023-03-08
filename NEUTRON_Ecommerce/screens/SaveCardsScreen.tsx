@@ -54,7 +54,9 @@ export default function SavedCards() {
         fieldvalue={searchText}
         placeholder={i18n.t('savedCardsPage.searchPlaceHolder')}
         fieldstyle={style.textInput}
-        onChangeText={undefined}
+        onChangeText={(newText: React.SetStateAction<string>) =>
+          setSearchText(newText)
+        }
         error={undefined}
         iconFirst={'magnify'}
         iconSecond={'magnify'}
@@ -73,6 +75,7 @@ export default function SavedCards() {
             />
           );
         })}
+        
       </ScrollView>
       <ModalButton
         value={i18n.t('savedCardsPage.buttonAddCard')}

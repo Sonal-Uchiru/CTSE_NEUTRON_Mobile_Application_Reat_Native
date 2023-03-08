@@ -138,6 +138,7 @@ const en = {
     title: 'Your Cards',
     subTitle: 'All your cards',
     buttonAddCard: 'Add New Card',
+    buttonEditCard: 'Edit Card',
     searchLabel: 'Search Cards',
     searchPlaceHolder: 'Search Cards....'
   }

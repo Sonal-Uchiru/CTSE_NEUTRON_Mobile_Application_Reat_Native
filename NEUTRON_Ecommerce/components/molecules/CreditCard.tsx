@@ -9,6 +9,7 @@ import ParagraphBold from '../atoms/typographies/ParagraphBold';
 import * as Localization from 'expo-localization';
 import useTheme from '../../theme/hooks/UseTheme';
 import Paragraph from '../atoms/typographies/Paragraph';
+import ModalButton from '../atoms/buttons/ModalButton';
 
 interface props {
   id: number;
@@ -70,6 +71,13 @@ export default function CreditCard({
             value={owner}
             color={theme.COLORS.PRIMARY}
           />
+          <View style={style.buttonView}>
+            <ModalButton
+              value={i18n.t('savedCardsPage.buttonEditCard')}
+              color={theme.COLORS.ACTION}
+              marginTop={10}
+            />
+          </View>
         </View>
       </View>
     </>
@@ -98,5 +106,6 @@ const styles = (theme: {
       marginStart: 20
     },
     imageStyle: { height: 100, width: 150 },
-    column: { flexDirection: 'column' }
+    column: { flexDirection: 'column' },
+    buttonView: { alignSelf: 'flex-end' }
   });
