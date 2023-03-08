@@ -1,4 +1,4 @@
-import { ICordinationsModel } from './ICordinationsModel';
+import { ICordinationsModel } from './CordinationsModel';
 
 export interface IItemModel {
   docId: string;

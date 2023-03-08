@@ -20,8 +20,9 @@ import ExpoLocalStorage from '../../../../../authentication/secure_stores/ExpoLo
 import ErrorDialog from '../../../../../hooks/dialogs/Error';
 import ItemRepository from '../../../../../api/repositories/ItemRepository';
 import * as ImagePicker from 'expo-image-picker';
-import authenticationTest from '../../../../../api/repositories/AuthenticationRepository';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
+import { CreateItemData } from '../../../../../types/items/CreateItemData';
+import ItemService from '../../../../../api/services/ItemService';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -32,19 +33,15 @@ export default function Login() {
   const [selected, setSelected] = useState<boolean>(false);
 
   const loginAsync = async (values: ILoginFormFields) => {
-    console.log('d');
     //await ItemRepository.AddItemAsync();
-    await authenticationTest.registerAsync();
     // try {
     //   const response: AxiosResponse = await UserAuthenticationApi.loginAsync(
     //     values
     //   );
     //   const data: ILoginResponse = response.data;
-
     // await ExpoLocalStorage.setTokenToLocalStorageAsync(data.token);
     //   await ExpoLocalStorage.setRoleToLocalStorageAsync(data.role);
     //   //navigate to home
-
     //   console.log(data);
     // } catch (error: any) {
     //   setIsError(true);
@@ -52,7 +49,13 @@ export default function Login() {
     // }
   };
 
-
+  const test = async () => {
+    try {
+      await ItemService.deleteItemAsync('rB5K5i0y5NnN0kxsG6up')
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <View style={style.tabView}>
@@ -152,6 +155,11 @@ export default function Login() {
         dismissFunc={() => {
           setIsError(false);
         }}
+      />
+      <ModalButton
+        value={i18n.t('loginPage.login')}
+        color={theme.COLORS.PRIMARY}
+        callFunction={() => test()}
       />
     </>
   );

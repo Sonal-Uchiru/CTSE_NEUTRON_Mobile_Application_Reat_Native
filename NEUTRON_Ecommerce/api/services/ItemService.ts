@@ -1,44 +1,93 @@
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
-import { ICreateItem } from "../../types/items/ICreateItemData";
-import { IUpdateItemData } from "../../types/items/IUpdateItemData";
-import ItemRepository from "../repositories/ItemRepository";
+import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { CreateItemData } from '../../types/items/CreateItemData';
+import { UpdateItemData } from '../../types/items/UpdateItemData';
+import ItemRepository from '../repositories/ItemRepository';
+import { ItemModel } from '../../types/items/ItemModel';
 
 class ItemService {
-    async addItemAsync(item: ICreateItem): Promise<void> {
-        try {
-          await ItemRepository.addItemAsync(item);
-        } catch (error) {
-          throw new Error((error as Error).message);
-        }
+  async addItemAsync(item: CreateItemData): Promise<void> {
+    try {
+      await ItemRepository.addItemAsync(item);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async updateItemAsync(item: UpdateItemData): Promise<void> {
+    try {
+      await ItemRepository.getItemByIdAsync(item.docId);
+      await ItemRepository.updateItemAsync(item);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async deleteItemAsync(docId: string): Promise<void> {
+    try {
+      await ItemRepository.getItemByIdAsync(docId);
+      await ItemRepository.deleteItemAsync(docId);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async getItemListAsync(): Promise<ItemModel[]> {
+    try {
+      let items: ItemModel[] = [];
+
+      const querySnapshots: QuerySnapshot<DocumentData> =
+        await ItemRepository.getItemListAsync();
+
+      if (querySnapshots.docs.length > 0) {
+        querySnapshots.docs.map((doc) => {
+          const item = doc.data();
+          items.push(
+            new ItemModel(
+              doc.id,
+              item['itemName'],
+              item['category'],
+              item['qunaity'],
+              item['unitPrice'],
+              item['brand'],
+              item['description'],
+              item['availableAddresses'],
+              item['latitude'],
+              item['longitude'],
+              item['stockKeepingUnits']
+            )
+          );
+        });
       }
-    
-      async updateItemAsync(item: IUpdateItemData): Promise<void> {
-        try {
-          await ItemRepository.updateItemAsync(item);
-        } catch (error) {
-          throw new Error((error as Error).message);
-        }
-      }
-    
-      async deleteItemAsync(docId: string): Promise<void> {
-        try {
-          await ItemRepository.deleteItemAsync(docId);
-        } catch (error) {
-          throw new Error((error as Error).message);
-        }
-      }
-    
-      async getItemListAsync(): Promise<any> {
-        try {
-          const docSnapshots:QueryDocumentSnapshot<DocumentData> = await ItemRepository.getItemListAsync();
-          docSnapshots.data
-          
-          
-        } catch (error) {
-          throw new Error((error as Error).message);
-        }
-      }
+
+      return items;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async getItemByIdAsync(itemId: string): Promise<any> {
+    try {
+      const querySnapshot: DocumentData = await ItemRepository.getItemByIdAsync(
+        itemId
+      );
+      const content = querySnapshot.data();
+      return new ItemModel(
+        querySnapshot.id,
+        content['itemName'],
+        content['category'],
+        content['qunaity'],
+        content['unitPrice'],
+        content['brand'],
+        content['description'],
+        content['availableAddresses'],
+        content['latitude'],
+        content['longitude'],
+        content['stockKeepingUnits']
+      );
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
 }
 
 export default new ItemService();
-

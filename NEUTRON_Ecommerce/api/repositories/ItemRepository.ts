@@ -1,5 +1,5 @@
-import { ICreateItem } from '../../types/items/ICreateItemData';
-import { IUpdateItemData } from '../../types/items/IUpdateItemData';
+import { CreateItemData } from '../../types/items/CreateItemData';
+import { UpdateItemData } from '../../types/items/UpdateItemData';
 import { FireStoreDB } from './../../utils/firebase/Configuration';
 import {
   collection,
@@ -8,22 +8,23 @@ import {
   deleteDoc,
   getDoc,
   setDoc,
-  QueryDocumentSnapshot,
-  DocumentData
+  DocumentData,
+  getDocs,
+  QuerySnapshot
 } from 'firebase/firestore';
 
 class ItemRepository {
-  async addItemAsync(item: ICreateItem): Promise<void> {
+  async addItemAsync(item: CreateItemData): Promise<void> {
     try {
-      await addDoc(collection(FireStoreDB, 'items'), item);
+      await addDoc(collection(FireStoreDB, 'items'), { ...item });
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async updateItemAsync(item: IUpdateItemData): Promise<void> {
+  async updateItemAsync(item: UpdateItemData): Promise<void> {
     try {
-      await setDoc(doc(FireStoreDB, 'items', item.docId), item);
+      await setDoc(doc(FireStoreDB, 'items', item.docId), { ...item });
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -37,9 +38,17 @@ class ItemRepository {
     }
   }
 
-  async getItemListAsync(): Promise<QueryDocumentSnapshot<DocumentData>> {
+  async getItemListAsync(): Promise<QuerySnapshot<DocumentData>> {
     try {
-      const docRef = doc(FireStoreDB, 'items');
+      return await getDocs(collection(FireStoreDB, 'items'));
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async getItemByIdAsync(docId: string): Promise<DocumentData> {
+    try {
+      const docRef = doc(FireStoreDB, 'items', docId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
