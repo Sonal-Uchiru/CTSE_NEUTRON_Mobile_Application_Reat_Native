@@ -263,7 +263,7 @@ export default function AddItemsForm() {
                   value={i18n.t('addItemsForm.back')}
                   color={theme.COLORS.GREY}
                   callFunction={() => {
-                    handleSubmit();
+                    setIsHidden(true);
                   }}
                   marginLeft={20}
                   marginTop={40}
