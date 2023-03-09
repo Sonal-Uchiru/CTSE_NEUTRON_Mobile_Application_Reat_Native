@@ -3,7 +3,6 @@ import { UpdateUserData } from '../../types/users/UpdateUserData';
 import { FireStoreDB } from './../../utils/firebase/Configuration';
 import {
   collection,
-  addDoc,
   doc,
   deleteDoc,
   getDoc,
@@ -14,25 +13,25 @@ import {
 } from 'firebase/firestore';
 
 class UserRepository {
-  async addUserAsync(user: CreateUserData): Promise<void> {
+  async addUserAsync(uid: string, user: CreateUserData): Promise<void> {
     try {
-      await addDoc(collection(FireStoreDB, `users/${user.uid}`), { ...user });
+      await setDoc(doc(FireStoreDB, 'users', uid), { ...user });
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async updateUserAsync(user: UpdateUserData): Promise<void> {
+  async updateUserAsync(uid: string, user: UpdateUserData): Promise<void> {
     try {
-      await setDoc(doc(FireStoreDB, 'users', user.uid), { ...user });
+      await setDoc(doc(FireStoreDB, 'users', uid), { ...user });
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async deleteUserAsync(docId: string): Promise<void> {
+  async deleteUserAsync(uid: string): Promise<void> {
     try {
-      await deleteDoc(doc(FireStoreDB, 'cards', docId));
+      await deleteDoc(doc(FireStoreDB, 'users', uid));
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -40,22 +39,22 @@ class UserRepository {
 
   async getUserListAsync(): Promise<QuerySnapshot<DocumentData>> {
     try {
-      return await getDocs(collection(FireStoreDB, 'cards'));
+      return await getDocs(collection(FireStoreDB, 'users'));
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async getUserByIdAsync(docId: string): Promise<DocumentData> {
+  async getUserByIdAsync(uid: string): Promise<DocumentData> {
     try {
-      const docRef = doc(FireStoreDB, 'cards', docId);
+      const docRef = doc(FireStoreDB, 'users', uid);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         return docSnap;
       } else {
         // doc.data() will be undefined in this case
-        throw new Error('Cards not found');
+        throw new Error('Users not found');
       }
     } catch (error) {
       throw new Error((error as Error).message);

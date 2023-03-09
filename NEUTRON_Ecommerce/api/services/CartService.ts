@@ -66,7 +66,7 @@ export class CartItemService {
     }
   }
 
-  async getCartItemByIdAsync(docId: string): Promise<any> {
+  async getCartItemByIdAsync(docId: string): Promise<CartItemModel> {
     try {
       const querySnapshot: DocumentData = await CardRepository.getCardByIdAsync(
         docId

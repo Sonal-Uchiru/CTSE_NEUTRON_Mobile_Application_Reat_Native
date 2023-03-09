@@ -2,9 +2,7 @@ import { UserRoles } from '../enums/UserRoles';
 import { UserBaseModel } from './UserBaseModel';
 
 export class CreateUserData extends UserBaseModel {
-  uid: string;
   constructor(
-    uid: string,
     firstName: string,
     lastName: string,
     mobile: number,
@@ -13,6 +11,5 @@ export class CreateUserData extends UserBaseModel {
     role: UserRoles
   ) {
     super(firstName, lastName, mobile, address, profileImageUrl, role);
-    this.uid = uid;
   }
 }

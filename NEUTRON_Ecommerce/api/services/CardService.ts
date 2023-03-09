@@ -69,7 +69,7 @@ export class CardService {
     }
   }
 
-  async getCardByIdAsync(docId: string): Promise<any> {
+  async getCardByIdAsync(docId: string): Promise<CardModel> {
     try {
       const querySnapshot: DocumentData = await CardRepository.getCardByIdAsync(
         docId

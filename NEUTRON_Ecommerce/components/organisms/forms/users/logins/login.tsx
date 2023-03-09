@@ -14,7 +14,6 @@ import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import GoogleButton from '../../../../atoms/buttons/GoogleButton';
 import { Logo } from '../../../../../assets/image';
 import { ILoginFormFields } from './ILoginFormFields';
-import { ILoginResponse } from '../../../../../types/users/ILoginResponse';
 import { AxiosResponse } from 'axios';
 import ExpoLocalStorage from '../../../../../authentication/secure_stores/ExpoLocalStorage';
 import ErrorDialog from '../../../../../hooks/dialogs/Error';
@@ -23,6 +22,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
 import { CreateItemData } from '../../../../../types/items/CreateItemData';
 import ItemService from '../../../../../api/services/ItemService';
+import UserService from '../../../../../api/services/UserService';
+import { CreateUserData } from '../../../../../types/users/CreateUserData';
+import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -51,7 +53,17 @@ export default function Login() {
 
   const test = async () => {
     try {
-      await ItemService.deleteItemAsync('rB5K5i0y5NnN0kxsG6up')
+      await UserService.registerAsync(
+        new CreateUserData(
+          'sonal',
+          'jayawardana',
+          766419220,
+          'athuu',
+          'fkdfj',
+          0
+        ),
+        new AuthenticationData('sonal@gmail.com', 'Sonal123$')
+      );
     } catch (error) {
       console.log(error);
     }
