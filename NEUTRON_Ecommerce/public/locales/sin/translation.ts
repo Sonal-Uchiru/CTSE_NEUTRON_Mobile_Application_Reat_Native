@@ -199,6 +199,14 @@ const sin = {
     subTitle: 'ඔබගේ පැතිකඩ ආකෘතිය තෝරන්න',
     buttonAddCard: 'පින්තුරයක් ගන්න',
     buttonEditCard: 'ගැලරියෙන් තෝරන්න'
+  },
+  viewCartPage: {
+    title: 'මගේ කරත්තය',
+    subTotal: 'උප එකතුව',
+    totalAmount: 'මුලු වටිනාකම',
+    items: 'අයිතම',
+    checkoutBtn: 'පරීක්ෂා කිරීම වෙත යන්න',
+    removeBtn: 'ඉවත් කරන්න'
   }
 };
 

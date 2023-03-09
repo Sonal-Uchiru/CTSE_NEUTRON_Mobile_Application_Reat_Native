@@ -194,7 +194,15 @@ const en = {
     title: 'Upload Photo',
     subTitle: 'Choose your profile piture',
     buttonTakePhoto: 'Take a photo',
-    buttonChooseFromLibrary: 'Choose from library',
+    buttonChooseFromLibrary: 'Choose from library'
+  },
+  viewCartPage: {
+    title: 'My Cart',
+    subTotal: 'Subtotal',
+    totalAmount: 'Total Amount',
+    items: 'items',
+    checkoutBtn: 'Proceed to checkout',
+    removeBtn: 'Remove'
   }
 };
 
