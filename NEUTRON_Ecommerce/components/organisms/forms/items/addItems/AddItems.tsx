@@ -1,4 +1,4 @@
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, TouchableHighlight } from 'react-native';
 import React, { useState } from 'react';
 import { Formik, FormikErrors } from 'formik';
 import i18n from 'i18n-js';
@@ -15,17 +15,22 @@ import Information from '../../../../atoms/typographies/Information';
 import { Ionicons } from '@expo/vector-icons';
 import { Iphone } from '../../../../../assets/image';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
+import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
+import LocationDialog from '../../../../../hooks/dialogs/LocationDialog';
 
 export default function AddItemsForm() {
   const [isHidden, setIsHidden] = useState<boolean>(true);
+  const [photoDialogVisible, setPhotoDialogVisible] = useState<boolean>(false);
+  const [locationDialogVisible, setLocationDialogVisible] =
+    useState<boolean>(false);
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const [showPassword, setShowPassword] = useState<boolean>(true);
-  const [showReEnterPassword, setShowReEnterPassword] = useState<boolean>(true);
+
+  const hidePhotoDialog = () => setPhotoDialogVisible(false);
+  const hideLocationDialog = () => setLocationDialogVisible(false);
 
   const registerAsync = async (values: IAddItemsFormFields) => {};
-
   function viewSecondStep(errors: FormikErrors<IAddItemsFormFields>) {
     // errors.itemCategory != undefined ||
     // errors.brand != undefined ||
@@ -62,8 +67,9 @@ export default function AddItemsForm() {
                   source={Iphone}
                   style={style.imageStyle}
                 />
-
-                <Ionicons name={'pencil-outline'} style={style.icon} />
+                <TouchableHighlight onPress={() => setPhotoDialogVisible(true)}>
+                  <Ionicons name={'pencil-outline'} style={style.icon} />
+                </TouchableHighlight>
               </View>
               <FormGroup
                 name={i18n.t('addItemsForm.itemCategory')}
@@ -249,7 +255,11 @@ export default function AddItemsForm() {
                 }
               />
               <View style={style.locationText}>
-                <Hyperlink value={i18n.t('addItemsForm.locationText')} />
+                <TouchableHighlight
+                  onPress={() => setLocationDialogVisible(true)}
+                >
+                  <Hyperlink value={i18n.t('addItemsForm.locationText')} />
+                </TouchableHighlight>
               </View>
               <View style={style.row}>
                 <ModalButton
@@ -275,6 +285,14 @@ export default function AddItemsForm() {
           </>
         )}
       </Formik>
+      <UploadPhotoDialog
+        isVisible={photoDialogVisible}
+        dismissFunc={hidePhotoDialog}
+      />
+      <LocationDialog
+        isVisible={locationDialogVisible}
+        dismissFunc={hideLocationDialog}
+      />
     </>
   );
 }

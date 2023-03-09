@@ -193,6 +193,12 @@ const sin = {
     latitude: 'අක්ෂාංශ',
     latitudeRequiredError: 'අක්ෂාංශ අවශ්ය වේ',
     latitudePlaceholder: 'අක්ෂාංශ ඇතුලත් කරන්න'
+  },
+  uploadPhotoModal: {
+    title: 'ඡායාරූපය උඩුගත කරන්න',
+    subTitle: 'ඔබගේ පැතිකඩ ආකෘතිය තෝරන්න',
+    buttonAddCard: 'පින්තුරයක් ගන්න',
+    buttonEditCard: 'ගැලරියෙන් තෝරන්න'
   }
 };
 

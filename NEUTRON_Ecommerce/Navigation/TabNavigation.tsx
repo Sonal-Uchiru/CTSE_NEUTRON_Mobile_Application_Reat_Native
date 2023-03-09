@@ -12,6 +12,7 @@ import AboutUsScreen from '../screens/AboutUsScreen';
 import SavedCards from '../screens/SaveCardsScreen';
 import ManageItems from '../screens/ManageItems';
 import Login from '../components/organisms/forms/users/logins/login';
+import DemoForm from '../components/organisms/forms/users/DIalogTesting/DemoForm';
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
@@ -26,7 +27,7 @@ export default function TabNavigation() {
         }}
       >
         <Tab.Screen name="Login" component={ManageItems} />
-        <Tab.Screen name="Demo" component={Lazy} />
+        <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
     </Suspense>

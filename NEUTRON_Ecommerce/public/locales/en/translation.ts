@@ -189,6 +189,12 @@ const en = {
     latitude: 'Latitude',
     latitudeRequiredError: 'Latitude is required',
     latitudePlaceholder: 'Enter Latitude'
+  },
+  uploadPhotoModal: {
+    title: 'Upload Photo',
+    subTitle: 'Choose your profile piture',
+    buttonTakePhoto: 'Take a photo',
+    buttonChooseFromLibrary: 'Choose from library',
   }
 };
 
