@@ -12,7 +12,6 @@ import CartCard from '../components/molecules/CartCard';
 import { Iphone } from '../assets/image';
 
 export default function ViewCart() {
-  const [searchText, setSearchText] = useState('');
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const array = [1, 2, 3, 4, 5];
@@ -38,7 +37,6 @@ export default function ViewCart() {
               }
               price={'420,000.00'}
               image={Iphone}
-              quantity={'30'}
             />
           );
         })}

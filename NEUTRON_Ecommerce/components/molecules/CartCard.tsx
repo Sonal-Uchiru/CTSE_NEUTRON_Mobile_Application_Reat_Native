@@ -1,4 +1,10 @@
-import { StyleSheet, SafeAreaView, Image, View } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  View,
+  TouchableHighlight
+} from 'react-native';
 import React, { useState } from 'react';
 import i18n from 'i18n-js';
 import { Iphone, VisaImg } from '../../assets/image';
@@ -20,7 +26,6 @@ interface props {
   description: string;
   price: string;
   image: string;
-  quantity: string;
 }
 
 export default function CartCard({
@@ -29,10 +34,10 @@ export default function CartCard({
   skuNumber,
   description,
   price,
-  image,
-  quantity
+  image
 }: props) {
   const [locale, setLocale] = useState(Localization.locale);
+  const [itemQuantity, setitemQuantity] = useState(0);
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
@@ -85,9 +90,25 @@ export default function CartCard({
             color={theme.COLORS.PRIMARY}
           />
           <View style={style.row}>
-            <Ionicons name={'add-circle-outline'} style={style.icon1} />
-            <ParagraphBold value={quantity} marginTop={22} marginRight={20} />
-            <Ionicons name={'remove-circle-outline'} style={style.icon2} />
+            <TouchableHighlight
+              onPress={() => setitemQuantity(itemQuantity + 1)}
+            >
+              <Ionicons name={'add-circle-outline'} style={style.icon1} />
+            </TouchableHighlight>
+            <ParagraphBold
+              value={String(itemQuantity)}
+              marginTop={22}
+              marginRight={20}
+            />
+            <TouchableHighlight
+              onPress={() =>
+                setitemQuantity(
+                  itemQuantity == 0 ? itemQuantity : itemQuantity - 1
+                )
+              }
+            >
+              <Ionicons name={'remove-circle-outline'} style={style.icon2} />
+            </TouchableHighlight>
             <ModalButton
               value={i18n.t('savedCardsPage.buttonEditCard')}
               color={theme.COLORS.ACTION}
