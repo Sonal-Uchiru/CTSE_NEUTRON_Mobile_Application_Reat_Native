@@ -181,7 +181,7 @@ export default function AddItemsForm() {
                 name={i18n.t('addItemsForm.description')}
                 id={'description'}
                 fieldstyle={
-                  errors.description ? style.textInputError : style.textInput
+                  errors.description ? style.multiLineError : style.multiLine
                 }
                 onChangeText={handleChange('description')}
                 onBlur={handleBlur('description')}
@@ -193,6 +193,8 @@ export default function AddItemsForm() {
                 borderColor={
                   errors.description ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
+                multiLine={true}
+                noOfLines={5}
               />
               <FormGroup
                 name={i18n.t('addItemsForm.itemAddress')}
@@ -305,6 +307,18 @@ const styles = (theme: {
     },
     textInputError: {
       width: '80%',
+      marginTop: 10,
+      backgroundColor: theme.COLORS.WHITE
+    },
+    multiLine: {
+      width: '80%',
+      height: 130,
+      marginTop: 10,
+      backgroundColor: theme.COLORS.WHITE
+    },
+    multiLineError: {
+      width: '80%',
+      height: 130,
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
     },
