@@ -4,6 +4,7 @@ export class UserBaseModel {
   firstName: string;
   lastName: string;
   mobile: number;
+  email:string;
   address: string;
   profileImageUrl: string;
   role: UserRoles;
@@ -12,6 +13,7 @@ export class UserBaseModel {
     firstName: string,
     lastName: string,
     mobile: number,
+    email: string,
     address: string,
     profileImageUrl: string,
     role: UserRoles
@@ -19,6 +21,7 @@ export class UserBaseModel {
     this.firstName = firstName;
     this.lastName = lastName;
     this.mobile = mobile;
+    this.email = email;
     this.address = address;
     this.profileImageUrl = profileImageUrl;
     this.role = role;

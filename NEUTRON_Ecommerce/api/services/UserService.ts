@@ -1,5 +1,3 @@
-import CardRepository from '../repositories/CardRepository';
-import { CardModel } from '../../types/cards/CardModel';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import ExpoLocalStorage from '../../authentication/secure_stores/ExpoLocalStorage';
 import { CreateUserData } from '../../types/users/CreateUserData';
@@ -11,14 +9,12 @@ import { UserModel } from '../../types/users/UserModel';
 import { UpdateUserData } from '../../types/users/UpdateUserData';
 
 export class UserService {
-  async loginAsync(
-    credentials: AuthenticationData
-  ): Promise<void> {
+  async loginAsync(credentials: AuthenticationData): Promise<void> {
     try {
       const userCredential: UserCredential =
         await AuthenticationRepository.loginAsync(credentials);
-      
-      const uid: string = userCredential.user.uid;  
+
+      const uid: string = userCredential.user.uid;
 
       const user: UserModel = await this.getUserByIdAsync(uid);
 
@@ -48,59 +44,61 @@ export class UserService {
 
   async updateUserAsync(user: UpdateUserData): Promise<void> {
     try {
-      const uid: string | null = await ExpoLocalStorage.getTokenFromLocalStorageAsync();
+      const uid: string | null =
+        await ExpoLocalStorage.getTokenFromLocalStorageAsync();
 
-      if(uid === null) {
+      if (uid === null) {
         throw new Error('Token not found');
       }
 
-      await UserRepository.updateUserAsync(uid,user);
+      await UserRepository.getUserByIdAsync(uid);
+      await UserRepository.updateUserAsync(uid, user);
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async deleteCardAsync(docId: string): Promise<void> {
+  async deleteUserAsync(uid: string): Promise<void> {
     try {
-      await CardRepository.getCardByIdAsync(docId);
-      await CardRepository.deleteCardAsync(docId);
+      await UserRepository.getUserByIdAsync(uid);
+      await AuthenticationRepository.deleteAsync();
+      await UserRepository.deleteUserAsync(uid);
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async getCardListAsync(): Promise<CardModel[]> {
+  async getUserListAsync(): Promise<UserModel[]> {
     try {
-      const cards: CardModel[] = [];
+      const users: UserModel[] = [];
       const uid: string | null =
         await ExpoLocalStorage.getTokenFromLocalStorageAsync();
 
       if (!uid) {
-        return cards;
+        return users;
       }
 
       const querySnapshots: QuerySnapshot<DocumentData> =
-        await CardRepository.getCardListAsync();
+        await UserRepository.getUserListAsync();
 
       if (querySnapshots.docs.length > 0) {
         querySnapshots.docs.map((doc) => {
-          const card = doc.data();
-          if (uid == card['uid']) {
-            cards.push(
-              new CardModel(
-                doc.id,
-                card['displayName'],
-                card['cardNumber'],
-                card['nameOnCard'],
-                card['expiryDate'],
-                card['uid']
-              )
-            );
-          }
+          const user = doc.data();
+          users.push(
+            new UserModel(
+              user['email'],
+              user['firstName'],
+              user['lastName'],
+              user['mobile'],
+              user['address'],
+              user['profileImageUrl'],
+              user['role']
+            )
+          );
         });
       }
 
-      return cards;
+      return users;
     } catch (error) {
       throw new Error((error as Error).message);
     }

@@ -58,6 +58,7 @@ export default function Login() {
           'sonal',
           'jayawardana',
           766419220,
+          'sonal@gmail.com',
           'athuu',
           'fkdfj',
           0
