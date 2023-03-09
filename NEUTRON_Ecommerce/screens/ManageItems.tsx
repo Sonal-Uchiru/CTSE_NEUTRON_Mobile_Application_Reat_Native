@@ -1,4 +1,10 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  View,
+  ScrollView
+} from 'react-native';
 import React, { useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -8,8 +14,11 @@ import Paragraph from '../components/atoms/typographies/Paragraph';
 import CreditCard from '../components/molecules/CreditCard';
 import ModalButton from '../components/atoms/buttons/ModalButton';
 import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
+import { Iphone } from '../assets/image';
+import { Ionicons } from '@expo/vector-icons';
+import AddItemsForm from '../components/organisms/forms/items/addItems/AddItems';
 
-export default function SavedCards() {
+export default function ManageItems() {
   const [searchText, setSearchText] = useState('');
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -19,54 +28,24 @@ export default function SavedCards() {
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
         <HeadLine3
-          value={i18n.t('savedCardsPage.title')}
+          value={i18n.t('addItemsForm.title')}
           color={theme.COLORS.PRIMARY}
         />
         <Paragraph
-          value={i18n.t('savedCardsPage.subTitle')}
+          value={i18n.t('addItemsForm.subTitle')}
           color={theme.COLORS.BLACK}
         />
       </View>
-      <FormGroupWithIcon
-        name={i18n.t('savedCardsPage.searchLabel')}
-        id={'search'}
-        fieldvalue={searchText}
-        placeholder={i18n.t('savedCardsPage.searchPlaceHolder')}
-        fieldstyle={style.textInput}
-        onChangeText={(newText: React.SetStateAction<string>) =>
-          setSearchText(newText)
-        }
-        error={undefined}
-        iconFirst={'magnify'}
-        iconSecond={'magnify'}
-        callFunction={undefined}
-      />
-      <ScrollView>
-        {array.map((value, i) => {
-          return (
-            <CreditCard
-              key={i}
-              cardName={"Kasun's Card"}
-              cardNumber={'Visa ************ 456'}
-              type={'visa'}
-              date={'12/23'}
-              owner={'John Do'}
-            />
-          );
-        })}
-      </ScrollView>
-      <ModalButton
-        value={i18n.t('savedCardsPage.buttonAddCard')}
-        color={theme.COLORS.PRIMARY}
-        marginBottom={25}
-        width={160}
-      />
+
+      <AddItemsForm />
     </SafeAreaView>
   );
 }
 
 const styles = (theme: {
+  TYPOGRAPHY: any;
   COLORS: {
+    WARNING: string;
     WHITE: string;
     PRIMARY: string;
   };
@@ -90,13 +69,12 @@ const styles = (theme: {
     },
     headerStyle: {
       alignSelf: 'flex-start',
-      marginStart: 20
+      marginStart: 20,
+      marginBottom: 20
     },
     textInput: {
       width: '80%',
       marginTop: 25,
       backgroundColor: theme.COLORS.WHITE
-    },
-    imageStyle: { height: 100, width: 150 },
-    column: { flexDirection: 'column' }
+    }
   });

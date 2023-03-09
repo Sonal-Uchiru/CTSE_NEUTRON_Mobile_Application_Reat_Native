@@ -8,9 +8,10 @@ import Paragraph from '../components/atoms/typographies/Paragraph';
 import CreditCard from '../components/molecules/CreditCard';
 import ModalButton from '../components/atoms/buttons/ModalButton';
 import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
+import CartCard from '../components/molecules/CartCard';
+import { Iphone } from '../assets/image';
 
-export default function SavedCards() {
-  const [searchText, setSearchText] = useState('');
+export default function ViewCart() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const array = [1, 2, 3, 4, 5];
@@ -19,44 +20,29 @@ export default function SavedCards() {
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
         <HeadLine3
-          value={i18n.t('savedCardsPage.title')}
+          value={i18n.t('viewCartPage.title')}
           color={theme.COLORS.PRIMARY}
         />
-        <Paragraph
-          value={i18n.t('savedCardsPage.subTitle')}
-          color={theme.COLORS.BLACK}
-        />
       </View>
-      <FormGroupWithIcon
-        name={i18n.t('savedCardsPage.searchLabel')}
-        id={'search'}
-        fieldvalue={searchText}
-        placeholder={i18n.t('savedCardsPage.searchPlaceHolder')}
-        fieldstyle={style.textInput}
-        onChangeText={(newText: React.SetStateAction<string>) =>
-          setSearchText(newText)
-        }
-        error={undefined}
-        iconFirst={'magnify'}
-        iconSecond={'magnify'}
-        callFunction={undefined}
-      />
       <ScrollView>
         {array.map((value, i) => {
           return (
-            <CreditCard
+            <CartCard
               key={i}
-              cardName={"Kasun's Card"}
-              cardNumber={'Visa ************ 456'}
-              type={'visa'}
-              date={'12/23'}
-              owner={'John Do'}
+              brand={'Apple'}
+              itemName={'I phone 12 Pro Max '}
+              skuNumber={'KS944RUR'}
+              description={
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor adipiscing elit, sed do eiusmod tempor..'
+              }
+              price={'420,000.00'}
+              image={Iphone}
             />
           );
         })}
       </ScrollView>
       <ModalButton
-        value={i18n.t('savedCardsPage.buttonAddCard')}
+        value={i18n.t('viewCartPage.checkoutBtn')}
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}

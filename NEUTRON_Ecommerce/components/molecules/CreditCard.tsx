@@ -12,7 +12,7 @@ import Paragraph from '../atoms/typographies/Paragraph';
 import ModalButton from '../atoms/buttons/ModalButton';
 
 interface props {
-  id: number;
+  key: number;
   cardName: string;
   cardNumber: string;
   type: string;
@@ -44,7 +44,11 @@ export default function CreditCard({
     <>
       <View style={style.cardStyle}>
         <View style={style.column}>
-          <Image source={VisaImg} style={style.imageStyle} />
+          <Image
+            resizeMode="contain"
+            source={VisaImg}
+            style={style.imageStyle}
+          />
         </View>
         <View style={style.column}>
           <HeadLine4

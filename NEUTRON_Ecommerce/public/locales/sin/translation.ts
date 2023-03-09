@@ -145,6 +145,68 @@ const sin = {
     buttonEditCard: 'කාඩ්පත සංස්කරණය කරන්න',
     searchLabel: 'කාඩ්පත් සොයන්න....',
     searchPlaceHolder: 'කාඩ්පත් සොයන්න'
+  },
+  addItemsForm: {
+    title: 'නව අයිතමයක් එක් කරන්න',
+    subTitle: 'ඔබේ අයිතම එකතු කරන්න',
+    addItem: 'අයිතමය එකතු කරන්න',
+    locationText: 'අයිතමයේ සැබෑ ස්ථානය සකසන්න',
+    next: 'ඊළඟ',
+    back: 'ආපසු යන්න',
+
+    itemCategory: 'අයිතම කාණ්ඩය',
+    itemCategoryRequiredError: 'පළමු නම අවශ්ය වේ',
+    itemCategoryPlaceholder: 'මුල් නම ඇතුලත් කරන්න',
+
+    itemName: 'භාණ්ඩයෙ නම',
+    itemNameRequiredError: 'අයිතමයේ නම අවශ්‍ය වේ',
+    itemNamePlaceholder: 'අයිතමයේ නම ඇතුළත් කරන්න',
+
+    brand: 'වෙළඳ නාමය',
+    brandRequiredError: 'වෙළඳ නාමය අවශ්ය වේ',
+    brandPlaceholder: 'වෙළඳ නාමය ඇතුළත් කරන්න',
+
+    quantity: 'ප්රමාණය',
+    quantityRequiredError: 'ප්‍රමාණය අවශ්‍ය වේ',
+    quantityPlaceholder: 'ප්‍රමාණය ඇතුලත් කරන්න',
+
+    unitPrice: 'ඒකක මිල (LKR.)',
+    unitPriceRequiredError: 'ඒකක මිල අවශ්ය වේ',
+    unitPricePlaceholder: 'ඒකක මිල ඇතුලත් කරන්න',
+
+    skuNumber: 'SKU අංකය',
+    skuNumberRequiredError: 'SKU අංකය අවශ්‍යයි',
+    skuNumberPlaceholder: 'SKU අංකය ඇතුලත් කරන්න',
+
+    description: 'විස්තර',
+    descriptionRequiredError: 'විස්තරය අවශ්ය වේ',
+    descriptionPlaceholder: 'විස්තරය ඇතුලත් කරන්න',
+
+    itemAddress: 'අයිතමය ලබා ගත හැකි ලිපිනය',
+    itemAddressRequiredError: 'අයිතමයේ ලිපිනය අවශ්‍ය වේ',
+    itemAddressPlaceholder: 'අයිතමයේ ලිපිනය ඇතුළත් කරන්න',
+
+    longtitude: 'දේශාංශ',
+    longtitudeRequiredError: 'දේශාංශ අවශ්ය වේ',
+    longtitudePlaceholder: 'දේශාංශ ඇතුලත් කරන්න',
+
+    latitude: 'අක්ෂාංශ',
+    latitudeRequiredError: 'අක්ෂාංශ අවශ්ය වේ',
+    latitudePlaceholder: 'අක්ෂාංශ ඇතුලත් කරන්න'
+  },
+  uploadPhotoModal: {
+    title: 'ඡායාරූපය උඩුගත කරන්න',
+    subTitle: 'ඔබගේ පැතිකඩ ආකෘතිය තෝරන්න',
+    buttonAddCard: 'පින්තුරයක් ගන්න',
+    buttonEditCard: 'ගැලරියෙන් තෝරන්න'
+  },
+  viewCartPage: {
+    title: 'මගේ කරත්තය',
+    subTotal: 'උප එකතුව',
+    totalAmount: 'මුලු වටිනාකම',
+    items: 'අයිතම',
+    checkoutBtn: 'පරීක්ෂා කිරීම වෙත යන්න',
+    removeBtn: 'ඉවත් කරන්න'
   }
 };
 
