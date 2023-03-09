@@ -10,6 +10,7 @@ import * as Localization from 'expo-localization';
 import useTheme from '../../theme/hooks/UseTheme';
 import Paragraph from '../atoms/typographies/Paragraph';
 import ModalButton from '../atoms/buttons/ModalButton';
+import { Ionicons } from '@expo/vector-icons';
 
 interface props {
   key: number;
@@ -19,6 +20,7 @@ interface props {
   description: string;
   price: string;
   image: string;
+  quantity: string;
 }
 
 export default function CartCard({
@@ -27,7 +29,8 @@ export default function CartCard({
   skuNumber,
   description,
   price,
-  image
+  image,
+  quantity
 }: props) {
   const [locale, setLocale] = useState(Localization.locale);
   const theme = useTheme();
@@ -47,7 +50,7 @@ export default function CartCard({
       <View style={style.cardStyle}>
         <View style={style.column}>
           <Image
-            resizeMode="contain"
+            resizeMode="stretch"
             source={Iphone}
             style={style.imageStyle}
           />
@@ -57,31 +60,39 @@ export default function CartCard({
             marginTop={10}
             marginLeft={30}
             value={brand}
+            color={theme.COLORS.PRIMARY}
+          />
+          <ParagraphBold
+            marginLeft={30}
+            value={itemName}
             color={theme.COLORS.GREY}
           />
           <ParagraphBold
             marginLeft={30}
-            marginTop={10}
-            value={itemName}
-            color={theme.COLORS.PRIMARY}
+            value={skuNumber}
+            color={theme.COLORS.WARNING}
           />
-          <ParagraphBold
+          <Paragraph
             marginTop={10}
             marginLeft={30}
             value={description}
-            color={theme.COLORS.PRIMARY}
+            color={theme.COLORS.GREY}
           />
           <ParagraphBold
             marginTop={10}
             marginLeft={30}
-            value={price}
+            value={`LKR.${price}`}
             color={theme.COLORS.PRIMARY}
           />
-          <View style={style.buttonView}>
+          <View style={style.row}>
+            <Ionicons name={'add-circle-outline'} style={style.icon1} />
+            <ParagraphBold value={quantity} marginTop={22} marginRight={20} />
+            <Ionicons name={'remove-circle-outline'} style={style.icon2} />
             <ModalButton
               value={i18n.t('savedCardsPage.buttonEditCard')}
               color={theme.COLORS.ACTION}
               marginTop={10}
+              width={80}
             />
           </View>
         </View>
@@ -91,7 +102,12 @@ export default function CartCard({
 }
 
 const styles = (theme: {
+  TYPOGRAPHY: {
+    FONT_WEIGHT: any;
+    FONT_SIZE: { M1: number; S1: number; L1: number; L2: number; L3: number };
+  };
   COLORS: {
+    WARNING: string;
     WHITE: string;
     PRIMARY: string;
   };
@@ -102,7 +118,9 @@ const styles = (theme: {
       width: 380,
       borderWidth: 2,
       borderRadius: 5,
-      padding: 10,
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingBottom: 10,
       borderColor: theme.COLORS.PRIMARY,
       backgroundColor: theme.COLORS.WHITE,
       marginTop: 40
@@ -111,8 +129,20 @@ const styles = (theme: {
       alignSelf: 'flex-start',
       marginStart: 20
     },
-    imageStyle: { height: 250, width: 150 },
+    imageStyle: { height: 220, width: 100, borderRadius: 20 },
     column: { flexDirection: 'column' },
-    columnRight: { flexDirection: 'column', width: 210 },
-    buttonView: { alignSelf: 'flex-end', marginRight: 30 }
+    row: { flexDirection: 'row', alignSelf: 'flex-end' },
+    columnRight: { flexDirection: 'column', width: 260 },
+    icon1: {
+      fontSize: theme.TYPOGRAPHY.FONT_SIZE.L2,
+      color: theme.COLORS.PRIMARY,
+      marginTop: 5,
+      marginRight: 15
+    },
+    icon2: {
+      fontSize: theme.TYPOGRAPHY.FONT_SIZE.L2,
+      color: theme.COLORS.PRIMARY,
+      marginTop: 5,
+      marginRight: 15
+    }
   });

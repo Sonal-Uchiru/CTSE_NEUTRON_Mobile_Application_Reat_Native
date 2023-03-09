@@ -38,6 +38,7 @@ export default function ViewCart() {
               }
               price={'420,000.00'}
               image={Iphone}
+              quantity={'30'}
             />
           );
         })}
