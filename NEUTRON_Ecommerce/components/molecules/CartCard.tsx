@@ -24,8 +24,9 @@ interface props {
   itemName: string;
   skuNumber: string;
   description: string;
-  price: string;
+  price: number;
   image: string;
+  calcTotal: any;
 }
 
 export default function CartCard({
@@ -34,10 +35,11 @@ export default function CartCard({
   skuNumber,
   description,
   price,
-  image
+  image,
+  calcTotal
 }: props) {
   const [locale, setLocale] = useState(Localization.locale);
-  const [itemQuantity, setitemQuantity] = useState(0);
+  const [itemQuantity, setitemQuantity] = useState<number>(1);
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
@@ -50,6 +52,17 @@ export default function CartCard({
     setLocale('sin');
   };
 
+  function calculateItemTotal(increase: boolean) {
+    let beforePrice = price * itemQuantity;
+    let afterPrice = 0;
+    increase
+      ? (afterPrice = price * (itemQuantity + 1))
+      : (afterPrice = price * (itemQuantity - 1));
+    increase
+      ? setitemQuantity(itemQuantity + 1)
+      : setitemQuantity(itemQuantity - 1);
+    calcTotal(afterPrice - beforePrice);
+  }
   return (
     <>
       <View style={style.cardStyle}>
@@ -90,9 +103,7 @@ export default function CartCard({
             color={theme.COLORS.PRIMARY}
           />
           <View style={style.row}>
-            <TouchableHighlight
-              onPress={() => setitemQuantity(itemQuantity + 1)}
-            >
+            <TouchableHighlight onPress={() => calculateItemTotal(true)}>
               <Ionicons name={'add-circle-outline'} style={style.icon1} />
             </TouchableHighlight>
             <ParagraphBold
@@ -100,13 +111,7 @@ export default function CartCard({
               marginTop={22}
               marginRight={20}
             />
-            <TouchableHighlight
-              onPress={() =>
-                setitemQuantity(
-                  itemQuantity == 0 ? itemQuantity : itemQuantity - 1
-                )
-              }
-            >
+            <TouchableHighlight onPress={() => calculateItemTotal(false)}>
               <Ionicons name={'remove-circle-outline'} style={style.icon2} />
             </TouchableHighlight>
             <ModalButton
