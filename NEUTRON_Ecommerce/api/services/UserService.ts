@@ -119,7 +119,7 @@ export class UserService {
         `${user.uid}_profile_image`
       );
 
-      if (profileImageUrl == null) return;
+      if (profileImageUrl == null) throw new Error('Upload unsuccessful');
 
       await UserRepository.updateUserProfilePicture(profileImageUrl);
     } catch (error) {

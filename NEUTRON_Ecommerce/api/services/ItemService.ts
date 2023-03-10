@@ -3,6 +3,8 @@ import { CreateItemData } from '../../types/items/CreateItemData';
 import { UpdateItemData } from '../../types/items/UpdateItemData';
 import ItemRepository from '../repositories/ItemRepository';
 import { ItemModel } from '../../types/items/ItemModel';
+import { uploadFile } from '../../utils/firebase/cloud_storage/UploadFile';
+import { ImagePickerAsset } from 'expo-image-picker';
 
 class ItemService {
   async addItemAsync(item: CreateItemData): Promise<void> {
@@ -86,6 +88,25 @@ class ItemService {
         content['stockKeepingUnits'],
         content['imageUrl']
       );
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async updateItemImageAsync(
+    itemName: string,
+    itemImage: ImagePickerAsset
+  ): Promise<string> {
+    try {
+      const itemImageUrl: string | null = await uploadFile(
+        itemImage,
+        'items',
+        `${itemName}_${Date.now()}_image`
+      );
+
+      if (itemImageUrl == null) throw new Error('Image upload unsuccessful');
+
+      return itemImageUrl;
     } catch (error) {
       throw new Error((error as Error).message);
     }
