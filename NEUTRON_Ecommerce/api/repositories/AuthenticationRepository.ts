@@ -1,10 +1,11 @@
 import { AuthenticationData } from '../../types/authentication/AuthenticationData';
-import { Auth, FireStoreDB } from '../../utils/firebase/Configuration';
+import { Auth } from '../../utils/firebase/Configuration';
 import {
   UserCredential,
   createUserWithEmailAndPassword,
   deleteUser,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  signOut
 } from 'firebase/auth';
 
 class AuthenticationRepository {
@@ -35,7 +36,7 @@ class AuthenticationRepository {
       throw new Error((error as Error).message);
     }
   }
-  
+
   async deleteAsync(): Promise<void> {
     try {
       const user = Auth.currentUser;
@@ -43,6 +44,14 @@ class AuthenticationRepository {
         throw new Error('unauthorized');
       }
       await deleteUser(user!);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async signOutAsync(): Promise<void> {
+    try {
+      await signOut(Auth);
     } catch (error) {
       throw new Error((error as Error).message);
     }

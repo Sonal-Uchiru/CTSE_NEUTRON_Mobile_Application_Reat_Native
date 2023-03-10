@@ -53,22 +53,46 @@ export default function Login() {
 
   const test = async () => {
     try {
-      await UserService.registerAsync(
-        new CreateUserData(
-          'sonal',
-          'jayawardana',
-          766419220,
-          'sonal@gmail.com',
-          'athuu',
-          'fkdfj',
-          0
-        ),
-        new AuthenticationData('sonal@gmail.com', 'Sonal123$')
-      );
+      // await UserService.registerAsync(
+      //   new CreateUserData(
+      //     'sonal',
+      //     'jayawardana',
+      //     766419220,
+      //     'sonal@gmail.com',
+      //     'athuu',
+      //     'fkdfj',
+      //     0
+      //   ),
+      //   new AuthenticationData('sonal@gmail.com', 'Sonal123$')
+      // );
+      // await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
+      // console.log(await UserService.getUserByIdAsync('u'));
+
     } catch (error) {
       console.log(error);
     }
   };
+
+  const [image, setImage] = useState<any>(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      selectionLimit: 1
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      uploadFile(result.assets[0],'users','sonal-image');
+     }
+  };
+
   return (
     <>
       <View style={style.tabView}>
@@ -173,6 +197,11 @@ export default function Login() {
         value={i18n.t('loginPage.login')}
         color={theme.COLORS.PRIMARY}
         callFunction={() => test()}
+      />
+            <ModalButton
+        value={i18n.t('loginPage.login')}
+        color={theme.COLORS.PRIMARY}
+        callFunction={() => pickImage()}
       />
     </>
   );

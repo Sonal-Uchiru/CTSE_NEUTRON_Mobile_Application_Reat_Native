@@ -1,6 +1,6 @@
 import { CreateUserData } from '../../types/users/CreateUserData';
 import { UpdateUserData } from '../../types/users/UpdateUserData';
-import { FireStoreDB } from './../../utils/firebase/Configuration';
+import { Auth, FireStoreDB } from './../../utils/firebase/Configuration';
 import {
   collection,
   doc,
@@ -21,17 +21,27 @@ class UserRepository {
     }
   }
 
-  async updateUserAsync(uid: string, user: UpdateUserData): Promise<void> {
+  async updateUserAsync(user: UpdateUserData): Promise<void> {
     try {
-      await setDoc(doc(FireStoreDB, 'users', uid), { ...user });
+      await setDoc(doc(FireStoreDB, 'users', this.getLoggedInUserId()), { ...user });
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async deleteUserAsync(uid: string): Promise<void> {
+  async updateUserProfilePicture(profileImageUrl: string) {
     try {
-      await deleteDoc(doc(FireStoreDB, 'users', uid));
+      await setDoc(doc(FireStoreDB, 'users', this.getLoggedInUserId()), {
+        profileImageUrl: profileImageUrl
+      });
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async deleteUserAsync(): Promise<void> {
+    try {
+      await deleteDoc(doc(FireStoreDB, 'users', this.getLoggedInUserId()));
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -45,9 +55,10 @@ class UserRepository {
     }
   }
 
-  async getUserByIdAsync(uid: string): Promise<DocumentData> {
+  async getUserAsync(): Promise<DocumentData> {
     try {
-      const docRef = doc(FireStoreDB, 'users', uid);
+      const user = Auth.currentUser;
+      const docRef = doc(FireStoreDB, 'users', user!.uid);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -59,6 +70,15 @@ class UserRepository {
     } catch (error) {
       throw new Error((error as Error).message);
     }
+  }
+
+  private getLoggedInUserId(): string {
+    const user = Auth.currentUser;
+    if (!user) {
+      throw new Error('Unauthorized');
+    }
+
+    return user.uid;
   }
 }
 

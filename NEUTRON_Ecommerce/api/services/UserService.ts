@@ -7,18 +7,16 @@ import { UserCredential } from 'firebase/auth';
 import UserRepository from '../repositories/UserRepository';
 import { UserModel } from '../../types/users/UserModel';
 import { UpdateUserData } from '../../types/users/UpdateUserData';
+import { uploadFile } from '../../utils/firebase/cloud_storage/UploadFile';
+import { ImagePickerAsset } from 'expo-image-picker';
 
 export class UserService {
   async loginAsync(credentials: AuthenticationData): Promise<void> {
     try {
-      const userCredential: UserCredential =
-        await AuthenticationRepository.loginAsync(credentials);
+      await AuthenticationRepository.loginAsync(credentials);
 
-      const uid: string = userCredential.user.uid;
+      const user: UserModel = await this.getUserAsync();
 
-      const user: UserModel = await this.getUserByIdAsync(uid);
-
-      await ExpoLocalStorage.setTokenToLocalStorageAsync(uid);
       await ExpoLocalStorage.setRoleToLocalStorageAsync(user.role);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -32,10 +30,11 @@ export class UserService {
     try {
       const userCredential: UserCredential =
         await AuthenticationRepository.registerAsync(credentials);
+
       const uid: string = userCredential.user.uid;
+
       await UserRepository.addUserAsync(uid, user);
 
-      await ExpoLocalStorage.setTokenToLocalStorageAsync(uid);
       await ExpoLocalStorage.setRoleToLocalStorageAsync(user.role);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -44,25 +43,17 @@ export class UserService {
 
   async updateUserAsync(user: UpdateUserData): Promise<void> {
     try {
-      const uid: string | null =
-        await ExpoLocalStorage.getTokenFromLocalStorageAsync();
-
-      if (uid === null) {
-        throw new Error('Token not found');
-      }
-
-      await UserRepository.getUserByIdAsync(uid);
-      await UserRepository.updateUserAsync(uid, user);
+      await UserRepository.getUserAsync();
+      await UserRepository.updateUserAsync(user);
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async deleteUserAsync(uid: string): Promise<void> {
+  async deleteUserAsync(): Promise<void> {
     try {
-      await UserRepository.getUserByIdAsync(uid);
       await AuthenticationRepository.deleteAsync();
-      await UserRepository.deleteUserAsync(uid);
+      await UserRepository.deleteUserAsync();
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -71,12 +62,6 @@ export class UserService {
   async getUserListAsync(): Promise<UserModel[]> {
     try {
       const users: UserModel[] = [];
-      const uid: string | null =
-        await ExpoLocalStorage.getTokenFromLocalStorageAsync();
-
-      if (!uid) {
-        return users;
-      }
 
       const querySnapshots: QuerySnapshot<DocumentData> =
         await UserRepository.getUserListAsync();
@@ -86,6 +71,7 @@ export class UserService {
           const user = doc.data();
           users.push(
             new UserModel(
+              doc.id,
               user['email'],
               user['firstName'],
               user['lastName'],
@@ -104,13 +90,12 @@ export class UserService {
     }
   }
 
-  async getUserByIdAsync(uid: string): Promise<UserModel> {
+  async getUserAsync(): Promise<UserModel> {
     try {
-      const querySnapshot: DocumentData = await UserRepository.getUserByIdAsync(
-        uid
-      );
+      const querySnapshot: DocumentData = await UserRepository.getUserAsync();
       const content = querySnapshot.data();
       return new UserModel(
+        querySnapshot.id,
         content['email'],
         content['firstName'],
         content['lastName'],
@@ -119,6 +104,32 @@ export class UserService {
         content['profileImageUrl'],
         content['role']
       );
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async updateUserProfilePicture(imageAssest: ImagePickerAsset): Promise<void> {
+    try {
+      const user: UserModel = await this.getUserAsync();
+
+      const profileImageUrl: string | null = await uploadFile(
+        imageAssest,
+        'users',
+        `${user.uid}_profile_image`
+      );
+
+      if (profileImageUrl == null) return;
+
+      await UserRepository.updateUserProfilePicture(profileImageUrl);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async signOut(): Promise<void> {
+    try {
+      await AuthenticationRepository.signOutAsync();
     } catch (error) {
       throw new Error((error as Error).message);
     }
