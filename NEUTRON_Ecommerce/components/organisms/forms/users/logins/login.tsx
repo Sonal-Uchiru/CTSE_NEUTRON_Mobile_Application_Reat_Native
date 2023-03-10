@@ -14,14 +14,17 @@ import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import GoogleButton from '../../../../atoms/buttons/GoogleButton';
 import { Logo } from '../../../../../assets/image';
 import { ILoginFormFields } from './ILoginFormFields';
-import { ILoginResponse } from '../../../../../types/users/ILoginResponse';
 import { AxiosResponse } from 'axios';
 import ExpoLocalStorage from '../../../../../authentication/secure_stores/ExpoLocalStorage';
 import ErrorDialog from '../../../../../hooks/dialogs/Error';
 import ItemRepository from '../../../../../api/repositories/ItemRepository';
 import * as ImagePicker from 'expo-image-picker';
-import authenticationTest from '../../../../../api/repositories/authenticationTest';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
+import { CreateItemData } from '../../../../../types/items/CreateItemData';
+import ItemService from '../../../../../api/services/ItemService';
+import UserService from '../../../../../api/services/UserService';
+import { CreateUserData } from '../../../../../types/users/CreateUserData';
+import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -32,19 +35,15 @@ export default function Login() {
   const [selected, setSelected] = useState<boolean>(false);
 
   const loginAsync = async (values: ILoginFormFields) => {
-    console.log('d');
     //await ItemRepository.AddItemAsync();
-    await authenticationTest.registerAsync();
     // try {
     //   const response: AxiosResponse = await UserAuthenticationApi.loginAsync(
     //     values
     //   );
     //   const data: ILoginResponse = response.data;
-
     // await ExpoLocalStorage.setTokenToLocalStorageAsync(data.token);
     //   await ExpoLocalStorage.setRoleToLocalStorageAsync(data.role);
     //   //navigate to home
-
     //   console.log(data);
     // } catch (error: any) {
     //   setIsError(true);
@@ -52,6 +51,47 @@ export default function Login() {
     // }
   };
 
+  const test = async () => {
+    try {
+      // await UserService.registerAsync(
+      //   new CreateUserData(
+      //     'sonal',
+      //     'jayawardana',
+      //     766419220,
+      //     'sonal@gmail.com',
+      //     'athuu',
+      //     'fkdfj',
+      //     0
+      //   ),
+      //   new AuthenticationData('sonal@gmail.com', 'Sonal123$')
+      // );
+      // await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
+      // console.log(await UserService.getUserByIdAsync('u'));
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [image, setImage] = useState<any>(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      selectionLimit: 1
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      uploadFile(result.assets[0],'users','sonal-image');
+     }
+  };
 
   return (
     <>
@@ -152,6 +192,16 @@ export default function Login() {
         dismissFunc={() => {
           setIsError(false);
         }}
+      />
+      <ModalButton
+        value={i18n.t('loginPage.login')}
+        color={theme.COLORS.PRIMARY}
+        callFunction={() => test()}
+      />
+            <ModalButton
+        value={i18n.t('loginPage.login')}
+        color={theme.COLORS.PRIMARY}
+        callFunction={() => pickImage()}
       />
     </>
   );
