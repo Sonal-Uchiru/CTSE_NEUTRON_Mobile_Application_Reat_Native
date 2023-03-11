@@ -98,10 +98,10 @@ const sin = {
       'ගිණුම මකා දැමීම අවසන් වේ. ඔබගේ ගිණුම ප්‍රතිසාධනය කිරීමට ක්‍රමයක් නොමැත.'
   },
   loginPage: {
-    title: 'Agrivo වෙත සාදරයෙන් පිළිගනිමු!',
+    title: 'Neutron වෙත සාදරයෙන් පිළිගනිමු',
     login: 'ඇතුල් වන්න',
-    register: 'ලියාපදිංචි කරන්න',
-    forgotPassword: 'මුරපදය අමතක වුණා ද?'
+    signUp: 'ලියාපදිංචි වන්න',
+    createAccountLink: "ගිණුමක් නැද්ද?"
   },
   registerPage: {
     registerBtnTitle: 'ගිණුම තනන්න',

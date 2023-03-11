@@ -64,4 +64,5 @@ const styles = StyleSheet.create({
   labelView: {
     alignItems: 'flex-start'
   }
+
 });

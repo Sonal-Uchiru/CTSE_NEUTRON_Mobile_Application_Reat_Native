@@ -4,3 +4,4 @@ export const GoogleLogo = require('./google.png');
 export const VisaImg = require('./visa-img.png');
 export const AboutUs = require('./about-us.jpeg');
 export const Iphone = require('./iphone-img.jpeg');
+export const NeutronLogo = require('./logo.png');

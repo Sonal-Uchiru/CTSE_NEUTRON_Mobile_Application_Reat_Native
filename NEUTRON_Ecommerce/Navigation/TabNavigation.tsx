@@ -27,7 +27,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={ViewCart} />
+        <Tab.Screen name="Login" component={Login} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>

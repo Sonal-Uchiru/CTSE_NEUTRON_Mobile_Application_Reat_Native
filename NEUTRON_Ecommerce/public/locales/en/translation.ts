@@ -97,10 +97,10 @@ const en = {
       'Account deletion is final. There will be no way to restore your account.'
   },
   loginPage: {
-    title: 'Welcome To Agrivo!',
+    title: 'Welcome To Neutron',
     login: 'Login',
-    register: 'Register',
-    forgotPassword: 'Forgot Password?'
+    signUp: 'Sign up',
+    createAccountLink: "Don't have an account"
   },
   registerPage: {
     registerBtnTitle: 'Create Account',
