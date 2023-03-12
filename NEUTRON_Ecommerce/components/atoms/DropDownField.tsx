@@ -1,66 +1,101 @@
-import { TextInput } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { TextInput, Text } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
 import { COLORS } from '../../theme/styles/Colors';
+import { useState } from 'react';
+import { Dropdown } from 'react-native-element-dropdown';
 
 interface props {
-  name: string;
-  id: string;
-  type?: string;
-  onPress?: any;
   value: string;
   placeholder: string;
   fieldstyle: any;
   onChangeText: any;
-  onBlur: any;
-  borderColor?: string;
-  multiLine?: boolean;
-  noOfLines?: number;
+  data: {
+    value: string;
+  }[];
 }
 export default function DropDownField({
-  name,
-  id,
-  type,
-  onPress,
   value,
   placeholder,
   fieldstyle,
   onChangeText,
-  onBlur,
-  borderColor = COLORS.GREY,
-  multiLine = false,
-  noOfLines = 1
-}: props) {
-  let data = [
-    {
-      value: 'Banana'
-    },
-    {
-      value: 'Mango'
-    },
-    {
-      value: 'Pear'
-    }
-  ];
+  data
+}: //   data
+props) {
+  const [values, setValue] = useState('');
+  const [isFocus, setIsFocus] = useState(false);
+
   return (
-    <TextInput
-      label={name}
-      // id={id}
-      mode={'outlined'}
-      placeholder={placeholder}
-      style={fieldstyle}
-      onChangeText={onChangeText}
-      onBlur={onBlur}
-      value={value}
-      theme={{ colors: { primary: borderColor } }}
-      autoCapitalize="none"
-      multiline={multiLine}
-      numberOfLines={noOfLines}
-    />
+    // <TextInput
+    //   label={name}
+    //   // id={id}
+    //   mode={'outlined'}
+    //   placeholder={placeholder}
+    //   style={fieldstyle}
+    //   onChangeText={onChangeText}
+    //   onBlur={onBlur}
+    //   value={value}
+    //   theme={{ colors: { primary: borderColor } }}
+    //   autoCapitalize="none"
+    //   multiline={multiLine}
+    //   numberOfLines={noOfLines}
+    // />
+    <View style={{ width: '80%' }}>
+      <Dropdown
+        style={fieldstyle}
+        placeholderStyle={styles.placeholderStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        search
+        maxHeight={300}
+        placeholder={placeholder}
+        searchPlaceholder="Search..."
+        data={data}
+        labelField="value"
+        valueField="value"
+        value={value}
+        onChange={(item) => {
+          onChangeText(item.value);
+        }}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    padding: 16
+  },
   textInput: {
     width: '80%'
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 3,
+    paddingHorizontal: 8
+  },
+  icon: {
+    marginRight: 5
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14
+  },
+  placeholderStyle: {
+    fontSize: 16
+  },
+  iconStyle: {
+    width: 20,
+    height: 20
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16
   }
 });

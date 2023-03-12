@@ -32,6 +32,19 @@ export default function AddItemsForm() {
   const hideLocationDialog = () => setLocationDialogVisible(false);
 
   const registerAsync = async (values: IAddItemsFormFields) => {};
+
+  let data = [
+    {
+      value: 'Mobile'
+    },
+    {
+      value: 'Electric'
+    },
+    {
+      value: 'Gaming'
+    }
+  ];
+
   function viewSecondStep(errors: FormikErrors<IAddItemsFormFields>) {
     // errors.itemCategory != undefined ||
     // errors.brand != undefined ||
@@ -73,23 +86,16 @@ export default function AddItemsForm() {
                 </TouchableHighlight>
               </View>
               <FormGroupWithDropDown
-                name={i18n.t('addItemsForm.itemCategory')}
-                id={'itemCategory'}
                 fieldstyle={
-                  errors.itemCategory ? style.textInputError : style.textInput
+                  errors.itemCategory ? style.dropdownError : style.dropdown
                 }
                 onChangeText={handleChange('itemCategory')}
-                onBlur={handleBlur('itemCategory')}
                 placeholder={i18n.t(
                   AddItemsFormModel.itemCategory.itemCategoryPlaceholder
                 )}
                 fieldvalue={values.itemCategory}
                 error={errors.itemCategory}
-                borderColor={
-                  errors.itemCategory
-                    ? theme.COLORS.ERROR
-                    : theme.COLORS.PRIMARY
-                }
+                data={data}
               />
               <FormGroup
                 name={i18n.t('addItemsForm.itemName')}
@@ -305,6 +311,7 @@ const styles = (theme: {
     ERROR: string;
     ACTION: string;
     GREY: string;
+    BLACK: string;
   };
   TYPOGRAPHY: {
     FONT_WEIGHT: any;
@@ -328,6 +335,22 @@ const styles = (theme: {
       width: '80%',
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
+    },
+    dropdown: {
+      height: 50,
+      borderColor: theme.COLORS.BLACK,
+      borderWidth: 0.5,
+      marginTop: 10,
+      borderRadius: 3,
+      paddingHorizontal: 8
+    },
+    dropdownError: {
+      height: 50,
+      borderColor: theme.COLORS.ERROR,
+      marginTop: 10,
+      borderWidth: 0.5,
+      borderRadius: 3,
+      paddingHorizontal: 8
     },
     multiLine: {
       width: '80%',
