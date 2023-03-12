@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -12,6 +12,7 @@ import { IRegisterFormFields } from './IRegisterFormFields';
 import { RegisterValidationSchema } from './RegisterFormValidations';
 import { RegisterModel } from './RegisterFormModel';
 import Information from '../../../../atoms/typographies/Information';
+import { NeutronLogo } from '../../../../../assets/image';
 
 export default function RegisterForm() {
   const [selected, setSelected] = useState<boolean>(false);
@@ -25,23 +26,14 @@ export default function RegisterForm() {
     console.log(values);
   };
   return (
-    <>
+    <ScrollView style={style.container}>
+      <View style={style.errroStyle}>
+      <View style={style.imageView}>
+      <Image 
+       source={NeutronLogo}
+       style={style.image}/>
+       </View>
       <View style={style.tabView}>
-        <Text
-          style={selected ? style.selectedStyle : style.regulerStyle}
-          onPress={() => setSelected(true)}
-        >
-          {i18n.t('loginPage.login')}{' '}
-        </Text>
-        <Text
-          style={[
-            selected ? style.regulerStyle : style.selectedStyle,
-            { marginLeft: 20 }
-          ]}
-          onPress={() => setSelected(false)}
-        >
-          {i18n.t('loginPage.register')}{' '}
-        </Text>
       </View>
       <Formik
         initialValues={RegisterInitialValues}
@@ -58,7 +50,7 @@ export default function RegisterForm() {
           isValid,
           isSubmitting
         }) => (
-          <>
+          <View style={style.inputView}>
             <FormGroup
               name={i18n.t('formFields.firstName')}
               id={'firstName'}
@@ -156,10 +148,11 @@ export default function RegisterForm() {
               marginTop={5}
             />
             <View style={style.marginView}></View>
-          </>
+          </View>
         )}
       </Formik>
-    </>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -180,12 +173,32 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      alignItems: 'center'
+      alignSelf: 'center',
+      width: '100%'
     },
     textInput: {
-      width: '80%',
+      width: '100%',
       marginTop: 25,
+      alignSelf:'center',
       backgroundColor: theme.COLORS.WHITE
+    },
+    image:{
+      height:190,
+      width:220,
+      borderWidth: 2,
+      borderColor: theme.COLORS.PRIMARY,
+      borderRadius: 10,
+      resizeMode:'contain',
+      alignSelf:"center"
+    },
+
+    
+    errroStyle:{
+      alignSelf:'center'
+    },
+    
+    imageView:{
+      marginTop: 60
     },
     textInputError: {
       width: '80%',

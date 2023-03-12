@@ -14,6 +14,7 @@ import ManageItems from '../screens/ManageItems';
 import Login from '../components/organisms/forms/users/logins/login';
 import DemoForm from '../components/organisms/forms/users/DIalogTesting/DemoForm';
 import ViewCart from '../screens/ViewCartScreen';
+import RegisterForm from '../components/organisms/forms/users/registers/RegisterForm';
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
@@ -27,7 +28,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={Login} />
+        <Tab.Screen name="Login" component={RegisterForm} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>

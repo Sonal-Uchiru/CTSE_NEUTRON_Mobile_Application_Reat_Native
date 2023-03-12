@@ -56,7 +56,7 @@ export default function Login() {
 
   return (
     <ScrollView style={style.container}>
-         <View style={style.errroStyle}>
+      <View style={style.errroStyle}>
       <View style={style.imageView}>
       <Image 
        source={NeutronLogo}
@@ -154,7 +154,7 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-     
+      width: '100%'
     },
 
     image:{
