@@ -35,8 +35,10 @@ export default function FormGroupWithDropDown({
         onChangeText={onChangeText}
         data={data}
       />
-      {error && (
+      {error ? (
         <InputLabel value={i18n.t(error)} labelstyle={mainStyle.errorText} />
+      ) : (
+        <InputLabel value={''} />
       )}
     </>
   );

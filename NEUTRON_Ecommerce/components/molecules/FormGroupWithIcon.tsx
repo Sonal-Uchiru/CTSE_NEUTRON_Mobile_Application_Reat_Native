@@ -53,8 +53,10 @@ export default function FormGroupWithIcon({
         callFunction={callFunction}
         borderColor={borderColor}
       />
-      {error && (
+      {error ? (
         <InputLabel value={i18n.t(error)} labelstyle={mainStyle.errorText} />
+      ) : (
+        <InputLabel value={''} />
       )}
     </>
   );
