@@ -81,8 +81,11 @@ export default function AddItemsForm() {
                   source={Iphone}
                   style={style.imageStyle}
                 />
-                <TouchableHighlight onPress={() => setPhotoDialogVisible(true)}>
-                  <Ionicons name={'pencil-outline'} style={style.icon} />
+                <TouchableHighlight
+                  underlayColor={theme.COLORS.WHITE}
+                  onPress={() => setPhotoDialogVisible(true)}
+                >
+                  <Ionicons name={'keypad-outline'} style={style.icon} />
                 </TouchableHighlight>
               </View>
               <FormGroupWithDropDown
@@ -263,6 +266,7 @@ export default function AddItemsForm() {
               />
               <View style={style.locationText}>
                 <TouchableHighlight
+                  underlayColor={theme.COLORS.WHITE}
                   onPress={() => setLocationDialogVisible(true)}
                 >
                   <Hyperlink value={i18n.t('addItemsForm.locationText')} />
@@ -380,7 +384,8 @@ const styles = (theme: {
     row: { flexDirection: 'row' },
     icon: {
       fontSize: theme.TYPOGRAPHY.FONT_SIZE.M2,
-      color: theme.COLORS.PRIMARY
+      color: theme.COLORS.PRIMARY,
+      marginTop: 130
     },
     locationText: {
       alignSelf: 'flex-start',
