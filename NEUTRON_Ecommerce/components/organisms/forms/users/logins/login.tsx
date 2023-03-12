@@ -55,13 +55,8 @@ export default function Login() {
 
 
   return (
-    <ScrollView style={style.container}>
-         <View style={style.errroStyle}>
-      <View style={style.imageView}>
-      <Image 
-       source={NeutronLogo}
-       style={style.image}/>
-       </View>
+   
+      <>
       <View style={style.tabView}>
         <HeadLine2 value={'Welcome To Neutron'} color={theme.COLORS.PRIMARY}/>
       </View>
@@ -132,8 +127,8 @@ export default function Login() {
           setIsError(false);
         }}
       />
-      </View>
-    </ScrollView>
+      </>
+
   );
 }
 
@@ -157,20 +152,6 @@ const styles = (theme: {
      
     },
 
-    image:{
-      height:190,
-      width:220,
-      borderWidth: 2,
-      borderColor: theme.COLORS.PRIMARY,
-      borderRadius: 10,
-      resizeMode:'contain',
-      alignSelf:"center"
-    },
-
-    imageView:{
-      marginTop: 60
-    },
-
     buttonView:{
       alignItems: 'center',
       alignSelf: 'center',
@@ -178,14 +159,14 @@ const styles = (theme: {
     },
 
     errroStyle:{
-      alignSelf:'center'
+      alignSelf:'center',
+      backgroundColor: theme.COLORS.WHITE,
     },
 
     text2:{
       color: theme.COLORS.PRIMARY,
       textDecorationLine:'underline'
     },
-
 
     textInput: {
       width: '100%',
@@ -194,6 +175,7 @@ const styles = (theme: {
       backgroundColor: theme.COLORS.WHITE,
   
     },
+    
     tabView: {
      alignSelf:'center',
       marginTop: 60
