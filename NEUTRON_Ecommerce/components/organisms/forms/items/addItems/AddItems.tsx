@@ -6,14 +6,11 @@ import FormGroup from '../../../../molecules/FormGroup';
 import useThemedStyles from '../../../../../theme/hooks/UseThemedStyles';
 import useTheme from '../../../../../theme/hooks/UseTheme';
 import ModalButton from '../../../../atoms/buttons/ModalButton';
-import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import { AddItemsInitialValues } from './AddItemsFormInitialValues';
 import { IAddItemsFormFields } from './IAddItemsFormFields';
 import { AddItemsValidationSchema } from './AddItemsFormValidations';
 import { AddItemsFormModel } from './AddItemsFormModel';
-import Information from '../../../../atoms/typographies/Information';
-import { Ionicons } from '@expo/vector-icons';
-import { Iphone } from '../../../../../assets/image';
+import { Iphone, Edit } from '../../../../../assets/image';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
 import LocationDialog from '../../../../../hooks/dialogs/LocationDialog';
@@ -46,14 +43,14 @@ export default function AddItemsForm() {
   ];
 
   function viewSecondStep(errors: FormikErrors<IAddItemsFormFields>) {
-    // errors.itemCategory != undefined ||
-    // errors.brand != undefined ||
-    // errors.itemName != undefined ||
-    // errors.quantity != undefined ||
-    // errors.unitPrice != undefined
-    //   ? setIsHidden(true)
-    //   : setIsHidden(false);
-    setIsHidden(!isHidden);
+    errors.itemCategory != undefined ||
+    errors.brand != undefined ||
+    errors.itemName != undefined ||
+    errors.quantity != undefined ||
+    errors.unitPrice != undefined
+      ? setIsHidden(true)
+      : setIsHidden(false);
+    // setIsHidden(!isHidden);
   }
 
   return (
@@ -85,7 +82,12 @@ export default function AddItemsForm() {
                   underlayColor={theme.COLORS.WHITE}
                   onPress={() => setPhotoDialogVisible(true)}
                 >
-                  <Ionicons name={'keypad-outline'} style={style.icon} />
+                  {/* <Ionicons name={'keypad-outline'} style={style.icon} /> */}
+                  <Image
+                    resizeMode="contain"
+                    source={Edit}
+                    style={style.imageIcon}
+                  />
                 </TouchableHighlight>
               </View>
               <FormGroupWithDropDown
@@ -379,6 +381,7 @@ const styles = (theme: {
       alignItems: 'center'
     },
     imageStyle: { height: 150, width: 200 },
+    imageIcon: { height: 25, width: 25, marginTop: 120 },
     editImageStyle: { height: 200, width: 250, marginBottom: 20 },
     column: { flexDirection: 'column' },
     row: { flexDirection: 'row' },
