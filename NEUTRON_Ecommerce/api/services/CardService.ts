@@ -3,12 +3,12 @@ import CardRepository from '../repositories/CardRepository';
 import { UpdateCardData } from '../../types/cards/UpdateCardData';
 import { CardModel } from '../../types/cards/CardModel';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import UserService from './UserService';
+import AuthenticationRepository from '../repositories/AuthenticationRepository';
 
 export class CardService {
   async addCardAsync(card: CreateCardData): Promise<void> {
     try {
-      card.uid = await UserService.getLoggedInUserUid();
+      card.uid = await AuthenticationRepository.getLoggedInUserUid();
       await CardRepository.addCardAsync(card);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -18,7 +18,7 @@ export class CardService {
   async updateCardAsync(card: UpdateCardData): Promise<void> {
     try {
       await CardRepository.getCardByIdAsync(card.docId);
-      card.uid = await UserService.getLoggedInUserUid();
+      card.uid = await AuthenticationRepository.getLoggedInUserUid();
       await CardRepository.updateCardAsync(card);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -37,7 +37,7 @@ export class CardService {
   async getCardListAsync(): Promise<CardModel[]> {
     try {
       const cards: CardModel[] = [];
-      const uid: string = await UserService.getLoggedInUserUid();
+      const uid: string = await AuthenticationRepository.getLoggedInUserUid();
 
       const querySnapshots: QuerySnapshot<DocumentData> =
         await CardRepository.getCardListAsync();
