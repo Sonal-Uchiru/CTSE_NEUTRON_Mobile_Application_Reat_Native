@@ -149,10 +149,11 @@ const en = {
     locationText: 'Set Item’s Actual location',
     next: 'Next',
     back: 'Back',
+    searchItems: 'Search Items...',
 
     itemCategory: 'Item Category',
     itemCategoryRequiredError: 'Item Category is required',
-    itemCategoryPlaceholder: 'Enter Item Category',
+    itemCategoryPlaceholder: 'Select Item Category',
 
     itemName: 'Item Name',
     itemNameRequiredError: 'Item Name is required',

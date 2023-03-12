@@ -1,8 +1,6 @@
-import { TextInput, Text } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
-import { COLORS } from '../../theme/styles/Colors';
-import { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
+import i18n from 'i18n-js';
 
 interface props {
   value: string;
@@ -21,24 +19,7 @@ export default function DropDownField({
   data
 }: //   data
 props) {
-  const [values, setValue] = useState('');
-  const [isFocus, setIsFocus] = useState(false);
-
   return (
-    // <TextInput
-    //   label={name}
-    //   // id={id}
-    //   mode={'outlined'}
-    //   placeholder={placeholder}
-    //   style={fieldstyle}
-    //   onChangeText={onChangeText}
-    //   onBlur={onBlur}
-    //   value={value}
-    //   theme={{ colors: { primary: borderColor } }}
-    //   autoCapitalize="none"
-    //   multiline={multiLine}
-    //   numberOfLines={noOfLines}
-    // />
     <View style={{ width: '80%' }}>
       <Dropdown
         style={fieldstyle}
@@ -47,7 +28,7 @@ props) {
         search
         maxHeight={300}
         placeholder={placeholder}
-        searchPlaceholder="Search..."
+        searchPlaceholder={i18n.t('addItemsForm.searchItems')}
         data={data}
         labelField="value"
         valueField="value"
