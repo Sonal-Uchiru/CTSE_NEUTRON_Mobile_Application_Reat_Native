@@ -1,26 +1,28 @@
 import CardRepository from '../repositories/CardRepository';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import ExpoLocalStorage from '../../authentication/secure_stores/ExpoLocalStorage';
 import { CreateCartItemData } from '../../types/cart_Items/CreateCartItemData';
 import CartItemRepository from '../repositories/CartItemRepository';
 import { UpdateCartItemData } from '../../types/cart_Items/UpdateCartItemData';
 import { CartItemModel } from '../../types/cart_Items/CartItemModel';
 import { ItemModel } from '../../types/items/ItemModel';
 import ItemService from './ItemService';
+import AuthenticationRepository from '../repositories/AuthenticationRepository';
 
 export class CartItemService {
   async addCartItemAsync(cartItem: CreateCartItemData): Promise<void> {
     try {
+      cartItem.uid = await AuthenticationRepository.getLoggedInUserUid();
       await CartItemRepository.addCartItemAsync(cartItem);
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
-  async updateCartItemAsync(cardItem: UpdateCartItemData): Promise<void> {
+  async updateCartItemAsync(cartItem: UpdateCartItemData): Promise<void> {
     try {
-      await CartItemRepository.getCartItemByIdAsync(cardItem.docId);
-      await CartItemRepository.updateCartItemAsync(cardItem);
+      await CartItemRepository.getCartItemByIdAsync(cartItem.docId);
+      cartItem.uid = await AuthenticationRepository.getLoggedInUserUid();
+      await CartItemRepository.updateCartItemAsync(cartItem);
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -38,12 +40,7 @@ export class CartItemService {
   async getCartItemListAsync(): Promise<CartItemModel[]> {
     try {
       const cartItems: CartItemModel[] = [];
-      const uid: string | null =
-        await ExpoLocalStorage.getTokenFromLocalStorageAsync();
-
-      if (!uid) {
-        return cartItems;
-      }
+      const uid = await AuthenticationRepository.getLoggedInUserUid();
 
       const querySnapshots: QuerySnapshot<DocumentData> =
         await CartItemRepository.getCartItemListAsync();

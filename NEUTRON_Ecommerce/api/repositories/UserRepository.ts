@@ -1,6 +1,6 @@
 import { CreateUserData } from '../../types/users/CreateUserData';
 import { UpdateUserData } from '../../types/users/UpdateUserData';
-import { Auth, FireStoreDB } from './../../utils/firebase/Configuration';
+import { FireStoreDB } from './../../utils/firebase/Configuration';
 import {
   collection,
   doc,
@@ -11,6 +11,7 @@ import {
   getDocs,
   QuerySnapshot
 } from 'firebase/firestore';
+import AuthenticationRepository from './AuthenticationRepository';
 
 class UserRepository {
   async addUserAsync(uid: string, user: CreateUserData): Promise<void> {
@@ -23,7 +24,14 @@ class UserRepository {
 
   async updateUserAsync(user: UpdateUserData): Promise<void> {
     try {
-      await setDoc(doc(FireStoreDB, 'users', this.getLoggedInUserId()), { ...user });
+      await setDoc(
+        doc(
+          FireStoreDB,
+          'users',
+          await AuthenticationRepository.getLoggedInUserUid()
+        ),
+        { ...user }
+      );
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -31,9 +39,16 @@ class UserRepository {
 
   async updateUserProfilePicture(profileImageUrl: string) {
     try {
-      await setDoc(doc(FireStoreDB, 'users', this.getLoggedInUserId()), {
-        profileImageUrl: profileImageUrl
-      });
+      await setDoc(
+        doc(
+          FireStoreDB,
+          'users',
+          await AuthenticationRepository.getLoggedInUserUid()
+        ),
+        {
+          profileImageUrl: profileImageUrl
+        }
+      );
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -41,7 +56,13 @@ class UserRepository {
 
   async deleteUserAsync(): Promise<void> {
     try {
-      await deleteDoc(doc(FireStoreDB, 'users', this.getLoggedInUserId()));
+      await deleteDoc(
+        doc(
+          FireStoreDB,
+          'users',
+          await AuthenticationRepository.getLoggedInUserUid()
+        )
+      );
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -57,8 +78,11 @@ class UserRepository {
 
   async getUserAsync(): Promise<DocumentData> {
     try {
-      const user = Auth.currentUser;
-      const docRef = doc(FireStoreDB, 'users', user!.uid);
+      const docRef = doc(
+        FireStoreDB,
+        'users',
+        await AuthenticationRepository.getLoggedInUserUid()
+      );
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -70,15 +94,6 @@ class UserRepository {
     } catch (error) {
       throw new Error((error as Error).message);
     }
-  }
-
-  private getLoggedInUserId(): string {
-    const user = Auth.currentUser;
-    if (!user) {
-      throw new Error('Unauthorized');
-    }
-
-    return user.uid;
   }
 }
 

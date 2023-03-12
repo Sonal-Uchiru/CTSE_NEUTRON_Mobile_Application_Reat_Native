@@ -3,11 +3,12 @@ import CardRepository from '../repositories/CardRepository';
 import { UpdateCardData } from '../../types/cards/UpdateCardData';
 import { CardModel } from '../../types/cards/CardModel';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import ExpoLocalStorage from '../../authentication/secure_stores/ExpoLocalStorage';
+import UserService from './UserService';
 
 export class CardService {
   async addCardAsync(card: CreateCardData): Promise<void> {
     try {
+      card.uid = await UserService.getLoggedInUserUid();
       await CardRepository.addCardAsync(card);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -17,6 +18,7 @@ export class CardService {
   async updateCardAsync(card: UpdateCardData): Promise<void> {
     try {
       await CardRepository.getCardByIdAsync(card.docId);
+      card.uid = await UserService.getLoggedInUserUid();
       await CardRepository.updateCardAsync(card);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -35,12 +37,7 @@ export class CardService {
   async getCardListAsync(): Promise<CardModel[]> {
     try {
       const cards: CardModel[] = [];
-      const uid: string | null =
-        await ExpoLocalStorage.getTokenFromLocalStorageAsync();
-
-      if (!uid) {
-        return cards;
-      }
+      const uid: string = await UserService.getLoggedInUserUid();
 
       const querySnapshots: QuerySnapshot<DocumentData> =
         await CardRepository.getCardListAsync();
@@ -82,7 +79,7 @@ export class CardService {
         content['nameOnCard'],
         content['expiryDate'],
         content['uid']
-      )
+      );
     } catch (error) {
       throw new Error((error as Error).message);
     }
