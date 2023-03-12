@@ -153,10 +153,11 @@ const sin = {
     locationText: 'අයිතමයේ සැබෑ ස්ථානය සකසන්න',
     next: 'ඊළඟ',
     back: 'ආපසු යන්න',
+    searchItems: 'අයිතම සොයන්න...',
 
     itemCategory: 'අයිතම කාණ්ඩය',
-    itemCategoryRequiredError: 'පළමු නම අවශ්ය වේ',
-    itemCategoryPlaceholder: 'මුල් නම ඇතුලත් කරන්න',
+    itemCategoryRequiredError: 'අයිතම කාණ්ඩය අවශ්ය වේ',
+    itemCategoryPlaceholder: 'අයිතම කාණ්ඩය තෝරන්න',
 
     itemName: 'භාණ්ඩයෙ නම',
     itemNameRequiredError: 'අයිතමයේ නම අවශ්‍ය වේ',

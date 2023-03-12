@@ -6,17 +6,15 @@ import FormGroup from '../../../../molecules/FormGroup';
 import useThemedStyles from '../../../../../theme/hooks/UseThemedStyles';
 import useTheme from '../../../../../theme/hooks/UseTheme';
 import ModalButton from '../../../../atoms/buttons/ModalButton';
-import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import { AddItemsInitialValues } from './AddItemsFormInitialValues';
 import { IAddItemsFormFields } from './IAddItemsFormFields';
 import { AddItemsValidationSchema } from './AddItemsFormValidations';
 import { AddItemsFormModel } from './AddItemsFormModel';
-import Information from '../../../../atoms/typographies/Information';
-import { Ionicons } from '@expo/vector-icons';
-import { Iphone } from '../../../../../assets/image';
+import { Iphone, Edit } from '../../../../../assets/image';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
 import LocationDialog from '../../../../../hooks/dialogs/LocationDialog';
+import FormGroupWithDropDown from '../../../../molecules/FormGroupWithDropDown';
 
 export default function AddItemsForm() {
   const [isHidden, setIsHidden] = useState<boolean>(true);
@@ -31,15 +29,28 @@ export default function AddItemsForm() {
   const hideLocationDialog = () => setLocationDialogVisible(false);
 
   const registerAsync = async (values: IAddItemsFormFields) => {};
+
+  let data = [
+    {
+      value: 'Mobile'
+    },
+    {
+      value: 'Electric'
+    },
+    {
+      value: 'Gaming'
+    }
+  ];
+
   function viewSecondStep(errors: FormikErrors<IAddItemsFormFields>) {
-    // errors.itemCategory != undefined ||
-    // errors.brand != undefined ||
-    // errors.itemName != undefined ||
-    // errors.quantity != undefined ||
-    // errors.unitPrice != undefined
-    //   ? setIsHidden(true)
-    //   : setIsHidden(false);
-    setIsHidden(!isHidden);
+    errors.itemCategory != undefined ||
+    errors.brand != undefined ||
+    errors.itemName != undefined ||
+    errors.quantity != undefined ||
+    errors.unitPrice != undefined
+      ? setIsHidden(true)
+      : setIsHidden(false);
+    // setIsHidden(!isHidden);
   }
 
   return (
@@ -67,28 +78,29 @@ export default function AddItemsForm() {
                   source={Iphone}
                   style={style.imageStyle}
                 />
-                <TouchableHighlight onPress={() => setPhotoDialogVisible(true)}>
-                  <Ionicons name={'pencil-outline'} style={style.icon} />
+                <TouchableHighlight
+                  underlayColor={theme.COLORS.WHITE}
+                  onPress={() => setPhotoDialogVisible(true)}
+                >
+                  {/* <Ionicons name={'keypad-outline'} style={style.icon} /> */}
+                  <Image
+                    resizeMode="contain"
+                    source={Edit}
+                    style={style.imageIcon}
+                  />
                 </TouchableHighlight>
               </View>
-              <FormGroup
-                name={i18n.t('addItemsForm.itemCategory')}
-                id={'itemCategory'}
+              <FormGroupWithDropDown
                 fieldstyle={
-                  errors.itemCategory ? style.textInputError : style.textInput
+                  errors.itemCategory ? style.dropdownError : style.dropdown
                 }
                 onChangeText={handleChange('itemCategory')}
-                onBlur={handleBlur('itemCategory')}
                 placeholder={i18n.t(
                   AddItemsFormModel.itemCategory.itemCategoryPlaceholder
                 )}
                 fieldvalue={values.itemCategory}
                 error={errors.itemCategory}
-                borderColor={
-                  errors.itemCategory
-                    ? theme.COLORS.ERROR
-                    : theme.COLORS.PRIMARY
-                }
+                data={data}
               />
               <FormGroup
                 name={i18n.t('addItemsForm.itemName')}
@@ -256,6 +268,7 @@ export default function AddItemsForm() {
               />
               <View style={style.locationText}>
                 <TouchableHighlight
+                  underlayColor={theme.COLORS.WHITE}
                   onPress={() => setLocationDialogVisible(true)}
                 >
                   <Hyperlink value={i18n.t('addItemsForm.locationText')} />
@@ -304,6 +317,7 @@ const styles = (theme: {
     ERROR: string;
     ACTION: string;
     GREY: string;
+    BLACK: string;
   };
   TYPOGRAPHY: {
     FONT_WEIGHT: any;
@@ -328,6 +342,22 @@ const styles = (theme: {
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
     },
+    dropdown: {
+      height: 50,
+      borderColor: theme.COLORS.BLACK,
+      borderWidth: 0.5,
+      marginTop: 10,
+      borderRadius: 3,
+      paddingHorizontal: 8
+    },
+    dropdownError: {
+      height: 50,
+      borderColor: theme.COLORS.ERROR,
+      marginTop: 10,
+      borderWidth: 0.5,
+      borderRadius: 3,
+      paddingHorizontal: 8
+    },
     multiLine: {
       width: '80%',
       height: 130,
@@ -351,12 +381,14 @@ const styles = (theme: {
       alignItems: 'center'
     },
     imageStyle: { height: 150, width: 200 },
+    imageIcon: { height: 25, width: 25, marginTop: 120 },
     editImageStyle: { height: 200, width: 250, marginBottom: 20 },
     column: { flexDirection: 'column' },
     row: { flexDirection: 'row' },
     icon: {
       fontSize: theme.TYPOGRAPHY.FONT_SIZE.M2,
-      color: theme.COLORS.PRIMARY
+      color: theme.COLORS.PRIMARY,
+      marginTop: 130
     },
     locationText: {
       alignSelf: 'flex-start',

@@ -8,6 +8,8 @@ import useThemedStyles from '../../theme/hooks/UseThemedStyles';
 import i18n from 'i18n-js';
 import ModalButton from '../../components/atoms/buttons/ModalButton';
 import FormGroupWithIcon from '../../components/molecules/FormGroupWithIcon';
+import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 
 interface props {
   isVisible: boolean;
@@ -18,7 +20,23 @@ export default function LocationDialog({ isVisible, dismissFunc }: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const [searchText, setSearchText] = useState('');
+  const [region, setRegion] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421
+  });
 
+  function onRegionChange(
+    region: React.SetStateAction<{
+      latitude: number;
+      longitude: number;
+      latitudeDelta: number;
+      longitudeDelta: number;
+    }>
+  ) {
+    setRegion(region);
+  }
   return (
     <Portal>
       <Dialog
@@ -41,7 +59,13 @@ export default function LocationDialog({ isVisible, dismissFunc }: props) {
             iconSecond={'magnify'}
             callFunction={undefined}
           />
-          <View style={style.locationCard}></View>
+          <View style={style.locationCard}>
+            <MapView
+              style={style.mapStyle}
+              region={region}
+              onRegionChange={onRegionChange}
+            ></MapView>
+          </View>
           <View style={style.bottonView}>
             <ModalButton
               value={i18n.t('buttons.cancel')}
@@ -104,5 +128,9 @@ const styles = (theme: {
     },
     textInput: {
       backgroundColor: theme.COLORS.WHITE
+    },
+    mapStyle: {
+      marginTop: 15,
+      height: 350
     }
   });

@@ -5,53 +5,35 @@ import InputLabel from '../atoms/InputLabel';
 import useTransition from 'react';
 import i18n from 'i18n-js';
 import Paragraph from '../atoms/typographies/Paragraph';
-import InputFieldWithIcon from '../atoms/InputFieldWithIcon';
+import { COLORS } from '../../theme/styles/Colors';
+import DropDownField from '../atoms/DropDownField';
 
 interface props {
-  name: string;
-  id: string;
   fieldvalue: string;
   placeholder: string;
   fieldstyle: any;
   onChangeText: any;
-  onBlur?: any;
   error: any;
-  iconFirst: string;
-  iconSecond: string;
-  hiddenStatus?: boolean;
-  callFunction?: any;
-  borderColor?: string;
+  data: {
+    value: string;
+  }[];
 }
-export default function FormGroupWithIcon({
-  name,
-  id,
+export default function FormGroupWithDropDown({
   fieldvalue,
   placeholder,
   fieldstyle,
   onChangeText,
-  onBlur,
   error,
-  iconFirst,
-  iconSecond,
-  hiddenStatus = false,
-  callFunction,
-  borderColor
+  data
 }: props) {
   return (
     <>
-      <InputFieldWithIcon
+      <DropDownField
         value={fieldvalue}
-        name={name}
-        id={id}
         placeholder={placeholder}
         fieldstyle={fieldstyle}
         onChangeText={onChangeText}
-        onBlur={onBlur}
-        iconFirst={iconFirst}
-        iconSecond={iconSecond}
-        hiddenStatus={hiddenStatus}
-        callFunction={callFunction}
-        borderColor={borderColor}
+        data={data}
       />
       {error ? (
         <InputLabel value={i18n.t(error)} labelstyle={mainStyle.errorText} />
