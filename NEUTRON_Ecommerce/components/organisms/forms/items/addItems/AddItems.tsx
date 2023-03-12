@@ -17,6 +17,7 @@ import { Iphone } from '../../../../../assets/image';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
 import LocationDialog from '../../../../../hooks/dialogs/LocationDialog';
+import FormGroupWithDropDown from '../../../../molecules/FormGroupWithDropDown';
 
 export default function AddItemsForm() {
   const [isHidden, setIsHidden] = useState<boolean>(true);
@@ -71,7 +72,7 @@ export default function AddItemsForm() {
                   <Ionicons name={'pencil-outline'} style={style.icon} />
                 </TouchableHighlight>
               </View>
-              <FormGroup
+              <FormGroupWithDropDown
                 name={i18n.t('addItemsForm.itemCategory')}
                 id={'itemCategory'}
                 fieldstyle={
