@@ -30,6 +30,7 @@ const en = {
     contactRequiredError: 'Contact Number is required',
     contactPlaceholder: 'Contact Number',
 
+
     lastName: 'Last Name',
     lastNameRequiredError: 'Last Name is required',
     lastNamePlaceholder: 'Last Name',
