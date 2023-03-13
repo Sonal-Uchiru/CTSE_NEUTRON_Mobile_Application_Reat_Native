@@ -26,6 +26,7 @@ import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
 import { horizontalScale } from '../../../../../responsive/Metrics';
 import Paragraph from '../../../../atoms/typographies/Paragraph';
 
+
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -128,7 +129,6 @@ export default function Login() {
             value={i18n.t('loginPage.signUp')}
             marginTop={2}
             />
-        
             </View>
           </View>
         )}
@@ -161,13 +161,13 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      
+      width: '100%'
     },
 
     buttonView:{
       alignItems: 'center',
       alignSelf: 'center',
-      marginTop: 40
+      marginTop: 50
     },
 
     errroStyle:{

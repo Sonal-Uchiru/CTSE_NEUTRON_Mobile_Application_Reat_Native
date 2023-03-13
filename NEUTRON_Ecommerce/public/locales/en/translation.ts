@@ -28,7 +28,8 @@ const en = {
 
     contact: 'Contact Number',
     contactRequiredError: 'Contact Number is required',
-    ContactPlaceholder: 'Contact Number',
+    contactPlaceholder: 'Contact Number',
+
 
     lastName: 'Last Name',
     lastNameRequiredError: 'Last Name is required',
@@ -72,7 +73,8 @@ const en = {
     stay: 'Stay',
     sendcode: 'Send code',
     verifyCode: 'Verify code',
-    deleteMyAccount: 'Delete My Account'
+    deleteMyAccount: 'Delete My Account',
+    addToCart: 'Add To Cart'
   },
   forgotPasswordFormCommon: {
     title: 'Forgot Password?',
@@ -212,6 +214,10 @@ const en = {
     items: 'items',
     checkoutBtn: 'Proceed to checkout',
     removeBtn: 'Remove'
+  },
+  viewItemPage:{
+    title: 'All Items',
+    subTitle: 'Find your items'
   }
 };
 

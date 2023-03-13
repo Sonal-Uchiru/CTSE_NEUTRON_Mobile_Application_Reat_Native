@@ -29,7 +29,7 @@ const sin = {
 
     contact: 'ඇමතුම් අංකය',
     contactRequiredError: 'ඇමතුම් අංකය අවශ්ය වේ',
-    ContactPlaceholder: 'ඇමතුම් අංකය ඇතුලත් කරන්න',
+    contactPlaceholder: 'ඇමතුම් අංකය ඇතුලත් කරන්න',
 
     lastName: 'අවසන් නම',
     lastNameRequiredError: 'අවසාන නම අවශ්ය වේ',
@@ -73,7 +73,8 @@ const sin = {
     stay: 'ඉන්න',
     sendcode: 'කේතය යවන්න',
     verifyCode: 'තහවුරු කිරීමේ කේතය',
-    deleteMyAccount: 'මගේ ගිණුම මකන්න'
+    deleteMyAccount: 'මගේ ගිණුම මකන්න',
+    addToCart: 'කරත්තයට එකතු කරන්න'
   },
   forgotPasswordFormCommon: {
     title: 'මුරපදය අමතක වුණා ද?',
@@ -216,6 +217,11 @@ const sin = {
     items: 'අයිතම',
     checkoutBtn: 'පරීක්ෂා කිරීම වෙත යන්න',
     removeBtn: 'ඉවත් කරන්න'
+  },
+
+  viewItemPage:{
+    title: 'සියලු අයිතම',
+    subTitle: 'ඔබේ අයිතම සොයා ගන්න'
   }
 };
 
