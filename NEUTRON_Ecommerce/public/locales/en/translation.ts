@@ -15,20 +15,24 @@ const en = {
     passwordValidationError: 'This is a weak password',
     passwordRequiredError: 'Password is required',
     password: 'Password',
-    passwordPlaceholder: 'Enter Password',
+    passwordPlaceholder: 'Password',
 
     emailValidationError: `Please include '@' and '.com' in the email address`,
     emailRequiredError: 'Email is required',
     email: 'Email',
-    emailPlaceholder: 'Enter Email',
+    emailPlaceholder: 'Email',
 
     firstName: 'First Name',
     firstNameRequiredError: 'First Name is required',
-    firstNamePlaceholder: 'Enter First Name',
+    firstNamePlaceholder: 'First Name',
+
+    contact: 'Contact Number',
+    contactRequiredError: 'Contact Number is required',
+    ContactPlaceholder: 'Contact Number',
 
     lastName: 'Last Name',
     lastNameRequiredError: 'Last Name is required',
-    lastNamePlaceholder: 'Enter Last Name',
+    lastNamePlaceholder: 'Last Name',
 
     reEnterPassword: 'Re-Enter Password',
     misMatchErrorMessage: 'Passwords mismatch',
@@ -105,7 +109,11 @@ const en = {
   registerPage: {
     registerBtnTitle: 'Create Account',
     termsAndConditions:
-      'By clicking on create account button you agree to the terms and conditions.'
+      'By clicking on create account button you agree to the terms and conditions.',
+    alreadyHaveAccount: 'Already Have an account?',
+    loginHere: 'Login Here',
+    terms:'Terms & Conditions',
+    back: 'Back'
   },
   helpPage: {
     help: 'Help',

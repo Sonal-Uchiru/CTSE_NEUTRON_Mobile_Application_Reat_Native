@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -12,7 +12,10 @@ import { IRegisterFormFields } from './IRegisterFormFields';
 import { RegisterValidationSchema } from './RegisterFormValidations';
 import { RegisterModel } from './RegisterFormModel';
 import Information from '../../../../atoms/typographies/Information';
-import { NeutronLogo } from '../../../../../assets/image';
+import { horizontalScale, verticalScale } from '../../../../../responsive/Metrics';
+import Paragraph from '../../../../atoms/typographies/Paragraph';
+import Hyperlink from '../../../../atoms/typographies/HyperLink';
+import { COLORS } from '../../../../../theme/styles/Colors';
 
 export default function RegisterForm() {
   const [selected, setSelected] = useState<boolean>(false);
@@ -26,15 +29,7 @@ export default function RegisterForm() {
     console.log(values);
   };
   return (
-    <ScrollView style={style.container}>
-      <View style={style.errroStyle}>
-      <View style={style.imageView}>
-      <Image 
-       source={NeutronLogo}
-       style={style.image}/>
-       </View>
-      <View style={style.tabView}>
-      </View>
+    <>
       <Formik
         initialValues={RegisterInitialValues}
         onSubmit={(values) => registerAsync(values)}
@@ -50,7 +45,10 @@ export default function RegisterForm() {
           isValid,
           isSubmitting
         }) => (
-          <View style={style.inputView}>
+          <View style={style.container}>
+          <View style={style.tabView}>
+          <View style={style.tabView2}>
+          <View style={style.tabView3}>
             <FormGroup
               name={i18n.t('formFields.firstName')}
               id={'firstName'}
@@ -66,6 +64,11 @@ export default function RegisterForm() {
                 errors.firstName ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
             />
+      </View> 
+      </View> 
+        
+        <View style={style.tabView2}>
+        <View style={style.tabView3}>
             <FormGroup
               name={i18n.t('formFields.lastName')}
               id={'lastName'}
@@ -81,10 +84,14 @@ export default function RegisterForm() {
                 errors.lastName ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
             />
+              </View> 
+              </View>
+              </View> 
+          
             <FormGroup
               name={i18n.t('formFields.email')}
               id={'email'}
-              fieldstyle={errors.email ? style.textInputError : style.textInput}
+              fieldstyle={errors.email ? style.textInputError2 : style.textInput2}
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               placeholder={i18n.t(RegisterModel.email.emailPlaceholder)}
@@ -94,19 +101,35 @@ export default function RegisterForm() {
                 errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
             />
+
+            <FormGroup
+              name={i18n.t('formFields.contact')}
+              id={'contact'}
+              fieldstyle={errors.contact ? style.textInputError2 : style.textInput2}
+              onChangeText={handleChange('contact')}
+              onBlur={handleBlur('contact')}
+              placeholder={i18n.t(RegisterModel.contact.contactPlaceholder)}
+              fieldvalue={values.contact}
+              error={errors.contact}
+              borderColor={
+                errors.contact ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+              }
+            />
+
+
             <FormGroupWithIcon
               name={i18n.t('formFields.password')}
               id={'password'}
               fieldvalue={values.password}
               placeholder={i18n.t(RegisterModel.password.passwordPlaceholder)}
               fieldstyle={
-                errors.password ? style.textInputError : style.textInput
+                errors.password ? style.textInputError2 : style.textInput2
               }
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               error={errors.password}
-              iconFirst={'eye'}
-              iconSecond={'eye-off'}
+              iconFirst={'eye-off'}
+              iconSecond={'eye'}
               hiddenStatus={showPassword}
               callFunction={() => setShowPassword(!showPassword)}
               borderColor={
@@ -121,13 +144,13 @@ export default function RegisterForm() {
                 RegisterModel.reEnterPassword.reEnterPasswordPlaceholder
               )}
               fieldstyle={
-                errors.reEnterPassword ? style.textInputError : style.textInput
+                errors.reEnterPassword ? style.textInputError2 : style.textInput2
               }
               onChangeText={handleChange('reEnterPassword')}
               onBlur={handleBlur('reEnterPassword')}
               error={errors.reEnterPassword}
-              iconFirst={'eye'}
-              iconSecond={'eye-off'}
+              iconFirst={'eye-off'}
+              iconSecond={'eye'}
               hiddenStatus={showReEnterPassword}
               callFunction={() => setShowReEnterPassword(!showReEnterPassword)}
               borderColor={
@@ -137,22 +160,53 @@ export default function RegisterForm() {
               }
             />
             <View style={style.marginView}></View>
+
+            <View style={style.termsView}>
+            <Hyperlink
+            value={i18n.t('registerPage.terms')}
+            marginTop={5}
+            />
+            </View>
+            
+
             <ModalButton
+              width={horizontalScale(150)}
               value={i18n.t('registerPage.registerBtnTitle')}
               color={theme.COLORS.PRIMARY}
               callFunction={() => handleSubmit()}
               disabled={!isValid}
+              marginTop={25}
             />
-            <Information
+
+          
+            {/* <Information
               value={i18n.t('registerPage.termsAndConditions')}
               marginTop={5}
+            /> */}
+            <View style={style.row1}>
+            <Paragraph 
+            value={i18n.t('registerPage.alreadyHaveAccount')}
+            marginTop={10}
+            marginRight={5}
             />
+
+            <Hyperlink
+            value={i18n.t('registerPage.loginHere')}
+            marginTop={10}
+            />
+            </View>
+            
             <View style={style.marginView}></View>
+
+            <Hyperlink
+            value={i18n.t('registerPage.back')}
+            color={COLORS.PRIMARY}
+            marginTop={10}
+            />
           </View>
         )}
       </Formik>
-      </View>
-    </ScrollView>
+    </>
   );
 }
 
@@ -171,62 +225,72 @@ const styles = (theme: {
 }) =>
   StyleSheet.create({
     container: {
-      flex: 1,
+      flex:1,
+      alignItems:'center',
       backgroundColor: theme.COLORS.WHITE,
-      alignSelf: 'center',
-      width: '100%'
+    
     },
     textInput: {
-      width: '100%',
+      width: horizontalScale(130),
       marginTop: 25,
-      alignSelf:'center',
       backgroundColor: theme.COLORS.WHITE
     },
-    image:{
-      height:190,
-      width:220,
-      borderWidth: 2,
-      borderColor: theme.COLORS.PRIMARY,
-      borderRadius: 10,
-      resizeMode:'contain',
-      alignSelf:"center"
+
+    textInput2: {
+      width: horizontalScale(300),
+      marginTop: 25,
+      backgroundColor: theme.COLORS.WHITE
     },
 
-    
-    errroStyle:{
-      alignSelf:'center'
-    },
-    
-    imageView:{
-      marginTop: 60
-    },
     textInputError: {
-      width: '80%',
+      width: horizontalScale(130),
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
     },
+
+    
+    textInputError2: {
+      width: horizontalScale(300),
+      marginTop: 10,
+      backgroundColor: theme.COLORS.WHITE
+    },
+
+    termsView:{
+      alignItems:'flex-end',
+      justifyContent:'flex-end',
+      alignSelf:'flex-end',
+      marginRight: horizontalScale(20),
+      marginTop: 10
+    },
+
     tabView: {
       flexDirection: 'row',
-      alignSelf: 'flex-start',
-      marginLeft: 40,
-      marginTop: 20
+      marginTop: 20,
+      alignItems:'center'
+    
     },
+
+    tabView2:{
+      flexDirection: 'column',
+      marginLeft: 20,
+      marginRight: 20
+      
+  
+    },
+
     hyperlinkText: {
       flexDirection: 'row',
       alignSelf: 'flex-end',
       marginBottom: 10,
       marginRight: 40
     },
-    selectedStyle: {
-      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.bold,
-      textDecorationLine: 'underline',
-      textDecorationColor: theme.COLORS.ACTION
-    },
-    regulerStyle: {
-      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.normel,
-      color: theme.COLORS.GREY
-    },
+   
     marginView: {
-      marginTop: 10
+      marginTop: 2
+    },
+
+    
+    row1: {
+      flexDirection:'row'
     }
   });
