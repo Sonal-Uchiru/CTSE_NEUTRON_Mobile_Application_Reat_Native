@@ -30,7 +30,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={UserRegisterScreen} />
+        <Tab.Screen name="Login" component={LoginScreen} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
