@@ -19,9 +19,9 @@ export const RegisterModel = {
 
   contact: {
     initialValue: '',
-    contactPlaceholder: 'formFields.conatctPlaceholder',
-    validationErrorMessage: 'formFields.conatctValidationError',
-    requiredErrorMessage: 'formFields.conatctRequiredError'
+    contactPlaceholder: 'formFields.contactPlaceholder',
+    validationErrorMessage: 'formFields.contactValidationError',
+    requiredErrorMessage: 'formFields.contactRequiredError'
 
   },
   password: {
