@@ -23,6 +23,8 @@ import * as ImagePicker from 'expo-image-picker';
 import authenticationTest from '../../../../../api/repositories/authenticationTest';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
 import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
+import { horizontalScale } from '../../../../../responsive/Metrics';
+import Paragraph from '../../../../atoms/typographies/Paragraph';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -58,7 +60,7 @@ export default function Login() {
    
       <>
       <View style={style.tabView}>
-        <HeadLine2 value={'Welcome To Neutron'} color={theme.COLORS.PRIMARY}/>
+        <HeadLine2 value={i18n.t('loginPage.title')} color={theme.COLORS.PRIMARY}/>
       </View>
       <Formik
         initialValues={LoginInitialValues}
@@ -116,7 +118,17 @@ export default function Login() {
             />
             </View> 
             <View style={style.marginView}>
-              <Text>Don’t have an account? <Text style={style.text2}>Sign up</Text></Text>
+            <Paragraph 
+            value={i18n.t('loginPage.createAccountLink')}
+            marginTop={2}
+            marginRight={5}
+            />
+
+            <Hyperlink
+            value={i18n.t('loginPage.signUp')}
+            marginTop={2}
+            />
+        
             </View>
           </View>
         )}
@@ -149,13 +161,13 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      width: '100%'
+      
     },
 
     buttonView:{
       alignItems: 'center',
       alignSelf: 'center',
-      marginTop: 50
+      marginTop: 40
     },
 
     errroStyle:{
@@ -169,7 +181,7 @@ const styles = (theme: {
     },
 
     textInput: {
-      width: '100%',
+      width: horizontalScale(300),
       marginTop: 25,
       alignSelf:'center',
       backgroundColor: theme.COLORS.WHITE,
@@ -184,7 +196,8 @@ const styles = (theme: {
     marginView: {
       marginBottom: 30,
       marginTop: 30,
-      alignSelf:'center'
+      alignSelf:'center',
+      flexDirection:'row'
 
     }
   });
