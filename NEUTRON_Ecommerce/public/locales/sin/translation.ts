@@ -221,7 +221,11 @@ const sin = {
 
   viewItemPage:{
     title: 'සියලු අයිතම',
-    subTitle: 'ඔබේ අයිතම සොයා ගන්න'
+    subTitle: 'ඔබේ අයිතම සොයා ගන්න',
+    searchLabel: 'අයිතම සොයන්න',
+    searchPlaceHolder: 'අයිතම සොයන්න....',
+    removeBtn: 'ඉවත් කරන්න',
+    editBtn: 'සංස්කරණය කරන්න'
   }
 };
 
