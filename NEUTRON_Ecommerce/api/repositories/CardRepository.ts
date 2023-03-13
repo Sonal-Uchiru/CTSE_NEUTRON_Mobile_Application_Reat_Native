@@ -22,9 +22,9 @@ class CardRepository {
     }
   }
 
-  async updateCardAsync(card: UpdateCardData): Promise<void> {
+  async updateCardAsync(docId: string, card: UpdateCardData): Promise<void> {
     try {
-      await setDoc(doc(FireStoreDB, 'cards', card.docId), { ...card });
+      await setDoc(doc(FireStoreDB, 'cards', docId), { ...card });
     } catch (error) {
       throw new Error((error as Error).message);
     }

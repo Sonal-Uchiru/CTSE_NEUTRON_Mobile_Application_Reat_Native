@@ -15,11 +15,11 @@ export class CardService {
     }
   }
 
-  async updateCardAsync(card: UpdateCardData): Promise<void> {
+  async updateCardAsync(docId: string, card: UpdateCardData): Promise<void> {
     try {
-      await CardRepository.getCardByIdAsync(card.docId);
+      await CardRepository.getCardByIdAsync(docId);
       card.uid = await AuthenticationRepository.getLoggedInUserUid();
-      await CardRepository.updateCardAsync(card);
+      await CardRepository.updateCardAsync(docId, card);
     } catch (error) {
       throw new Error((error as Error).message);
     }

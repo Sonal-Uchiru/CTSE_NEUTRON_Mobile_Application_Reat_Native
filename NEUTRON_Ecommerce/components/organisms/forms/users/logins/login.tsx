@@ -25,6 +25,10 @@ import ItemService from '../../../../../api/services/ItemService';
 import UserService from '../../../../../api/services/UserService';
 import { CreateUserData } from '../../../../../types/users/CreateUserData';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
+import { UpdateUserData } from '../../../../../types/users/UpdateUserData';
+import CardService from '../../../../../api/services/CardService';
+import { CreateCardData } from '../../../../../types/cards/CreateCardData';
+import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -59,15 +63,17 @@ export default function Login() {
       //     'jayawardana',
       //     766419220,
       //     'sonal@gmail.com',
-      //     'athuu',
-      //     'fkdfj',
+      //     'athurugiriya',
       //     0
       //   ),
       //   new AuthenticationData('sonal@gmail.com', 'Sonal123$')
       // );
       // await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
-      // console.log(await UserService.getUserByIdAsync('u'));
-
+      // await UserService.deleteUserAsync()
+      // await UserService.updateUserAsync(new UpdateUserData('hima', 'jayakody', 394,'athu', ''));
+     // await CardService.addCardAsync(new CreateCardData('sonal',789,'sona', new Date()));
+     
+     console.log(await CardService.deleteCardAsync('7dBy4dNqfr5xR5QCRSrH'));
     } catch (error) {
       console.log(error);
     }
@@ -89,8 +95,14 @@ export default function Login() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      uploadFile(result.assets[0],'users','sonal-image');
-     }
+      //uploadFile(result.assets[0],'users','sonal-image');
+      const u = await UserService.updateUserProfilePictureAsync(
+        result.assets[0]
+      );
+      await UserService.updateUserAsync(
+        new UpdateUserData('hima', 'jayakody', 394, 'athu', u)
+      );
+    }
   };
 
   return (
@@ -198,7 +210,7 @@ export default function Login() {
         color={theme.COLORS.PRIMARY}
         callFunction={() => test()}
       />
-            <ModalButton
+      <ModalButton
         value={i18n.t('loginPage.login')}
         color={theme.COLORS.PRIMARY}
         callFunction={() => pickImage()}

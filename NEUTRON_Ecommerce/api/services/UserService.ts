@@ -3,7 +3,7 @@ import ExpoLocalStorage from '../../authentication/secure_stores/ExpoLocalStorag
 import { CreateUserData } from '../../types/users/CreateUserData';
 import AuthenticationRepository from '../repositories/AuthenticationRepository';
 import { AuthenticationData } from '../../types/authentication/AuthenticationData';
-import { UserCredential } from 'firebase/auth';
+import { User, UserCredential } from 'firebase/auth';
 import UserRepository from '../repositories/UserRepository';
 import { UserModel } from '../../types/users/UserModel';
 import { UpdateUserData } from '../../types/users/UpdateUserData';
@@ -44,6 +44,9 @@ export class UserService {
   async updateUserAsync(user: UpdateUserData): Promise<void> {
     try {
       await UserRepository.getUserAsync();
+      const currentUser: User =
+        await AuthenticationRepository.getLoggedInUserAsync();
+      user.email = currentUser.email!;
       await UserRepository.updateUserAsync(user);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -110,7 +113,7 @@ export class UserService {
     }
   }
 
-  async updateUserProfilePicture(imageAssest: ImagePickerAsset): Promise<void> {
+  async updateUserProfilePictureAsync(imageAssest: ImagePickerAsset): Promise<string> {
     try {
       const user: UserModel = await this.getUserAsync();
 
@@ -120,9 +123,10 @@ export class UserService {
         `${user.uid}_profile_image`
       );
 
-      if (profileImageUrl == null) throw new Error('Upload unsuccessful');
+      if(profileImageUrl == null) throw new Error('profile url not found');
 
-      await UserRepository.updateUserProfilePicture(profileImageUrl);
+      return profileImageUrl;
+
     } catch (error) {
       throw new Error((error as Error).message);
     }

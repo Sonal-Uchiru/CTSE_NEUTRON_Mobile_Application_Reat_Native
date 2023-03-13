@@ -8,9 +8,8 @@ export class CreateUserData extends UserBaseModel {
     mobile: number,
     email: string,
     address: string,
-    profileImageUrl: string,
     role: UserRoles
   ) {
-    super(firstName, lastName, mobile, email, address, profileImageUrl, role);
+    super(firstName, lastName, mobile, email, address, '', role);
   }
 }

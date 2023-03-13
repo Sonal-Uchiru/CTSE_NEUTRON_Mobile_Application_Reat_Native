@@ -6,11 +6,9 @@ export class UpdateUserData extends UserBaseModel {
     firstName: string,
     lastName: string,
     mobile: number,
-    email: string,
     address: string,
     profileImageUrl: string,
-    role: UserRoles
   ) {
-    super(firstName, lastName, mobile, email, address, profileImageUrl, role);
+    super(firstName, lastName, mobile, '', address, profileImageUrl, 0);
   }
 }

@@ -37,23 +37,6 @@ class UserRepository {
     }
   }
 
-  async updateUserProfilePicture(profileImageUrl: string) {
-    try {
-      await setDoc(
-        doc(
-          FireStoreDB,
-          'users',
-          await AuthenticationRepository.getLoggedInUserUid()
-        ),
-        {
-          profileImageUrl: profileImageUrl
-        }
-      );
-    } catch (error) {
-      throw new Error((error as Error).message);
-    }
-  }
-
   async deleteUserAsync(): Promise<void> {
     try {
       await deleteDoc(
