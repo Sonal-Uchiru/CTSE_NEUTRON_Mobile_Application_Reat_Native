@@ -46,8 +46,10 @@ export default function FormGroup({
         multiLine={multiLine}
         noOfLines={noOfLines}
       />
-      {error && (
+      {error ? (
         <InputLabel value={i18n.t(error)} labelstyle={mainStyle.errorText} />
+      ) : (
+        <InputLabel value={''} />
       )}
     </>
   );
