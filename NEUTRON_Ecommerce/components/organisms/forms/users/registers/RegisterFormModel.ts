@@ -16,6 +16,14 @@ export const RegisterModel = {
     requiredErrorMessage: 'formFields.emailRequiredError'
 
   },
+
+  contact: {
+    initialValue: '',
+    contactPlaceholder: 'formFields.conatctPlaceholder',
+    validationErrorMessage: 'formFields.conatctValidationError',
+    requiredErrorMessage: 'formFields.conatctRequiredError'
+
+  },
   password: {
     initialValue: '',
     passwordPlaceholder: 'formFields.passwordPlaceholder',

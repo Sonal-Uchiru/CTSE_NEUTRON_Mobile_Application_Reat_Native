@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { LoginValidationSchema } from './LoginFormValidations';
@@ -12,7 +12,7 @@ import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import ParagraphBold from '../../../../atoms/typographies/ParagraphBold';
 import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import GoogleButton from '../../../../atoms/buttons/GoogleButton';
-import { Logo } from '../../../../../assets/image';
+import { Iphone, Logo, NeutronLogo } from '../../../../../assets/image';
 import { ILoginFormFields } from './ILoginFormFields';
 import { ILoginResponse } from '../../../../../types/users/ILoginResponse';
 import { AxiosResponse } from 'axios';
@@ -22,6 +22,7 @@ import ItemRepository from '../../../../../api/repositories/ItemRepository';
 import * as ImagePicker from 'expo-image-picker';
 import authenticationTest from '../../../../../api/repositories/authenticationTest';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
+import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -54,23 +55,10 @@ export default function Login() {
 
 
   return (
-    <>
+   
+      <>
       <View style={style.tabView}>
-        <Text
-          style={selected ? style.selectedStyle : style.regulerStyle}
-          onPress={() => setSelected(true)}
-        >
-          {i18n.t('loginPage.login')}{' '}
-        </Text>
-        <Text
-          style={[
-            selected ? style.regulerStyle : style.selectedStyle,
-            { marginLeft: 20 }
-          ]}
-          onPress={() => setSelected(false)}
-        >
-          {i18n.t('loginPage.register')}{' '}
-        </Text>
+        <HeadLine2 value={'Welcome To Neutron'} color={theme.COLORS.PRIMARY}/>
       </View>
       <Formik
         initialValues={LoginInitialValues}
@@ -87,7 +75,7 @@ export default function Login() {
           isValid,
           isSubmitting
         }) => (
-          <>
+          <View style={style.inputView}>
             <FormGroup
               name={i18n.t('formFields.email')}
               id={'password'}
@@ -100,6 +88,7 @@ export default function Login() {
               borderColor={
                 errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
+              
             />
             <FormGroupWithIcon
               name={i18n.t('formFields.password')}
@@ -110,41 +99,26 @@ export default function Login() {
               onChangeText={handleChange('password')}
               onBlur={handleBlur('Password')}
               error={errors.password}
-              iconFirst={'eye'}
-              iconSecond={'eye-off'}
+              iconFirst={'eye-off'}
+              iconSecond={'eye'}
               hiddenStatus={showPassword}
               callFunction={() => setShowPassword(!showPassword)}
               borderColor={
                 errors.password ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
             />
-            <View style={style.hyperlinkText}>
-              <Hyperlink
-                value={i18n.t('loginPage.forgotPassword')}
-                marginTop={5}
-              />
-            </View>
-
+            <View style={style.buttonView}>
             <ModalButton
               value={i18n.t('loginPage.login')}
               color={theme.COLORS.PRIMARY}
               callFunction={() => handleSubmit()}
               disabled={!isValid}
             />
-            <ParagraphBold
-              value={'OR'}
-              color={theme.COLORS.GREY}
-              marginTop={10}
-              marginBottom={10}
-            />
-            <GoogleButton
-              value={i18n.t('loginPage.login')}
-              color={theme.COLORS.PRIMARY}
-              callFunction={() => handleSubmit()}
-              disabled={!isValid}
-            />
-            <View style={style.marginView}></View>
-          </>
+            </View> 
+            <View style={style.marginView}>
+              <Text>Don’t have an account? <Text style={style.text2}>Sign up</Text></Text>
+            </View>
+          </View>
         )}
       </Formik>
       <ErrorDialog
@@ -153,7 +127,8 @@ export default function Login() {
           setIsError(false);
         }}
       />
-    </>
+      </>
+
   );
 }
 
@@ -174,35 +149,42 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      alignItems: 'center'
+      width: '100%'
     },
+
+    buttonView:{
+      alignItems: 'center',
+      alignSelf: 'center',
+      marginTop: 50
+    },
+
+    errroStyle:{
+      alignSelf:'center',
+      backgroundColor: theme.COLORS.WHITE,
+    },
+
+    text2:{
+      color: theme.COLORS.PRIMARY,
+      textDecorationLine:'underline'
+    },
+
     textInput: {
-      width: '80%',
+      width: '100%',
       marginTop: 25,
-      backgroundColor: theme.COLORS.WHITE
+      alignSelf:'center',
+      backgroundColor: theme.COLORS.WHITE,
+  
     },
+    
     tabView: {
-      flexDirection: 'row',
-      alignSelf: 'flex-start',
-      marginLeft: 40,
-      marginTop: 20
+     alignSelf:'center',
+      marginTop: 60
     },
-    hyperlinkText: {
-      flexDirection: 'row',
-      alignSelf: 'flex-end',
-      marginBottom: 10,
-      marginRight: 40
-    },
-    selectedStyle: {
-      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.bold,
-      textDecorationLine: 'underline',
-      textDecorationColor: theme.COLORS.ACTION
-    },
-    regulerStyle: {
-      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.normel,
-      color: theme.COLORS.GREY
-    },
+   
     marginView: {
-      marginTop: 10
+      marginBottom: 30,
+      marginTop: 30,
+      alignSelf:'center'
+
     }
   });

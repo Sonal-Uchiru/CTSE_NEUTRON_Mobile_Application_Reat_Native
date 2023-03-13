@@ -48,8 +48,3 @@ export default function InputField({
   );
 }
 
-const styles = StyleSheet.create({
-  textInput: {
-    width: '80%'
-  }
-});

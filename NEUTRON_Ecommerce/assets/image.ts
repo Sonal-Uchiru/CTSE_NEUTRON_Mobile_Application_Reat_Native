@@ -5,3 +5,4 @@ export const VisaImg = require('./visa-img.png');
 export const AboutUs = require('./about-us.jpeg');
 export const Iphone = require('./iphone-img.jpeg');
 export const Edit = require('./edit.png');
+export const NeutronLogo = require('./logo.png');
