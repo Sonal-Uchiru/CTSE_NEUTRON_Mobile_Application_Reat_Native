@@ -55,8 +55,4 @@ export default function FormGroup({
   );
 }
 
-const styles = StyleSheet.create({
-  labelView: {
-    alignItems: 'flex-start'
-  }
-});
+

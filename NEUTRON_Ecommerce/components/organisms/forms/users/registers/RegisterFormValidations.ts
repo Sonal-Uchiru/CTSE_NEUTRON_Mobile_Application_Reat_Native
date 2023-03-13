@@ -10,6 +10,10 @@ export const RegisterValidationSchema = yup.object().shape({
     .string()
     .required(RegisterModel.lastName.requiredErrorMessage),
 
+  contact: yup
+    .string()
+    .required(RegisterModel.contact.requiredErrorMessage),
+
   email: yup
     .string()
     .email(RegisterModel.email.validationErrorMessage)

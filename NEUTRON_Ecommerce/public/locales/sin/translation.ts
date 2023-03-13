@@ -27,6 +27,10 @@ const sin = {
     firstNameRequiredError: 'පළමු නම අවශ්ය වේ',
     firstNamePlaceholder: 'මුල් නම ඇතුලත් කරන්න',
 
+    contact: 'ඇමතුම් අංකය',
+    contactRequiredError: 'ඇමතුම් අංකය අවශ්ය වේ',
+    ContactPlaceholder: 'ඇමතුම් අංකය ඇතුලත් කරන්න',
+
     lastName: 'අවසන් නම',
     lastNameRequiredError: 'අවසාන නම අවශ්ය වේ',
     lastNamePlaceholder: 'අවසාන නම ඇතුලත් කරන්න',
@@ -98,15 +102,19 @@ const sin = {
       'ගිණුම මකා දැමීම අවසන් වේ. ඔබගේ ගිණුම ප්‍රතිසාධනය කිරීමට ක්‍රමයක් නොමැත.'
   },
   loginPage: {
-    title: 'Agrivo වෙත සාදරයෙන් පිළිගනිමු!',
+    title: 'Neutron වෙත සාදරයෙන් පිළිගනිමු',
     login: 'ඇතුල් වන්න',
-    register: 'ලියාපදිංචි කරන්න',
-    forgotPassword: 'මුරපදය අමතක වුණා ද?'
+    signUp: 'ලියාපදිංචි වන්න',
+    createAccountLink: "ගිණුමක් නැද්ද?"
   },
   registerPage: {
     registerBtnTitle: 'ගිණුම තනන්න',
     termsAndConditions:
-      'ගිණුම සාදන්න බොත්තම ක්ලික් කිරීමෙන් ඔබ නියම සහ කොන්දේසි වලට එකඟ වේ.'
+      'ගිණුම සාදන්න බොත්තම ක්ලික් කිරීමෙන් ඔබ නියම සහ කොන්දේසි වලට එකඟ වේ.',
+    alreadyHaveAccount: 'දැනටමත් ගිණුමක් තිබේද?',
+    loginHere: 'මෙතනින් ලොග් වෙන්න',
+    terms:'නියම සහ කොන්දේසි',
+    back: 'ආපසු'
   },
   helpPage: {
     help: 'උදව්',
