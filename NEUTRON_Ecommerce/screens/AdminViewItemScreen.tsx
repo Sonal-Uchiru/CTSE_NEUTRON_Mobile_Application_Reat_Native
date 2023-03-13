@@ -13,8 +13,9 @@ import { Iphone } from '../assets/image';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale } from '../responsive/Metrics';
+import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
 
-export default function ViewItemScreen() {
+export default function AdminViewItemScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const array = [1, 2, 3, 4, 5];
@@ -52,7 +53,7 @@ export default function ViewItemScreen() {
       <ScrollView>
         {array.map((value, i) => {
           return (
-            <ViewItemCard
+            <AdminViewItemCard
             key={i}
               brand={'Apple'}
               itemName={'I phone 12 Pro Max '}

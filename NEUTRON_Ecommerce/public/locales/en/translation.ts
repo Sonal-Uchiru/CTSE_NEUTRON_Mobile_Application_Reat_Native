@@ -216,7 +216,11 @@ const en = {
   },
   viewItemPage:{
     title: 'All Items',
-    subTitle: 'Find your items'
+    subTitle: 'Find your items',
+    searchLabel: 'Search Items',
+    searchPlaceHolder: 'Search Items....',
+    removeBtn: 'Remove',
+    editBtn: 'Edit'
   }
 };
 
