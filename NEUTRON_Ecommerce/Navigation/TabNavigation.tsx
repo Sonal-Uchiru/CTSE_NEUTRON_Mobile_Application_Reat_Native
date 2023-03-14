@@ -19,6 +19,7 @@ import UserRegisterScreen from '../screens/UserRegisterScreen';
 import RegisterForm from '../components/organisms/forms/users/registers/RegisterForm';
 import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
+import TermsAnsConditionsScreen from '../screens/TermsAndConditionsScreen';
 
 
 export default function TabNavigation() {
@@ -33,7 +34,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={AdminViewItemScreen} />
+        <Tab.Screen name="Login" component={TermsAnsConditionsScreen} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
