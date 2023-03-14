@@ -228,11 +228,22 @@ const en = {
     terms: 'Neutron Terms & Condition',
     back: 'Back',
     topic1: 'Account registration',
-    topic2: 'Account registration',
+    topic2: 'Methods of payment',
+    topic3: 'Prices',
+    topic4: 'Service reselling',
+    topic5: 'Privacy policy',
     para1:
       "Welcome to Neutron. These terms and conditions outline the rules and regulations for the use of Neutron’s App. By accessing this website we assume you accept these terms and conditions in full. Do not continue to use Neutron’s app if you do not accept all of the terms and conditions stated on this page.",
     para2:
-      'To use the Service Users must register or create a User account, providing all required data or information in a complete and truthful manner. Failure to do so will cause unavailability of the Service. Users are responsible for keeping their login credentials confidential and safe. For this reason, Users are also required to choose passwords that meet the highest standards of strength permitted by this Application. By registering, Users agree to be fully responsible for all activities that occur under their username and password. Users are required to immediately and unambiguously inform the Owner via the contact details indicated in this document, if they think their personal information, including but not limited to User accounts, access credentials or personal data, have been violated, unduly disclosed or stolen.'
+      'To use the Service Users must register or create a User account, providing all required data or information in a complete and truthful manner. Failure to do so will cause unavailability of the Service.\n\nUsers are responsible for keeping their login credentials confidential and safe. For this reason, Users are also required to choose passwords that meet the highest standards of strength permitted by this Application.\n\nBy registering, Users agree to be fully responsible for all activities that occur under their username and password. Users are required to immediately and unambiguously inform the Owner via the contact details indicated in this document, if they think their personal information, including but not limited to User accounts, access credentials or personal data, have been violated, unduly disclosed or stolen.',
+    para3:  
+      'Information related to accepted payment methods are made available during the purchasing process.\n\nSome payment methods may only be available subject to additional conditions or fees. In such cases related information can be found in the dedicated section of this Application.',
+    para4:
+      'Users are informed during the purchasing process and before order submission, about any fees, taxes and costs (including, if any, delivery costs) that they will be charged.\n\nPrices on this Application are displayed: either exclusive or inclusive of any applicable fees, taxes and costs, depending on the section the User is browsing.',
+    para5:
+      'Users may not reproduce, duplicate, copy, sell, resell or exploit any portion of this Application and of its Service without the Owner’s express prior written permission, granted either directly or through a legitimate reselling programme.',
+    para6:
+      'To learn more about the use of their Personal Data, Users may refer to the privacy policy of this Application.'
   },
 };
 
