@@ -7,10 +7,10 @@ import {
   doc,
   deleteDoc,
   getDoc,
-  setDoc,
   DocumentData,
   getDocs,
-  QuerySnapshot
+  QuerySnapshot,
+  updateDoc
 } from 'firebase/firestore';
 
 class CartItemRepository {
@@ -24,7 +24,9 @@ class CartItemRepository {
 
   async updateCartItemAsync(cartItem: UpdateCartItemData): Promise<void> {
     try {
-      await setDoc(doc(FireStoreDB, 'cartItems', cartItem.docId), { quantity : cartItem.quantity});
+      await updateDoc(doc(FireStoreDB, 'cartItems', cartItem.docId), {
+        quantity: cartItem.quantity
+      });
     } catch (error) {
       throw new Error((error as Error).message);
     }

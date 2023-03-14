@@ -29,6 +29,10 @@ import { UpdateUserData } from '../../../../../types/users/UpdateUserData';
 import CardService from '../../../../../api/services/CardService';
 import { CreateCardData } from '../../../../../types/cards/CreateCardData';
 import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
+import CartItemService from '../../../../../api/services/CartService';
+import { CreateCartItemData } from '../../../../../types/cart_Items/CreateCartItemData';
+import { UpdateCartItemData } from '../../../../../types/cart_Items/UpdateCartItemData';
+import { UpdateItemData } from '../../../../../types/items/UpdateItemData';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -62,18 +66,24 @@ export default function Login() {
       //     'sonal',
       //     'jayawardana',
       //     766419220,
-      //     'sonal@gmail.com',
+      //     'sonal123@gmail.com',
       //     'athurugiriya',
       //     0
       //   ),
-      //   new AuthenticationData('sonal@gmail.com', 'Sonal123$')
+      //   new AuthenticationData('sonal123@gmail.com', 'Sonal123$')
       // );
-      // await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
-      // await UserService.deleteUserAsync()
+      await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
+      //await UserService.deleteUserAsync()
       // await UserService.updateUserAsync(new UpdateUserData('hima', 'jayakody', 394,'athu', ''));
-     // await CardService.addCardAsync(new CreateCardData('sonal',789,'sona', new Date()));
+     //await CardService.addCardAsync(new CreateCardData('sonal',789,'sona', new Date()));
      
-     console.log(await CardService.deleteCardAsync('7dBy4dNqfr5xR5QCRSrH'));
+     //console.log(await CardService.getCardListAsync());
+
+      //await ItemService.addItemAsync(new CreateItemData('test1','mobile',10,45,'apple','nice','athu',34,34,'dkfj57','rgg'));
+
+     // console.log(await ItemService.deleteItemAsync('LRezDJy27gOkG1hU333E'));
+      //await CartItemService.addCartItemAsync(new CreateCartItemData('13qIJqEC8MvxcZWNSnPK',10));
+     // console.log(await CartItemService.isCartItemAvailableAsync('13qIJqEC8MvxcZWNSnPi'));
     } catch (error) {
       console.log(error);
     }
@@ -96,11 +106,9 @@ export default function Login() {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       //uploadFile(result.assets[0],'users','sonal-image');
-      const u = await UserService.updateUserProfilePictureAsync(
-        result.assets[0]
-      );
-      await UserService.updateUserAsync(
-        new UpdateUserData('hima', 'jayakody', 394, 'athu', u)
+      const u = await ItemService.updateItemImageAsync('apple',result.assets[0]);
+      await ItemService.updateItemAsync(
+        new UpdateItemData('13qIJqEC8MvxcZWNSnPK','samsung','mobile',10,20,'apple','dd','ddd',34,45,'df89',u)
       );
     }
   };

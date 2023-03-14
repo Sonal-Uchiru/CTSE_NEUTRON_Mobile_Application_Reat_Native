@@ -56,8 +56,8 @@ export class UserService {
   async deleteUserAsync(): Promise<void> {
     try {
       await UserRepository.getUserAsync();
-      await AuthenticationRepository.deleteAsync();
       await UserRepository.deleteUserAsync();
+      await AuthenticationRepository.deleteAsync();
     } catch (error) {
       throw new Error((error as Error).message);
     }
