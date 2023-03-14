@@ -6,14 +6,18 @@ import { typographyProps } from '../../../types/TypographyTypes';
 
 export default function HeadLine2({
   value,
-  color = COLORS.BLACK
+  color = COLORS.BLACK,
+  marginLeft = 0,
+  marginTop = 0
 }: typographyProps) {
   return (
     <Text
       style={{
         fontSize: TYPOGRAPHY.FONT_SIZE.L3,
         fontWeight: 'bold',
-        color: color
+        color: color,
+        marginLeft: marginLeft,
+        marginTop: marginTop
       }}
     >
       {value}

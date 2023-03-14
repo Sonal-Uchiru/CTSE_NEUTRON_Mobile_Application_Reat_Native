@@ -7,6 +7,19 @@ import ForgotPasswordStep1 from '../components/organisms/forms/users/forgotPassw
 import ForgotPasswordStep2 from '../components/organisms/forms/users/forgotPasswordsStep2/ForgotPasswordStep2';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import UserAccessScreen from '../screens/UserAccessScreen';
+import HelpScreen from '../screens/HelpScreen';
+import AboutUsScreen from '../screens/AboutUsScreen';
+import SavedCards from '../screens/SaveCardsScreen';
+import ManageItems from '../screens/ManageItems';
+import Login from '../components/organisms/forms/users/logins/login';
+import DemoForm from '../components/organisms/forms/users/DIalogTesting/DemoForm';
+import ViewCart from '../screens/ViewCartScreen';
+import LoginScreen from '../screens/LoginScreen';
+import UserRegisterScreen from '../screens/UserRegisterScreen';
+import RegisterForm from '../components/organisms/forms/users/registers/RegisterForm';
+import ViewItemScreen from '../screens/ViewItemScreen';
+import AdminViewItemScreen from '../screens/AdminViewItemScreen';
+
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
@@ -20,8 +33,8 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={UserAccessScreen} />
-        <Tab.Screen name="Demo" component={Lazy} />
+        <Tab.Screen name="Login" component={AdminViewItemScreen} />
+        <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
     </Suspense>

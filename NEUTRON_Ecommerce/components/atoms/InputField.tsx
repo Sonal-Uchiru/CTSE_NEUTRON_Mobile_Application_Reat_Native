@@ -13,6 +13,8 @@ interface props {
   onChangeText: any;
   onBlur: any;
   borderColor?: string;
+  multiLine?: boolean;
+  noOfLines?: number;
 }
 export default function InputField({
   name,
@@ -24,7 +26,9 @@ export default function InputField({
   fieldstyle,
   onChangeText,
   onBlur,
-  borderColor = COLORS.GREY
+  borderColor = COLORS.GREY,
+  multiLine = false,
+  noOfLines = 1
 }: props) {
   return (
     <TextInput
@@ -38,12 +42,9 @@ export default function InputField({
       value={value}
       theme={{ colors: { primary: borderColor } }}
       autoCapitalize="none"
+      multiline={multiLine}
+      numberOfLines={noOfLines}
     />
   );
 }
 
-const styles = StyleSheet.create({
-  textInput: {
-    width: '80%'
-  }
-});

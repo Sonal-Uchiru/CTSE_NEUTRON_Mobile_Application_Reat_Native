@@ -16,6 +16,8 @@ interface props {
   onBlur: any;
   error: any;
   borderColor?: string;
+  multiLine?: boolean;
+  noOfLines?: number;
 }
 export default function FormGroup({
   name,
@@ -26,7 +28,9 @@ export default function FormGroup({
   onChangeText,
   onBlur,
   error,
-  borderColor
+  borderColor,
+  multiLine = false,
+  noOfLines = 1
 }: props) {
   return (
     <>
@@ -39,16 +43,16 @@ export default function FormGroup({
         onChangeText={onChangeText}
         onBlur={onBlur}
         borderColor={borderColor}
+        multiLine={multiLine}
+        noOfLines={noOfLines}
       />
-      {error && (
+      {error ? (
         <InputLabel value={i18n.t(error)} labelstyle={mainStyle.errorText} />
+      ) : (
+        <InputLabel value={''} />
       )}
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  labelView: {
-    alignItems: 'flex-start'
-  }
-});
+

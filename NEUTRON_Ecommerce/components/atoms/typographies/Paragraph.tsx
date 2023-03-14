@@ -6,14 +6,19 @@ import { typographyProps } from '../../../types/TypographyTypes';
 
 export default function Paragraph({
   value,
-  color = COLORS.BLACK
+  color = COLORS.BLACK,
+  marginTop = 0,
+  marginLeft,
+  marginRight
 }: typographyProps) {
   return (
     <Text
       style={{
         fontSize: TYPOGRAPHY.FONT_SIZE.S1,
         color: color,
-        fontWeight: 'bold'
+        marginTop: marginTop,
+        marginLeft: marginLeft,
+        marginRight: marginRight
       }}
     >
       {value}

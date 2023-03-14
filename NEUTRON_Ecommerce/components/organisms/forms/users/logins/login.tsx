@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { LoginValidationSchema } from './LoginFormValidations';
@@ -12,7 +12,7 @@ import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import ParagraphBold from '../../../../atoms/typographies/ParagraphBold';
 import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import GoogleButton from '../../../../atoms/buttons/GoogleButton';
-import { Logo } from '../../../../../assets/image';
+import { Iphone, Logo, NeutronLogo } from '../../../../../assets/image';
 import { ILoginFormFields } from './ILoginFormFields';
 import { AxiosResponse } from 'axios';
 import ExpoLocalStorage from '../../../../../authentication/secure_stores/ExpoLocalStorage';
@@ -20,19 +20,10 @@ import ErrorDialog from '../../../../../hooks/dialogs/Error';
 import ItemRepository from '../../../../../api/repositories/ItemRepository';
 import * as ImagePicker from 'expo-image-picker';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
-import { CreateItemData } from '../../../../../types/items/CreateItemData';
-import ItemService from '../../../../../api/services/ItemService';
-import UserService from '../../../../../api/services/UserService';
-import { CreateUserData } from '../../../../../types/users/CreateUserData';
-import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
-import { UpdateUserData } from '../../../../../types/users/UpdateUserData';
-import CardService from '../../../../../api/services/CardService';
-import { CreateCardData } from '../../../../../types/cards/CreateCardData';
-import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
-import CartItemService from '../../../../../api/services/CartService';
-import { CreateCartItemData } from '../../../../../types/cart_Items/CreateCartItemData';
-import { UpdateCartItemData } from '../../../../../types/cart_Items/UpdateCartItemData';
-import { UpdateItemData } from '../../../../../types/items/UpdateItemData';
+import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
+import { horizontalScale } from '../../../../../responsive/Metrics';
+import Paragraph from '../../../../atoms/typographies/Paragraph';
+
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -72,7 +63,7 @@ export default function Login() {
       //   ),
       //   new AuthenticationData('sonal123@gmail.com', 'Sonal123$')
       // );
-      await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
+     // await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
       //await UserService.deleteUserAsync()
       // await UserService.updateUserAsync(new UpdateUserData('hima', 'jayakody', 394,'athu', ''));
      //await CardService.addCardAsync(new CreateCardData('sonal',789,'sona', new Date()));
@@ -93,44 +84,31 @@ export default function Login() {
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      selectionLimit: 1
-    });
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //   allowsEditing: true,
+    //   aspect: [4, 3],
+    //   quality: 1,
+    //   selectionLimit: 1
+    // });
 
-    console.log(result);
+    // console.log(result);
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      //uploadFile(result.assets[0],'users','sonal-image');
-      const u = await ItemService.updateItemImageAsync('apple',result.assets[0]);
-      await ItemService.updateItemAsync(
-        new UpdateItemData('13qIJqEC8MvxcZWNSnPK','samsung','mobile',10,20,'apple','dd','ddd',34,45,'df89',u)
-      );
-    }
+    // if (!result.canceled) {
+    //   setImage(result.assets[0].uri);
+    //   //uploadFile(result.assets[0],'users','sonal-image');
+    //   const u = await ItemService.updateItemImageAsync('apple',result.assets[0]);
+    //   await ItemService.updateItemAsync(
+    //     new UpdateItemData('13qIJqEC8MvxcZWNSnPK','samsung','mobile',10,20,'apple','dd','ddd',34,45,'df89',u)
+    //   );
+    // }
   };
 
   return (
-    <>
+   
+      <>
       <View style={style.tabView}>
-        <Text
-          style={selected ? style.selectedStyle : style.regulerStyle}
-          onPress={() => setSelected(true)}
-        >
-          {i18n.t('loginPage.login')}{' '}
-        </Text>
-        <Text
-          style={[
-            selected ? style.regulerStyle : style.selectedStyle,
-            { marginLeft: 20 }
-          ]}
-          onPress={() => setSelected(false)}
-        >
-          {i18n.t('loginPage.register')}{' '}
-        </Text>
+        <HeadLine2 value={i18n.t('loginPage.title')} color={theme.COLORS.PRIMARY}/>
       </View>
       <Formik
         initialValues={LoginInitialValues}
@@ -147,7 +125,7 @@ export default function Login() {
           isValid,
           isSubmitting
         }) => (
-          <>
+          <View style={style.inputView}>
             <FormGroup
               name={i18n.t('formFields.email')}
               id={'password'}
@@ -160,6 +138,7 @@ export default function Login() {
               borderColor={
                 errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
+              
             />
             <FormGroupWithIcon
               name={i18n.t('formFields.password')}
@@ -170,41 +149,35 @@ export default function Login() {
               onChangeText={handleChange('password')}
               onBlur={handleBlur('Password')}
               error={errors.password}
-              iconFirst={'eye'}
-              iconSecond={'eye-off'}
+              iconFirst={'eye-off'}
+              iconSecond={'eye'}
               hiddenStatus={showPassword}
               callFunction={() => setShowPassword(!showPassword)}
               borderColor={
                 errors.password ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
             />
-            <View style={style.hyperlinkText}>
-              <Hyperlink
-                value={i18n.t('loginPage.forgotPassword')}
-                marginTop={5}
-              />
-            </View>
-
+            <View style={style.buttonView}>
             <ModalButton
               value={i18n.t('loginPage.login')}
               color={theme.COLORS.PRIMARY}
               callFunction={() => handleSubmit()}
               disabled={!isValid}
             />
-            <ParagraphBold
-              value={'OR'}
-              color={theme.COLORS.GREY}
-              marginTop={10}
-              marginBottom={10}
+            </View> 
+            <View style={style.marginView}>
+            <Paragraph 
+            value={i18n.t('loginPage.createAccountLink')}
+            marginTop={2}
+            marginRight={5}
             />
-            <GoogleButton
-              value={i18n.t('loginPage.login')}
-              color={theme.COLORS.PRIMARY}
-              callFunction={() => handleSubmit()}
-              disabled={!isValid}
+
+            <Hyperlink
+            value={i18n.t('loginPage.signUp')}
+            marginTop={2}
             />
-            <View style={style.marginView}></View>
-          </>
+            </View>
+          </View>
         )}
       </Formik>
       <ErrorDialog
@@ -213,17 +186,8 @@ export default function Login() {
           setIsError(false);
         }}
       />
-      <ModalButton
-        value={i18n.t('loginPage.login')}
-        color={theme.COLORS.PRIMARY}
-        callFunction={() => test()}
-      />
-      <ModalButton
-        value={i18n.t('loginPage.login')}
-        color={theme.COLORS.PRIMARY}
-        callFunction={() => pickImage()}
-      />
-    </>
+      </>
+
   );
 }
 
@@ -244,35 +208,43 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      alignItems: 'center'
+      width: '100%'
     },
+
+    buttonView:{
+      alignItems: 'center',
+      alignSelf: 'center',
+      marginTop: 50
+    },
+
+    errroStyle:{
+      alignSelf:'center',
+      backgroundColor: theme.COLORS.WHITE,
+    },
+
+    text2:{
+      color: theme.COLORS.PRIMARY,
+      textDecorationLine:'underline'
+    },
+
     textInput: {
-      width: '80%',
+      width: horizontalScale(300),
       marginTop: 25,
-      backgroundColor: theme.COLORS.WHITE
+      alignSelf:'center',
+      backgroundColor: theme.COLORS.WHITE,
+  
     },
+    
     tabView: {
-      flexDirection: 'row',
-      alignSelf: 'flex-start',
-      marginLeft: 40,
-      marginTop: 20
+     alignSelf:'center',
+      marginTop: 60
     },
-    hyperlinkText: {
-      flexDirection: 'row',
-      alignSelf: 'flex-end',
-      marginBottom: 10,
-      marginRight: 40
-    },
-    selectedStyle: {
-      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.bold,
-      textDecorationLine: 'underline',
-      textDecorationColor: theme.COLORS.ACTION
-    },
-    regulerStyle: {
-      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.normel,
-      color: theme.COLORS.GREY
-    },
+   
     marginView: {
-      marginTop: 10
+      marginBottom: 30,
+      marginTop: 30,
+      alignSelf:'center',
+      flexDirection:'row'
+
     }
   });

@@ -15,20 +15,25 @@ const en = {
     passwordValidationError: 'This is a weak password',
     passwordRequiredError: 'Password is required',
     password: 'Password',
-    passwordPlaceholder: 'Enter Password',
+    passwordPlaceholder: 'Password',
 
     emailValidationError: `Please include '@' and '.com' in the email address`,
     emailRequiredError: 'Email is required',
     email: 'Email',
-    emailPlaceholder: 'Enter Email',
+    emailPlaceholder: 'Email',
 
     firstName: 'First Name',
     firstNameRequiredError: 'First Name is required',
-    firstNamePlaceholder: 'Enter First Name',
+    firstNamePlaceholder: 'First Name',
+
+    contact: 'Contact Number',
+    contactRequiredError: 'Contact Number is required',
+    contactPlaceholder: 'Contact Number',
+
 
     lastName: 'Last Name',
     lastNameRequiredError: 'Last Name is required',
-    lastNamePlaceholder: 'Enter Last Name',
+    lastNamePlaceholder: 'Last Name',
 
     reEnterPassword: 'Re-Enter Password',
     misMatchErrorMessage: 'Passwords mismatch',
@@ -68,7 +73,8 @@ const en = {
     stay: 'Stay',
     sendcode: 'Send code',
     verifyCode: 'Verify code',
-    deleteMyAccount: 'Delete My Account'
+    deleteMyAccount: 'Delete My Account',
+    addToCart: 'Add To Cart'
   },
   forgotPasswordFormCommon: {
     title: 'Forgot Password?',
@@ -97,15 +103,125 @@ const en = {
       'Account deletion is final. There will be no way to restore your account.'
   },
   loginPage: {
-    title: 'Welcome To Agrivo!',
+    title: 'Welcome To Neutron',
     login: 'Login',
-    register: 'Register',
-    forgotPassword: 'Forgot Password?'
+    signUp: 'Sign up',
+    createAccountLink: "Don't have an account"
   },
   registerPage: {
     registerBtnTitle: 'Create Account',
     termsAndConditions:
-      'By clicking on create account button you agree to the terms and conditions.'
+      'By clicking on create account button you agree to the terms and conditions.',
+    alreadyHaveAccount: 'Already Have an account?',
+    loginHere: 'Login Here',
+    terms:'Terms & Conditions',
+    back: 'Back'
+  },
+  helpPage: {
+    help: 'Help',
+    subTopic: 'Choose an area you need help',
+    profileTopic: 'Manage your profile',
+    cartTopic: 'Add Items To Cart',
+    cardTopic: 'Manage your Cards',
+    cardStep01: 'Select the card icon in the navigation tab',
+    cardStep02: 'Add new card by pressing the "Add New Card button"',
+    cardStep03: 'Edit cards by pressing "Edit Card button"',
+    cartStep01: 'Press "Add to cart" button to add items to your cart',
+    cartStep02: 'Update cart quantity by pressing "+" and "-" button',
+    cartStep03: 'Complete the payment by pressing "Proceed to checkout" button',
+    profileStep01: 'Go to profile by pressing "Profile" in headet',
+    profileStep02: 'Edit the profile details by pressing the "Edit" button',
+    profileStep03: 'Delete the profile by pressing the "Delete" button',
+    step01: 'Step 01',
+    step02: 'Step 02',
+    step03: 'Step 03'
+  },
+  aboutUsPage: {
+    aboutUs: 'About Us',
+    back: 'Back',
+    para1:
+      "At Neutron, we all come to work everyday because we want to solve the biggest problem in mobile. Everyone is guessing. Publishers don't know what apps to build, how to monetize them, or given what to price them at. Advertizers and brands don't know where there target users are, how to reach them, or even how much they need to spend in order to do so. Investors aren't sure which apps and genres are proving the quickest, and where users are really spending there time(and money).",
+    para2:
+      'Throughout the history of buisness, people use data to make more informed decisions. Our mission at Neutron is to make the app economy more transparent. Today we provide the most actionable mobile app data and insights in the industry. We want to make this data available to as many people as possible.(not just the top %5)'
+  },
+  savedCardsPage: {
+    title: 'Your Cards',
+    subTitle: 'All your cards',
+    buttonAddCard: 'Add New Card',
+    buttonEditCard: 'Edit Card',
+    searchLabel: 'Search Cards',
+    searchPlaceHolder: 'Search Cards....'
+  },
+  addItemsForm: {
+    title: 'Add New Item',
+    subTitle: 'Add your items',
+    addItem: 'Add Item',
+    locationText: 'Set Item’s Actual location',
+    next: 'Next',
+    back: 'Back',
+    searchItems: 'Search Items...',
+
+    itemCategory: 'Item Category',
+    itemCategoryRequiredError: 'Item Category is required',
+    itemCategoryPlaceholder: 'Select Item Category',
+
+    itemName: 'Item Name',
+    itemNameRequiredError: 'Item Name is required',
+    itemNamePlaceholder: 'Enter Item Name',
+
+    brand: 'Brand',
+    brandRequiredError: 'Brand is required',
+    brandPlaceholder: 'Enter Brand',
+
+    quantity: 'Quantity',
+    quantityRequiredError: 'Quantity is required',
+    quantityPlaceholder: 'Enter Quantity',
+
+    unitPrice: 'Unit Price (LKR.)',
+    unitPriceRequiredError: 'Unit Price is required',
+    unitPricePlaceholder: 'Enter Unit Price',
+
+    skuNumber: 'SKU Number',
+    skuNumberRequiredError: 'SKU Number is required',
+    skuNumberPlaceholder: 'Enter SKU Number',
+
+    description: 'Description',
+    descriptionRequiredError: 'Description is required',
+    descriptionPlaceholder: 'Enter Description',
+
+    itemAddress: 'Item available Address',
+    itemAddressRequiredError: 'Item Address is required',
+    itemAddressPlaceholder: 'Enter Item Address',
+
+    longtitude: 'Longitude ',
+    longtitudeRequiredError: 'Longtitude is required',
+    longtitudePlaceholder: 'Enter Longtitude',
+
+    latitude: 'Latitude',
+    latitudeRequiredError: 'Latitude is required',
+    latitudePlaceholder: 'Enter Latitude'
+  },
+  uploadPhotoModal: {
+    title: 'Upload Photo',
+    subTitle: 'Choose your profile piture',
+    buttonTakePhoto: 'Take a photo',
+    buttonChooseFromLibrary: 'Choose from library'
+  },
+  viewCartPage: {
+    title: 'My Cart',
+    subTotal: 'Subtotal',
+    totalAmount: 'Total Amount',
+    items: 'items',
+    checkoutBtn: 'Proceed to checkout',
+    removeBtn: 'Remove'
+  },
+  viewItemPage:{
+    title: 'All Items',
+    subTitle: 'Find your items',
+    searchLabel: 'Search Items',
+    searchPlaceHolder: 'Search Items....',
+    removeBtn: 'Remove',
+    editBtn: 'Edit'
   }
 };
 
