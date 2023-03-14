@@ -221,7 +221,18 @@ const en = {
     searchPlaceHolder: 'Search Items....',
     removeBtn: 'Remove',
     editBtn: 'Edit'
-  }
+  },
+
+  termsAndConditionsPage: {
+    terms: 'Neutron Terms & Condition',
+    back: 'Back',
+    topic1: 'Account registration',
+    topic2: 'Account registration',
+    para1:
+      "Welcome to Neutron. These terms and conditions outline the rules and regulations for the use of Neutron’s App. By accessing this website we assume you accept these terms and conditions in full. Do not continue to use Neutron’s app if you do not accept all of the terms and conditions stated on this page.",
+    para2:
+      'To use the Service Users must register or create a User account, providing all required data or information in a complete and truthful manner. Failure to do so will cause unavailability of the Service. Users are responsible for keeping their login credentials confidential and safe. For this reason, Users are also required to choose passwords that meet the highest standards of strength permitted by this Application. By registering, Users agree to be fully responsible for all activities that occur under their username and password. Users are required to immediately and unambiguously inform the Owner via the contact details indicated in this document, if they think their personal information, including but not limited to User accounts, access credentials or personal data, have been violated, unduly disclosed or stolen.'
+  },
 };
 
 export default en;
