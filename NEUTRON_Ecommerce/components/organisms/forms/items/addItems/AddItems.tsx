@@ -69,7 +69,7 @@ export default function AddItemsForm() {
         values.skuNumber,
         imageUrl == null ? '' : imageUrl
       );
-      await ItemService.addItemAsync(newItem);
+      //await ItemService.addItemAsync(newItem);
       console.log(newItem);
     } catch (error) {
       setError(true)
