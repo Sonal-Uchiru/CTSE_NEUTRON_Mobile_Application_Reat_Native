@@ -20,16 +20,18 @@ import {
 import { horizontalScale } from '../../responsive/Metrics';
   
   interface props {
+    id: string;
     key: number;
     brand: string;
     itemName: string;
     skuNumber: string;
     description: string;
     price: number;
-    image: string;
+    image: string | null;
   }
   
   export default function AdminViewItemCard({
+    id,
     brand,
     itemName,
     skuNumber,
@@ -41,22 +43,13 @@ import { horizontalScale } from '../../responsive/Metrics';
     const theme = useTheme();
     const style = useThemedStyles(styles);
   
-    const changeLanguage = () => {
-      if (locale == 'sin') {
-        setLocale('en');
-        return;
-      }
-  
-      setLocale('sin');
-    };
-  
     return (
       <>
         <View style={style.cardStyle}>
           <View style={style.column}>
             <Image
               resizeMode='stretch'
-              source={Iphone}
+              source={{uri : image ?? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'}}
               style={style.imageStyle}
             />
           </View>

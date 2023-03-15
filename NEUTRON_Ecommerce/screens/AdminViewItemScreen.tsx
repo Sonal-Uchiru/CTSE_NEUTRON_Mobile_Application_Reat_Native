@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
@@ -14,6 +14,9 @@ import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale } from '../responsive/Metrics';
 import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
+import ItemService from '../api/services/ItemService';
+import { ItemModel } from '../types/items/ItemModel';
+import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 
 export default function AdminViewItemScreen() {
   const theme = useTheme();
@@ -21,6 +24,33 @@ export default function AdminViewItemScreen() {
   const array = [1, 2, 3, 4, 5];
   let itemPrice = 420000;
   const [searchText, setSearchText] = useState('');
+  const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
+  const [items, setItems] = useState<ItemModel[]>([]);
+  const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
+  const [error, setError] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
+  useEffect(() => {
+    ItemService.getItemListAsync()
+      .then((res) => {
+        setItems(res);
+        setError(false);
+        setErrorMsg('');
+      })
+      .catch((error) => {
+        setError(true);
+        setErrorMsg(error);
+      });
+  }, [isDataChanged]);
+
+  const searchItems = (input: string) => {
+    if (input.length > 3) {
+      const content: ItemModel[] = copyItems.filter(
+        (i) => i.itemName.toLocaleLowerCase() == input.toLocaleLowerCase()
+      );
+      setItems(content);
+    }
+  };
 
   return (
     <SafeAreaView style={style.container}>
@@ -30,43 +60,46 @@ export default function AdminViewItemScreen() {
           color={theme.COLORS.PRIMARY}
         />
         <Paragraph
-        value={i18n.t('viewItemPage.subTitle')}
-        color={theme.COLORS.PRIMARY}
+          value={i18n.t('viewItemPage.subTitle')}
+          color={theme.COLORS.PRIMARY}
         />
       </View>
       <View>
-      <FormGroupWithIcon
-            name={i18n.t('viewItemPage.searchLabel')}
-            id={'search'}
-            fieldvalue={searchText}
-            placeholder={i18n.t('viewItemPage.searchPlaceHolder')}
-            fieldstyle={style.textInput}
-            onChangeText={(newText: React.SetStateAction<string>) =>
-              setSearchText(newText)
-            }
-            error={undefined}
-            iconFirst={'magnify'}
-            iconSecond={'magnify'}
-            callFunction={undefined}
-          />
+        <FormGroupWithIcon
+          name={i18n.t('viewItemPage.searchLabel')}
+          id={'search'}
+          fieldvalue={searchText}
+          placeholder={i18n.t('viewItemPage.searchPlaceHolder')}
+          fieldstyle={style.textInput}
+          onChangeText={(input:string) =>searchItems(input)}
+          error={undefined}
+          iconFirst={'magnify'}
+          iconSecond={'magnify'}
+          callFunction={undefined}
+        />
       </View>
       <ScrollView>
-        {array.map((value, i) => {
-          return (
-            <AdminViewItemCard
-            key={i}
-              brand={'Apple'}
-              itemName={'I phone 12 Pro Max '}
-              skuNumber={'KS944RUR'}
-              description={
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor adipiscing elit, sed do eiusmod tempor..'
-              }
-              price={itemPrice}
-              image={Iphone}
-            />
-          );
-        })}
+        {items.length > 0 &&
+          items.map((item, index) => {
+            return (
+              <AdminViewItemCard
+                key={index}
+                brand={item.brand}
+                itemName={item.itemName}
+                skuNumber={item.stockKeepingUnits}
+                description={item.description}
+                price={item.unitPrice}
+                image={item.imageUrl ?? null}
+              />
+            );
+          })}
       </ScrollView>
+      <ErrorSnackbar
+        text={errorMsg}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => {}}
+      />
     </SafeAreaView>
   );
 }
@@ -84,7 +117,7 @@ const styles = (theme: {
       alignItems: 'center'
       //   paddingStart: 20
     },
-    
+
     headerStyle: {
       alignSelf: 'flex-start',
       marginStart: 20,
@@ -95,12 +128,12 @@ const styles = (theme: {
       marginTop: 20,
       backgroundColor: theme.COLORS.WHITE
     },
-   
+
     column: { flexDirection: 'column' },
     row: {
       flexDirection: 'row',
       alignSelf: 'flex-start',
       marginTop: 20,
       marginBottom: 20
-    },
+    }
   });
