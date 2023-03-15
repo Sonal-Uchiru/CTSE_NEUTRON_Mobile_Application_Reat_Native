@@ -15,6 +15,10 @@ import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale } from '../responsive/Metrics';
 import ItemService from '../api/services/ItemService';
 import { ItemModel } from '../types/items/ItemModel';
+import { getCurrentPositionAsync } from '../utils/expo/GeoLocation';
+import * as Location from 'expo-location';
+import { GetDistance } from '../utils/expo/GetDistance';
+import { Coordinations } from '../types/items/Coordinations';
 
 export default function ViewItemScreen() {
   const theme = useTheme();
@@ -22,29 +26,39 @@ export default function ViewItemScreen() {
   const array = [1, 2, 3, 4, 5];
   let itemPrice = 420000;
   const [searchText, setSearchText] = useState('');
-  const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
   const [items, setItems] = useState<ItemModel[]>([]);
   const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
-    ItemService.getItemListAsync()
-      .then((res) => {
-        setItems(res);
+    (async () => {
+      try {
+        const resItems = await ItemService.getItemListAsync();
+
+        if (resItems.length > 0) {
+          setItems(resItems);
+          setCopyItems(resItems);
+        }
         setError(false);
         setErrorMsg('');
-      })
-      .catch((error) => {
+
+       // const c:Location.LocationObject = await getCurrentPositionAsync()
+        //console.log(GetDistance(new Coordinations(c.coords.latitude,c.coords.longitude), new Coordinations(25.7858,-120.406417)))
+
+      } catch (error: any) {
         setError(true);
         setErrorMsg(error);
-      });
-  }, [isDataChanged]);
+      }
+    })();
+  }, []);
 
-  const searchItems = (input: string) => {
+  const searchItems = (input: any) => {
+    if (input.length == 1) return setItems(copyItems);
+
     if (input.length > 3) {
-      const content: ItemModel[] = copyItems.filter(
-        (i) => i.itemName.toLocaleLowerCase() == input.toLocaleLowerCase()
+      const content: ItemModel[] = copyItems.filter((i) =>
+        i.itemName.toLowerCase().includes(input.toLowerCase())
       );
       setItems(content);
     }
@@ -69,9 +83,10 @@ export default function ViewItemScreen() {
           fieldvalue={searchText}
           placeholder={i18n.t('viewItemPage.searchPlaceHolder')}
           fieldstyle={style.textInput}
-          onChangeText={(newText: React.SetStateAction<string>) =>
-            setSearchText(newText)
-          }
+          onChangeText={(input: React.SetStateAction<string>) => {
+            setSearchText(input);
+            searchItems(input);
+          }}
           error={undefined}
           iconFirst={'magnify'}
           iconSecond={'magnify'}
