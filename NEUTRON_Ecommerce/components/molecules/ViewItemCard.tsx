@@ -26,7 +26,7 @@ import { horizontalScale } from '../../responsive/Metrics';
     skuNumber: string;
     description: string;
     price: number;
-    image: string;
+    image: string | null;
   }
   
   export default function ViewItemCard({
@@ -56,7 +56,7 @@ import { horizontalScale } from '../../responsive/Metrics';
           <View style={style.column}>
             <Image
               resizeMode='stretch'
-              source={Iphone}
+              source={{uri : image ?? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'}}
               style={style.imageStyle}
             />
           </View>
