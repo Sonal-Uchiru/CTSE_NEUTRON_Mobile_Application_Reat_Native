@@ -36,8 +36,8 @@ export default function ManageItems() {
           color={theme.COLORS.BLACK}
         />
       </View>
-
       <AddItemsForm />
+
     </SafeAreaView>
   );
 }
