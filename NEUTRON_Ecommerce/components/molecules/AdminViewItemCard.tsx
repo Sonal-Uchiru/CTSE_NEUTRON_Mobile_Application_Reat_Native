@@ -20,7 +20,6 @@ import {
 import { horizontalScale } from '../../responsive/Metrics';
   
   interface props {
-    id: string;
     key: number;
     brand: string;
     itemName: string;
@@ -31,7 +30,6 @@ import { horizontalScale } from '../../responsive/Metrics';
   }
   
   export default function AdminViewItemCard({
-    id,
     brand,
     itemName,
     skuNumber,
