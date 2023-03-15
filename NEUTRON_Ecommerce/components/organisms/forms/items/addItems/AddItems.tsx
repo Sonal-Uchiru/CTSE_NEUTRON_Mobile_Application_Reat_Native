@@ -24,7 +24,7 @@ export default function AddItemsForm() {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [photoDialogVisible, setPhotoDialogVisible] = useState<boolean>(false);
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
-  const [error,setError] = useState<boolean>(true);
+  const [error,setError] = useState<boolean>(false);
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
