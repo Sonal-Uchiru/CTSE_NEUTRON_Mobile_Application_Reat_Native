@@ -1,4 +1,4 @@
-import { StyleSheet, Image, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Image, View, TouchableHighlight, FlatList, SafeAreaView } from 'react-native';
 import React, { useState } from 'react';
 import { Formik, FormikErrors } from 'formik';
 import i18n from 'i18n-js';
@@ -15,10 +15,16 @@ import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
 import FormGroupWithDropDown from '../../../../molecules/FormGroupWithDropDown';
 import PublicRepository from '../../../../../api/repositories/public_repositories/PublicRepository';
 import { CreateItemData } from '../../../../../types/items/CreateItemData';
+import * as ImagePicker from 'expo-image-picker';
+import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
+import ItemService from '../../../../../api/services/ItemService';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
 
 export default function AddItemsForm() {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [photoDialogVisible, setPhotoDialogVisible] = useState<boolean>(false);
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
+  const [error,setError] = useState<boolean>(true);
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -26,34 +32,49 @@ export default function AddItemsForm() {
   const hidePhotoDialog = () => setPhotoDialogVisible(false);
 
   const saveItemAsync = async (values: IAddItemsFormFields) => {
-    let latitude = 0;
-    let longitude = 0;
-    const res:any = await PublicRepository.getAsync(
-      `http://api.positionstack.com/v1/forward?access_key=12278d685905017c767147deaf5ead9c&query=${values.itemAddress}`
-    );
+    try {
+      let latitude: number = 0;
+      let longitude: number = 0;
+      let imageUrl: string | null = '';
 
-    const coordiantions = res.data.data;
+      const res: any = await PublicRepository.getAsync(
+        `http://api.positionstack.com/v1/forward?access_key=12278d685905017c767147deaf5ead9c&query=${values.itemAddress}`
+      );
 
-    if(coordiantions.length > 0){
-      latitude = +coordiantions[0].latitude;
-      longitude = +coordiantions[0].longitude;
+      const coordiantions = res.data.data;
+
+      if (coordiantions.length > 0) {
+        latitude = +coordiantions[0].latitude;
+        longitude = +coordiantions[0].longitude;
+      }
+
+      if (image) {
+        imageUrl = await uploadFile(
+          image,
+          'items(images)',
+          `${values.itemName}_${new Date().valueOf()}`
+        );
+      }
+
+      const newItem = new CreateItemData(
+        values.itemName,
+        values.itemCategory,
+        +values.quantity,
+        +values.unitPrice,
+        values.brand,
+        values.description,
+        values.itemAddress,
+        latitude,
+        longitude,
+        values.skuNumber,
+        imageUrl == null ? '' : imageUrl
+      );
+      await ItemService.addItemAsync(newItem);
+      console.log(newItem);
+    } catch (error) {
+      setError(true)
+      console.log(error)
     }
-
-    const newItem = new CreateItemData(
-      values.itemName,
-      values.itemCategory,
-      +values.quantity,
-      +values.unitPrice,
-      values.brand,
-      values.description,
-      values.itemAddress,
-      latitude,
-      longitude,
-      values.skuNumber,
-      ''
-    );
-
-    console.log(newItem)
   };
 
   let data = [
@@ -78,6 +99,23 @@ export default function AddItemsForm() {
     //   : setIsHidden(false);
     setIsHidden(!isHidden);
   }
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      selectionLimit: 1
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0]);
+    }
+  };
 
   return (
     <>
@@ -284,7 +322,9 @@ export default function AddItemsForm() {
       <UploadPhotoDialog
         isVisible={photoDialogVisible}
         dismissFunc={hidePhotoDialog}
+        pickImage={pickImage}
       />
+      <ErrorSnackbar text={'Something went wrong!'} iconName={'error'} isVisible={error} dismissFunc={()=>{}} />
     </>
   );
 }
