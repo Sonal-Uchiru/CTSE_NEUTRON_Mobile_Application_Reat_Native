@@ -10,35 +10,37 @@ import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale } from '../responsive/Metrics';
 import ItemService from '../api/services/ItemService';
 import { ItemModel } from '../types/items/ItemModel';
+import * as Location from 'expo-location';
+import { GetDistance } from '../utils/expo/GetDistance';
+import { Coordinations } from '../types/items/Coordinations';
 
 export default function ViewItemScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const array = [1, 2, 3, 4, 5];
-  let itemPrice = 420000;
   const [searchText, setSearchText] = useState('');
   const [items, setItems] = useState<ItemModel[]>([]);
   const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
     (async () => {
       try {
+        setError(false);
         const resItems = await ItemService.getItemListAsync();
 
         if (resItems.length > 0) {
-          setItems(resItems);
-          setCopyItems(resItems);
-        }
-        setError(false);
-        setErrorMsg('');
+          const userCurrentLocation: Location.LocationObject =
+            await Location.getCurrentPositionAsync();
 
-        // const c:Location.LocationObject = await getCurrentPositionAsync()
-        //console.log(GetDistance(new Coordinations(c.coords.latitude,c.coords.longitude), new Coordinations(25.7858,-120.406417)))
+          const nearbyItems: ItemModel[] = filterItemsByDistance(
+            userCurrentLocation,
+            resItems
+          );
+          setItems(nearbyItems);
+          setCopyItems(nearbyItems);
+        }
       } catch (error: any) {
         setError(true);
-        setErrorMsg(error);
       }
     })();
   }, []);
@@ -52,6 +54,27 @@ export default function ViewItemScreen() {
       );
       setItems(content);
     }
+  };
+
+  const filterItemsByDistance = (
+    userCurrentLocation: Location.LocationObject,
+    items: ItemModel[]
+  ): ItemModel[] => {
+    const filteredItems: ItemModel[] = items.filter((i) => {
+      const distance: number = GetDistance(
+        new Coordinations(
+          userCurrentLocation.coords.latitude,
+          userCurrentLocation.coords.longitude
+        ),
+        new Coordinations(i.latitude, i.longitude)
+      );
+
+      if (distance <= 10000) {
+        return true;
+      }
+      return false;
+    });
+    return filteredItems;
   };
 
   return (
