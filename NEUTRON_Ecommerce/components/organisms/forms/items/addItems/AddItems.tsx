@@ -185,6 +185,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
   };
 
   const submitAsync = async (values: IAddItemsFormFields) => {
+    console.log(docId);
     if (docId == null) {
       await saveItemAsync(values);
     } else {

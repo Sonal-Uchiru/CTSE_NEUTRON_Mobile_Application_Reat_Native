@@ -3,8 +3,8 @@ export class CreateCartItemData {
   quantity: number;
   uid: string = '';
 
-  constructor(itemDocId: string, quantity: number) {
+  constructor(itemDocId: string) {
     this.itemDocId = itemDocId;
-    this.quantity = quantity;
+    this.quantity = 1
   }
 }

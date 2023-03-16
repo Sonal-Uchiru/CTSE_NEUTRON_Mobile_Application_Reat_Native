@@ -6,6 +6,7 @@ import { CartItemModel } from '../../types/cart_Items/CartItemModel';
 import { ItemModel } from '../../types/items/ItemModel';
 import ItemService from './ItemService';
 import AuthenticationRepository from '../repositories/AuthenticationRepository';
+import { CurrentCartItem } from '../../types/cart_Items/CurrentCartItem';
 
 export class CartItemService {
   async addCartItemAsync(cartItem: CreateCartItemData): Promise<void> {
@@ -90,16 +91,21 @@ export class CartItemService {
     }
   }
 
-  async isCartItemAvailableAsync(itemId: string): Promise<boolean> {
+  async isCartItemAvailableAsync(
+    itemId: string
+  ): Promise<CurrentCartItem | null> {
     const cartItems: CartItemModel[] = await this.getCartItemListAsync();
 
     const filteredCartItem = cartItems.filter((i) => i.item.docId == itemId);
 
     if (filteredCartItem.length > 0) {
-      return true;
+      return new CurrentCartItem(
+        filteredCartItem[0].docId,
+        filteredCartItem[0].quantity
+      );
     }
 
-    return false;
+    return null;
   }
 }
 
