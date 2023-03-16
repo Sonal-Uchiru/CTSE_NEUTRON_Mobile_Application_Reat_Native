@@ -228,6 +228,16 @@ const sin = {
     editBtn: 'සංස්කරණය කරන්න'
   },
 
+  adminViewCustomersPage:{
+    title: 'වත්මන් පාරිභෝගිකයින්',
+    subTitle: 'සියලුම වත්මන් පාරිභෝගිකයින්',
+    searchLabel: 'ගනුදෙනුකරුවන් සොයන්න',
+    searchPlaceHolder: 'ගනුදෙනුකරුවන් සොයන්න....',
+    name: 'නම',
+    email: 'විද්යුත් තැපෑල',
+    contact: 'ඇමතුම් අංකය'
+  },
+
   termsAndConditionsPage: {
     terms: 'නියුට්‍රෝන යෙදුමේ නියම සහ කොන්දේසි',
     back: 'ආපසු යන්න',

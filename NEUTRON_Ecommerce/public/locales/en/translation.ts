@@ -224,6 +224,16 @@ const en = {
     editBtn: 'Edit'
   },
 
+  adminViewCustomersPage:{
+    title: 'Current Customers',
+    subTitle: 'All customers',
+    searchLabel: 'Search Customers',
+    searchPlaceHolder: 'Search Customers....',
+    name: 'Name',
+    email: 'Email',
+    contact: 'Contact'
+  },
+
   termsAndConditionsPage: {
     terms: 'Neutron Terms & Condition',
     back: 'Back',

@@ -14,32 +14,32 @@ import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale } from '../responsive/Metrics';
 import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
+import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCard';
 
-export default function AdminViewItemScreen() {
+export default function AdminViewAllCustomersScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const array = [1, 2, 3, 4, 5];
-  let itemPrice = 420000;
   const [searchText, setSearchText] = useState('');
 
   return (
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
         <HeadLine3
-          value={i18n.t('viewItemPage.title')}
+          value={i18n.t('adminViewCustomersPage.title')}
           color={theme.COLORS.PRIMARY}
         />
         <Paragraph
-        value={i18n.t('viewItemPage.subTitle')}
+        value={i18n.t('adminViewCustomersPage.subTitle')}
         color={theme.COLORS.PRIMARY}
         />
       </View>
       <View>
       <FormGroupWithIcon
-            name={i18n.t('viewItemPage.searchLabel')}
+            name={i18n.t('adminViewCustomersPage.searchLabel')}
             id={'search'}
             fieldvalue={searchText}
-            placeholder={i18n.t('viewItemPage.searchPlaceHolder')}
+            placeholder={i18n.t('adminViewCustomersPage.searchPlaceHolder')}
             fieldstyle={style.textInput}
             onChangeText={(newText: React.SetStateAction<string>) =>
               setSearchText(newText)
@@ -53,17 +53,14 @@ export default function AdminViewItemScreen() {
       <ScrollView>
         {array.map((value, i) => {
           return (
-            <AdminViewItemCard
-            key={i}
-              brand={'Apple'}
-              itemName={'I phone 12 Pro Max '}
-              skuNumber={'KS944RUR'}
-              description={
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor adipiscing elit, sed do eiusmod tempor..'
-              }
-              price={itemPrice}
-              image={Iphone}
-            />
+            <AdminViewCustomersCard key={i}
+            label1={'Name :'}
+            label2={'Email :'}
+            label3={'Contact:'}
+            name={'Dulan Madushan'} 
+            email={'dulan@gmail.com'} 
+            contact={'+94-765521245'} 
+          />
           );
         })}
       </ScrollView>
@@ -79,29 +76,29 @@ const styles = (theme: {
 }) =>
   StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: theme.COLORS.WHITE,
-      alignItems: 'center',
-      marginBottom: 10
-      //   paddingStart: 20
-    },
-    
-    headerStyle: {
-      alignSelf: 'flex-start',
-      marginStart: 20,
-      marginTop: 10
-    },
-    textInput: {
-      width: horizontalScale(300),
-      marginTop: 20,
-      backgroundColor: theme.COLORS.WHITE
-    },
-   
-    column: { flexDirection: 'column' },
-    row: {
-      flexDirection: 'row',
-      alignSelf: 'flex-start',
-      marginTop: 20,
-      marginBottom: 20
-    },
+        flex: 1,
+        backgroundColor: theme.COLORS.WHITE,
+        alignItems: 'center',
+     
+        //   paddingStart: 20
+      },
+      
+      headerStyle: {
+        alignSelf: 'flex-start',
+        marginStart: 20,
+        marginTop: 20
+      },
+      textInput: {
+        width: horizontalScale(300),
+        marginTop: 20,
+        backgroundColor: theme.COLORS.WHITE
+      },
+     
+      column: { flexDirection: 'column' },
+      row: {
+        flexDirection: 'row',
+        alignSelf: 'flex-start',
+        marginTop: 20,
+        marginBottom: 20
+      },
   });

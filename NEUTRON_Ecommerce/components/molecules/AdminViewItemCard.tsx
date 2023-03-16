@@ -146,19 +146,6 @@ import { horizontalScale } from '../../responsive/Metrics';
       column: { flexDirection: 'column', marginTop: 10 },
       row: { flexDirection: 'row', alignSelf: 'flex-end' },
       columnRight: { flexDirection: 'column', width: 260 },
-      icon1: {
-        fontSize: theme.TYPOGRAPHY.FONT_SIZE.L2,
-        color: theme.COLORS.PRIMARY,
-        marginTop: 5,
-        marginRight: 15
-      },
-      icon2: {
-        fontSize: theme.TYPOGRAPHY.FONT_SIZE.L2,
-        color: theme.COLORS.PRIMARY,
-        marginTop: 5,
-        marginRight: 15
-      },
-
       buttonView:{
         alignSelf:'center',
         flexDirection:'row',
