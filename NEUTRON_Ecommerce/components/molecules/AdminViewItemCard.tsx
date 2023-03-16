@@ -22,7 +22,6 @@ import ItemService from '../../api/services/ItemService';
 
 interface props {
   docId:string;
-  key: number;
   brand: string;
   itemName: string;
   skuNumber: string;
@@ -35,7 +34,6 @@ interface props {
 
 export default function AdminViewItemCard({
   docId,
-  key,
   brand,
   itemName,
   skuNumber,

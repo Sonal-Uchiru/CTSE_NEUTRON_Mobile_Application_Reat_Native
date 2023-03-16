@@ -22,9 +22,10 @@ import { ItemModel } from '../types/items/ItemModel';
 
 interface Props {
   docId: string | null;
+  onCancel(): void;
 }
 
-export default function ManageItems({ docId }: Props) {
+export default function ManageItems({ docId, onCancel }: Props) {
   const [searchText, setSearchText] = useState('');
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -43,7 +44,7 @@ export default function ManageItems({ docId }: Props) {
         />
       </View>
 
-      <AddItemsForm docId={docId}/>
+      <AddItemsForm docId={docId} onCancel={onCancel}/>
     </SafeAreaView>
   );
 }

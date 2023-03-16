@@ -63,7 +63,7 @@ export default function AdminViewItemScreen() {
   return (
     <>
       {isEditing ? (
-        <ManageItems docId={itemDocId} />
+        <ManageItems docId={itemDocId} onCancel={() => setIsEditing(false)} />
       ) : (
         <SafeAreaView style={style.container}>
           <View style={style.headerStyle}>

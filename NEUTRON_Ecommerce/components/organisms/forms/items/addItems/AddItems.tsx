@@ -1,4 +1,11 @@
-import { StyleSheet, Image, View, TouchableHighlight, FlatList, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  Image,
+  View,
+  TouchableHighlight,
+  FlatList,
+  SafeAreaView
+} from 'react-native';
 import React, { useState } from 'react';
 import { Formik, FormikErrors } from 'formik';
 import i18n from 'i18n-js';
@@ -19,16 +26,19 @@ import * as ImagePicker from 'expo-image-picker';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
 import ItemService from '../../../../../api/services/ItemService';
 import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
-interface Props{
-  docId: string | null
+interface Props {
+  docId: string | null;
+  onCancel(): void;
 }
 
-export default function AddItemsForm({docId}:Props) {
+export default function AddItemsForm({ docId, onCancel }: Props) {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [photoDialogVisible, setPhotoDialogVisible] = useState<boolean>(false);
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
-  const [error,setError] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -40,6 +50,9 @@ export default function AddItemsForm({docId}:Props) {
       let latitude: number = 0;
       let longitude: number = 0;
       let imageUrl: string | null = '';
+
+      setError(false);
+      setSuccess(false);
 
       const res: any = await PublicRepository.getAsync(
         `http://api.positionstack.com/v1/forward?access_key=12278d685905017c767147deaf5ead9c&query=${values.itemAddress}`
@@ -55,7 +68,7 @@ export default function AddItemsForm({docId}:Props) {
       if (image) {
         imageUrl = await uploadFile(
           image,
-          'items(images)',
+          'items',
           `${values.itemName}_${new Date().valueOf()}`
         );
       }
@@ -73,11 +86,12 @@ export default function AddItemsForm({docId}:Props) {
         values.skuNumber,
         imageUrl == null ? '' : imageUrl
       );
-      //await ItemService.addItemAsync(newItem);
-      console.log(newItem);
+      await ItemService.addItemAsync(newItem);
+      setSuccess(true);
     } catch (error) {
-      setError(true)
-      console.log(error)
+      setError(true);
+      setSuccess(false);
+      console.log(error);
     }
   };
 
@@ -94,13 +108,6 @@ export default function AddItemsForm({docId}:Props) {
   ];
 
   function viewSecondStep(errors: FormikErrors<IAddItemsFormFields>) {
-    // errors.itemCategory != undefined ||
-    // errors.brand != undefined ||
-    // errors.itemName != undefined ||
-    // errors.quantity != undefined ||
-    // errors.unitPrice != undefined
-    //   ? setIsHidden(true)
-    //   : setIsHidden(false);
     setIsHidden(!isHidden);
   }
 
@@ -323,12 +330,30 @@ export default function AddItemsForm({docId}:Props) {
           </>
         )}
       </Formik>
+      <ModalButton
+        value={i18n.t('addItemsForm.cancel')}
+        color={theme.COLORS.ERROR}
+        callFunction={onCancel}
+        marginLeft={20}
+        marginTop={40}
+      />
       <UploadPhotoDialog
         isVisible={photoDialogVisible}
         dismissFunc={hidePhotoDialog}
         pickImage={pickImage}
       />
-      <ErrorSnackbar text={'Something went wrong!'} iconName={'error'} isVisible={error} dismissFunc={()=>{}} />
+      <ErrorSnackbar
+        text={'Something went wrong!'}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => {}}
+      />
+      <SuccessSnackbar
+        text={'Item added successfully'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => {}}
+      />
     </>
   );
 }
