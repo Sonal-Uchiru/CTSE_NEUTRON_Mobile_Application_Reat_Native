@@ -19,9 +19,5 @@ export const AddItemsValidationSchema = yup.object().shape({
     .required(AddItemsFormModel.description.requiredErrorMessage),
   itemAddress: yup
     .string()
-    .required(AddItemsFormModel.itemAddress.requiredErrorMessage),
-  longtitude: yup
-    .string()
-    .required(AddItemsFormModel.longtitude.requiredErrorMessage),
-  latitude: yup.string().required(AddItemsFormModel.latitude.requiredErrorMessage)
+    .required(AddItemsFormModel.itemAddress.requiredErrorMessage)
 });

@@ -37,6 +37,8 @@ export default function LocationDialog({ isVisible, dismissFunc }: props) {
   ) {
     setRegion(region);
   }
+
+  const [marker, setMarker] = useState<any>();
   return (
     <Portal>
       <Dialog
@@ -64,7 +66,8 @@ export default function LocationDialog({ isVisible, dismissFunc }: props) {
               style={style.mapStyle}
               region={region}
               onRegionChange={onRegionChange}
-            ></MapView>
+            >
+            </MapView>
           </View>
           <View style={style.bottonView}>
             <ModalButton
