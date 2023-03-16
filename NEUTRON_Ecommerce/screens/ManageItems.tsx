@@ -5,7 +5,7 @@ import {
   View,
   ScrollView
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
@@ -17,8 +17,14 @@ import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
 import { Iphone } from '../assets/image';
 import { Ionicons } from '@expo/vector-icons';
 import AddItemsForm from '../components/organisms/forms/items/addItems/AddItems';
+import ItemService from '../api/services/ItemService';
+import { ItemModel } from '../types/items/ItemModel';
 
-export default function ManageItems() {
+interface Props {
+  docId: string | null;
+}
+
+export default function ManageItems({ docId }: Props) {
   const [searchText, setSearchText] = useState('');
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -37,7 +43,7 @@ export default function ManageItems() {
         />
       </View>
 
-      <AddItemsForm />
+      <AddItemsForm docId={docId}/>
     </SafeAreaView>
   );
 }

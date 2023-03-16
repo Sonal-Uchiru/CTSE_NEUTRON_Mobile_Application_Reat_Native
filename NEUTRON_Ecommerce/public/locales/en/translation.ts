@@ -221,7 +221,8 @@ const en = {
     searchLabel: 'Search Items',
     searchPlaceHolder: 'Search Items....',
     removeBtn: 'Remove',
-    editBtn: 'Edit'
+    editBtn: 'Edit',
+    addBtn: 'Add'
   }
 };
 

@@ -17,6 +17,7 @@ import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
 import ItemService from '../api/services/ItemService';
 import { ItemModel } from '../types/items/ItemModel';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
+import ManageItems from './ManageItems';
 
 export default function AdminViewItemScreen() {
   const theme = useTheme();
@@ -28,6 +29,8 @@ export default function AdminViewItemScreen() {
   const [items, setItems] = useState<ItemModel[]>([]);
   const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [itemDocId, setItemDocId] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -39,10 +42,9 @@ export default function AdminViewItemScreen() {
           setCopyItems(resItems);
         }
         setError(false);
-
       } catch (error) {
         setError(true);
-        console.log(error)
+        console.log(error);
       }
     })();
   }, [isDataChanged]);
@@ -59,57 +61,79 @@ export default function AdminViewItemScreen() {
   };
 
   return (
-    <SafeAreaView style={style.container}>
-      <View style={style.headerStyle}>
-        <HeadLine3
-          value={i18n.t('viewItemPage.title')}
-          color={theme.COLORS.PRIMARY}
-        />
-        <Paragraph
-          value={i18n.t('viewItemPage.subTitle')}
-          color={theme.COLORS.PRIMARY}
-        />
-      </View>
-      <View>
-        <FormGroupWithIcon
-          name={i18n.t('viewItemPage.searchLabel')}
-          id={'search'}
-          fieldvalue={searchText}
-          placeholder={i18n.t('viewItemPage.searchPlaceHolder')}
-          fieldstyle={style.textInput}
-          onChangeText={(input:string) =>{
-            setSearchText(input);
-            searchItems(input);
-            }}
-          error={undefined}
-          iconFirst={'magnify'}
-          iconSecond={'magnify'}
-          callFunction={undefined}
-        />
-      </View>
-      <ScrollView>
-        {items.length > 0 &&
-          items.map((item, index) => {
-            return (
-              <AdminViewItemCard
-                key={index}
-                brand={item.brand}
-                itemName={item.itemName}
-                skuNumber={item.stockKeepingUnits}
-                description={item.description}
-                price={item.unitPrice}
-                image={item.imageUrl ?? null}
-              />
-            );
-          })}
-      </ScrollView>
-      <ErrorSnackbar
-        text={'Something went wrong!'}
-        iconName={'error'}
-        isVisible={error}
-        dismissFunc={() => {}}
-      />
-    </SafeAreaView>
+    <>
+      {isEditing ? (
+        <ManageItems docId={itemDocId} />
+      ) : (
+        <SafeAreaView style={style.container}>
+          <View style={style.headerStyle}>
+            <HeadLine3
+              value={i18n.t('viewItemPage.title')}
+              color={theme.COLORS.PRIMARY}
+            />
+            <Paragraph
+              value={i18n.t('viewItemPage.subTitle')}
+              color={theme.COLORS.PRIMARY}
+            />
+          </View>
+          <View>
+            <FormGroupWithIcon
+              name={i18n.t('viewItemPage.searchLabel')}
+              id={'search'}
+              fieldvalue={searchText}
+              placeholder={i18n.t('viewItemPage.searchPlaceHolder')}
+              fieldstyle={style.textInput}
+              onChangeText={(input: string) => {
+                setSearchText(input);
+                searchItems(input);
+              }}
+              error={undefined}
+              iconFirst={'magnify'}
+              iconSecond={'magnify'}
+              callFunction={undefined}
+            />
+          </View>
+          <View>
+            <ModalButton
+              value={i18n.t('viewItemPage.addBtn')}
+              color={theme.COLORS.PRIMARY}
+              marginTop={10}
+              marginLeft={5}
+              width={horizontalScale(100)}
+              callFunction={() => {
+                setItemDocId(null);
+                setIsEditing(true);
+              }}
+            />
+          </View>
+          <ScrollView>
+            {items.length > 0 &&
+              items.map((item, index) => {
+                return (
+                  <AdminViewItemCard
+                    docId={item.docId}
+                    key={index}
+                    brand={item.brand}
+                    itemName={item.itemName}
+                    skuNumber={item.stockKeepingUnits}
+                    description={item.description}
+                    price={item.unitPrice}
+                    image={item.imageUrl ?? null}
+                    onRemove={() => setIsDataChanged(!isDataChanged)}
+                    onEdit={() => setIsDataChanged(!isDataChanged)}
+                  />
+                );
+              })}
+          </ScrollView>
+          <ErrorSnackbar
+            text={'Something went wrong!'}
+            iconName={'error'}
+            isVisible={error}
+            dismissFunc={() => {}}
+          />
+        </SafeAreaView>
+      )}
+    </>
   );
 }
 

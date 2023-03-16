@@ -15,8 +15,13 @@ import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
 import LocationDialog from '../../../../../hooks/dialogs/LocationDialog';
 import FormGroupWithDropDown from '../../../../molecules/FormGroupWithDropDown';
+import { ItemModel } from '../../../../../types/items/ItemModel';
 
-export default function AddItemsForm() {
+interface Props{
+  docId: string | null
+}
+
+export default function AddItemsForm({docId}:Props) {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [photoDialogVisible, setPhotoDialogVisible] = useState<boolean>(false);
   const [locationDialogVisible, setLocationDialogVisible] =
