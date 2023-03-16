@@ -2,9 +2,7 @@ import {
   StyleSheet,
   Image,
   View,
-  TouchableHighlight,
-  FlatList,
-  SafeAreaView
+  TouchableHighlight
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Formik, FormikErrors } from 'formik';
@@ -28,7 +26,6 @@ import ItemService from '../../../../../api/services/ItemService';
 import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
 import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 import { ItemModel } from '../../../../../types/items/ItemModel';
-import { UpdateCartItemData } from '../../../../../types/cart_Items/UpdateCartItemData';
 import { UpdateItemData } from '../../../../../types/items/UpdateItemData';
 
 interface Props {
