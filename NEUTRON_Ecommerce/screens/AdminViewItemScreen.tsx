@@ -22,8 +22,6 @@ import ManageItems from './ManageItems';
 export default function AdminViewItemScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const array = [1, 2, 3, 4, 5];
-  let itemPrice = 420000;
   const [searchText, setSearchText] = useState('');
   const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
   const [items, setItems] = useState<ItemModel[]>([]);
@@ -63,7 +61,10 @@ export default function AdminViewItemScreen() {
   return (
     <>
       {isEditing ? (
-        <ManageItems docId={itemDocId} onCancel={() => setIsEditing(false)} />
+        <ManageItems docId={itemDocId} onCancel={() => {
+          setIsDataChanged(!isDataChanged)
+          setItemDocId(null)
+          setIsEditing(false)}} />
       ) : (
         <SafeAreaView style={style.container}>
           <View style={style.headerStyle}>
@@ -120,7 +121,10 @@ export default function AdminViewItemScreen() {
                     price={item.unitPrice}
                     image={item.imageUrl ?? null}
                     onRemove={() => setIsDataChanged(!isDataChanged)}
-                    onEdit={() => setIsDataChanged(!isDataChanged)}
+                    onEdit={(id) => {
+                      setItemDocId(id)
+                      setIsEditing(true)
+                    }}
                   />
                 );
               })}

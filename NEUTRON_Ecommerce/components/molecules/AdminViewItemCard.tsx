@@ -29,7 +29,7 @@ interface props {
   price: number;
   image: string | null;
   onRemove(): void;
-  onEdit(): void;
+  onEdit(docId:string): void;
 }
 
 export default function AdminViewItemCard({
@@ -106,6 +106,7 @@ export default function AdminViewItemCard({
               color={theme.COLORS.PRIMARY}
               marginTop={10}
               marginRight={5}
+              callFunction={() => onEdit(docId)}
               width={horizontalScale(80)}
             />
             <ModalButton
