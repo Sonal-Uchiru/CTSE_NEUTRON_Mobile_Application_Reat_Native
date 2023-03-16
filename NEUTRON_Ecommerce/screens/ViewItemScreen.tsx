@@ -5,20 +5,11 @@ import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
 import HeadLine3 from '../components/atoms/typographies/HeadLine3';
 import Paragraph from '../components/atoms/typographies/Paragraph';
-import CreditCard from '../components/molecules/CreditCard';
-import ModalButton from '../components/atoms/buttons/ModalButton';
 import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
-import CartCard from '../components/molecules/CartCard';
-import { Iphone } from '../assets/image';
-import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale } from '../responsive/Metrics';
 import ItemService from '../api/services/ItemService';
 import { ItemModel } from '../types/items/ItemModel';
-import { getCurrentPositionAsync } from '../utils/expo/GeoLocation';
-import * as Location from 'expo-location';
-import { GetDistance } from '../utils/expo/GetDistance';
-import { Coordinations } from '../types/items/Coordinations';
 
 export default function ViewItemScreen() {
   const theme = useTheme();
@@ -43,9 +34,8 @@ export default function ViewItemScreen() {
         setError(false);
         setErrorMsg('');
 
-       // const c:Location.LocationObject = await getCurrentPositionAsync()
+        // const c:Location.LocationObject = await getCurrentPositionAsync()
         //console.log(GetDistance(new Coordinations(c.coords.latitude,c.coords.longitude), new Coordinations(25.7858,-120.406417)))
-
       } catch (error: any) {
         setError(true);
         setErrorMsg(error);
@@ -96,17 +86,7 @@ export default function ViewItemScreen() {
       <ScrollView>
         {items.length > 0 &&
           items.map((item, index) => {
-            return (
-              <ViewItemCard
-                key={index}
-                brand={item.brand}
-                itemName={item.itemName}
-                skuNumber={item.stockKeepingUnits}
-                description={item.description}
-                price={item.unitPrice}
-                image={item.imageUrl ?? null}
-              />
-            );
+            return <ViewItemCard item={item} key={index} />;
           })}
       </ScrollView>
     </SafeAreaView>
