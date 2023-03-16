@@ -23,7 +23,6 @@ export default function ErrorSnackbar({
   const theme = useTheme();
   const style = useThemedStyles(styles);
   return (
-    <View>
       <Snackbar
         visible={isVisible}
         style={style.successBackground}
@@ -35,7 +34,6 @@ export default function ErrorSnackbar({
           <ParagraphBold value={text} color={theme.COLORS.WHITE} />
         </View>
       </Snackbar>
-    </View>
   );
 }
 

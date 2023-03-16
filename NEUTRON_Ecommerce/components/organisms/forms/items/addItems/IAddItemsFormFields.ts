@@ -7,6 +7,4 @@ export interface IAddItemsFormFields {
   skuNumber: string;
   description: string;
   itemAddress: string;
-  longtitude: string;
-  latitude: string;
 }
