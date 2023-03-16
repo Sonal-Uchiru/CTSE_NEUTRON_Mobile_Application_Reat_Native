@@ -7,9 +7,9 @@ export const AddItemsValidationSchema = yup.object().shape({
     .required(AddItemsFormModel.itemCategory.requiredErrorMessage),
   itemName: yup.string().required(AddItemsFormModel.itemName.requiredErrorMessage),
   brand: yup.string().required(AddItemsFormModel.brand.requiredErrorMessage),
-  quantity: yup.string().required(AddItemsFormModel.quantity.requiredErrorMessage),
+  quantity: yup.number().required(AddItemsFormModel.quantity.requiredErrorMessage),
   unitPrice: yup
-    .string()
+    .number()
     .required(AddItemsFormModel.unitPrice.requiredErrorMessage),
   skuNumber: yup
     .string()
