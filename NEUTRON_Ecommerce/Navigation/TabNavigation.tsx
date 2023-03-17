@@ -20,7 +20,6 @@ import RegisterForm from '../components/organisms/forms/users/registers/Register
 import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
 
-
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
   const [load, setLoad] = useState(false);
@@ -33,7 +32,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={AdminViewItemScreen} />
+        <Tab.Screen name="Login" component={ViewCart} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
