@@ -28,13 +28,15 @@ interface props {
   cartItem: CartItemModel;
   refreshFunc: any;
   loadingStatus: any;
+  passinError: any;
 }
 
 export default function CartCard({
   item,
   cartItem,
   refreshFunc,
-  loadingStatus
+  loadingStatus,
+  passinError
 }: props) {
   const [locale, setLocale] = useState(Localization.locale);
   const [itemQuantity, setitemQuantity] = useState<number>(1);
@@ -63,6 +65,7 @@ export default function CartCard({
       refreshFunc();
     } catch (error) {
       console.log(error);
+      passinError(true);
     }
     return;
   }
@@ -73,6 +76,7 @@ export default function CartCard({
       refreshFunc();
     } catch (error) {
       console.log(error);
+      passinError(true);
     }
     return;
   }

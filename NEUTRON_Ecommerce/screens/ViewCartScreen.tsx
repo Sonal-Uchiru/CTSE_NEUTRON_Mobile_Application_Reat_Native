@@ -14,6 +14,7 @@ import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import { CartItemModel } from '../types/cart_Items/CartItemModel';
 import CartItemService from '../api/services/CartService';
 import UserService from '../api/services/UserService';
+import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 
 export default function ViewCart() {
   const theme = useTheme();
@@ -91,6 +92,7 @@ export default function ViewCart() {
               cartItem={selectedItem}
               refreshFunc={fetchCartList}
               loadingStatus={setLoading}
+              passinError = {setError}
             />
           );
         })}
@@ -141,6 +143,12 @@ export default function ViewCart() {
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+      />
+      <ErrorSnackbar
+        text={'Something went wrong please try again'}
+        iconName={undefined}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
       />
     </SafeAreaView>
   );
