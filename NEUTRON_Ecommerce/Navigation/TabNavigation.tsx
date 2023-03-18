@@ -33,7 +33,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={ViewCart} />
+        <Tab.Screen name="Login" component={ViewItemScreen} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>

@@ -74,7 +74,8 @@ const sin = {
     sendcode: 'කේතය යවන්න',
     verifyCode: 'තහවුරු කිරීමේ කේතය',
     deleteMyAccount: 'මගේ ගිණුම මකන්න',
-    addToCart: 'කරත්තයට එකතු කරන්න'
+    addToCart: 'කරත්තයට එකතු කරන්න',
+    cartDone: 'කළා'
   },
   forgotPasswordFormCommon: {
     title: 'මුරපදය අමතක වුණා ද?',
