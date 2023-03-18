@@ -8,12 +8,19 @@ import useThemedStyles from '../../theme/hooks/UseThemedStyles';
 import i18n from 'i18n-js';
 import ModalButton from '../../components/atoms/buttons/ModalButton';
 
+import { uploadFile } from '../../utils/firebase/cloud_storage/UploadFile';
+
 interface props {
   isVisible: boolean;
   dismissFunc: any;
+  pickImage: any;
 }
 
-export default function UploadPhotoDialog({ isVisible, dismissFunc }: props) {
+export default function UploadPhotoDialog({
+  isVisible,
+  dismissFunc,
+  pickImage
+}: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
@@ -40,7 +47,7 @@ export default function UploadPhotoDialog({ isVisible, dismissFunc }: props) {
             />
             <ModalButton
               value={i18n.t('uploadPhotoModal.buttonChooseFromLibrary')}
-              callFunction={dismissFunc}
+              callFunction={pickImage}
               color={theme.COLORS.PRIMARY}
               marginTop={20}
               width={170}

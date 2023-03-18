@@ -1,5 +1,10 @@
-import { StyleSheet, Image, View, TouchableHighlight } from 'react-native';
-import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Image,
+  View,
+  TouchableHighlight
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Formik, FormikErrors } from 'formik';
 import i18n from 'i18n-js';
 import FormGroup from '../../../../molecules/FormGroup';
@@ -11,24 +16,181 @@ import { IAddItemsFormFields } from './IAddItemsFormFields';
 import { AddItemsValidationSchema } from './AddItemsFormValidations';
 import { AddItemsFormModel } from './AddItemsFormModel';
 import { Iphone, Edit } from '../../../../../assets/image';
-import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
-import LocationDialog from '../../../../../hooks/dialogs/LocationDialog';
 import FormGroupWithDropDown from '../../../../molecules/FormGroupWithDropDown';
+import PublicRepository from '../../../../../api/repositories/public_repositories/PublicRepository';
+import { CreateItemData } from '../../../../../types/items/CreateItemData';
+import * as ImagePicker from 'expo-image-picker';
+import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
+import ItemService from '../../../../../api/services/ItemService';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
+import { ItemModel } from '../../../../../types/items/ItemModel';
+import { UpdateItemData } from '../../../../../types/items/UpdateItemData';
 
-export default function AddItemsForm() {
+interface Props {
+  docId: string | null;
+  onCancel(): void;
+}
+
+export default function AddItemsForm({ docId, onCancel }: Props) {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [photoDialogVisible, setPhotoDialogVisible] = useState<boolean>(false);
-  const [locationDialogVisible, setLocationDialogVisible] =
-    useState<boolean>(false);
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [item, setItem] = useState<ItemModel>();
+  const [isScreenChanged, setIsScreenChanged] = useState<boolean>();
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
   const hidePhotoDialog = () => setPhotoDialogVisible(false);
-  const hideLocationDialog = () => setLocationDialogVisible(false);
 
-  const registerAsync = async (values: IAddItemsFormFields) => {};
+  useEffect(() => {
+    (async () => {
+      try {
+        if (docId == null) {
+          setInitialValues(null);
+          return;
+        }
+        const resItem = await ItemService.getItemByIdAsync(docId!);
+        setInitialValues(resItem);
+
+        setItem(resItem);
+        setError(false);
+      } catch (error) {
+        setError(true);
+        console.log(error);
+      }
+    })();
+  }, [isScreenChanged]);
+
+  const setInitialValues = (item: ItemModel | null) => {
+    AddItemsInitialValues.itemName = item == null ? '' : item.itemName;
+    (AddItemsInitialValues.brand = item == null ? '' : item.brand),
+      (AddItemsInitialValues.description =
+        item == null ? '' : item.description),
+      (AddItemsInitialValues.itemAddress =
+        item == null ? '' : item.availableAddresses),
+      (AddItemsInitialValues.quantity =
+        item == null ? '' : item.quantity.toString()),
+      (AddItemsInitialValues.skuNumber =
+        item == null ? '' : item.stockKeepingUnits),
+      (AddItemsInitialValues.unitPrice =
+        item == null ? '' : item.unitPrice.toString());
+  };
+
+  const saveItemAsync = async (values: IAddItemsFormFields) => {
+    try {
+      let latitude: number = 0;
+      let longitude: number = 0;
+      let imageUrl: string | null = '';
+
+      setError(false);
+      setSuccess(false);
+
+      const res: any = await PublicRepository.getAsync(
+        `http://api.positionstack.com/v1/forward?access_key=12278d685905017c767147deaf5ead9c&query=${values.itemAddress}`
+      );
+
+      const coordiantions = res.data.data;
+
+      if (coordiantions.length > 0) {
+        latitude = +coordiantions[0].latitude;
+        longitude = +coordiantions[0].longitude;
+      }
+
+      if (image) {
+        imageUrl = await uploadFile(
+          image,
+          'items',
+          `${values.itemName}_${new Date().valueOf()}`
+        );
+      }
+
+      const newItem = new CreateItemData(
+        values.itemName,
+        values.itemCategory,
+        +values.quantity,
+        +values.unitPrice,
+        values.brand,
+        values.description,
+        values.itemAddress,
+        latitude,
+        longitude,
+        values.skuNumber,
+        imageUrl == null ? '' : imageUrl
+      );
+      await ItemService.addItemAsync(newItem);
+      setSuccess(true);
+    } catch (error) {
+      setError(true);
+      setSuccess(false);
+      console.log(error);
+    }
+  };
+
+  const editItemAsync = async (values: IAddItemsFormFields) => {
+    try {
+      let latitude: number = 0;
+      let longitude: number = 0;
+      let imageUrl: string | null = '';
+
+      setError(false);
+      setSuccess(false);
+
+      const res: any = await PublicRepository.getAsync(
+        `http://api.positionstack.com/v1/forward?access_key=12278d685905017c767147deaf5ead9c&query=${values.itemAddress}`
+      );
+
+      const coordiantions = res.data.data;
+
+      if (coordiantions.length > 0) {
+        latitude = +coordiantions[0].latitude;
+        longitude = +coordiantions[0].longitude;
+      }
+
+      if (image) {
+        imageUrl = await uploadFile(
+          image,
+          'items',
+          `${values.itemName}_${new Date().valueOf()}`
+        );
+      } else {
+        imageUrl = item?.imageUrl!;
+      }
+
+      const newItem = new UpdateItemData(
+        docId!,
+        values.itemName,
+        values.itemCategory,
+        +values.quantity,
+        +values.unitPrice,
+        values.brand,
+        values.description,
+        values.itemAddress,
+        latitude,
+        longitude,
+        values.skuNumber,
+        imageUrl == null ? '' : imageUrl
+      );
+      await ItemService.updateItemAsync(newItem);
+      setSuccess(true);
+    } catch (error) {
+      setError(true);
+      setSuccess(false);
+      console.log(error);
+    }
+  };
+
+  const submitAsync = async (values: IAddItemsFormFields) => {
+    if (docId == null) {
+      await saveItemAsync(values);
+    } else {
+      await editItemAsync(values);
+    }
+  };
 
   let data = [
     {
@@ -43,21 +205,31 @@ export default function AddItemsForm() {
   ];
 
   function viewSecondStep(errors: FormikErrors<IAddItemsFormFields>) {
-    errors.itemCategory != undefined ||
-    errors.brand != undefined ||
-    errors.itemName != undefined ||
-    errors.quantity != undefined ||
-    errors.unitPrice != undefined
-      ? setIsHidden(true)
-      : setIsHidden(false);
-    // setIsHidden(!isHidden);
+    setIsHidden(!isHidden);
   }
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      selectionLimit: 1
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0]);
+    }
+  };
 
   return (
     <>
       <Formik
         initialValues={AddItemsInitialValues}
-        onSubmit={(values) => registerAsync(values)}
+        onSubmit={(values) => submitAsync(values)}
         validationSchema={AddItemsValidationSchema}
       >
         {({
@@ -231,49 +403,6 @@ export default function AddItemsForm() {
                   errors.itemAddress ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
               />
-
-              <FormGroup
-                name={i18n.t('addItemsForm.longtitude')}
-                id={'longtitude'}
-                fieldstyle={
-                  errors.longtitude ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('longtitude')}
-                onBlur={handleBlur('longtitude')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.longtitude.longtitudePlaceholder
-                )}
-                fieldvalue={values.longtitude}
-                error={errors.longtitude}
-                borderColor={
-                  errors.longtitude ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <FormGroup
-                name={i18n.t('addItemsForm.latitude')}
-                id={'latitude'}
-                fieldstyle={
-                  errors.latitude ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('latitude')}
-                onBlur={handleBlur('latitude')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.latitude.latitudePlaceholder
-                )}
-                fieldvalue={values.latitude}
-                error={errors.latitude}
-                borderColor={
-                  errors.latitude ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <View style={style.locationText}>
-                <TouchableHighlight
-                  underlayColor={theme.COLORS.WHITE}
-                  onPress={() => setLocationDialogVisible(true)}
-                >
-                  <Hyperlink value={i18n.t('addItemsForm.locationText')} />
-                </TouchableHighlight>
-              </View>
               <View style={style.row}>
                 <ModalButton
                   value={i18n.t('addItemsForm.addItem')}
@@ -298,13 +427,31 @@ export default function AddItemsForm() {
           </>
         )}
       </Formik>
+      <ModalButton
+        value={i18n.t('addItemsForm.cancel')}
+        color={theme.COLORS.ERROR}
+        callFunction={() => {
+          setIsScreenChanged(!isScreenChanged)
+          onCancel()}}
+        marginLeft={20}
+        marginTop={40}
+      />
       <UploadPhotoDialog
         isVisible={photoDialogVisible}
         dismissFunc={hidePhotoDialog}
+        pickImage={pickImage}
       />
-      <LocationDialog
-        isVisible={locationDialogVisible}
-        dismissFunc={hideLocationDialog}
+      <ErrorSnackbar
+        text={'Something went wrong!'}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => {}}
+      />
+      <SuccessSnackbar
+        text={'Item added successfully'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => {}}
       />
     </>
   );

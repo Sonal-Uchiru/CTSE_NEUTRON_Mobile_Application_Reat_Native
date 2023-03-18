@@ -30,7 +30,6 @@ const en = {
     contactRequiredError: 'Contact Number is required',
     contactPlaceholder: 'Contact Number',
 
-
     lastName: 'Last Name',
     lastNameRequiredError: 'Last Name is required',
     lastNamePlaceholder: 'Last Name',
@@ -130,7 +129,7 @@ const en = {
       'By clicking on create account button you agree to the terms and conditions.',
     alreadyHaveAccount: 'Already Have an account?',
     loginHere: 'Login Here',
-    terms:'Terms & Conditions',
+    terms: 'Terms & Conditions',
     back: 'Back'
   },
   helpPage: {
@@ -176,6 +175,7 @@ const en = {
     next: 'Next',
     back: 'Back',
     searchItems: 'Search Items...',
+    cancel: 'Cancel',
 
     itemCategory: 'Item Category',
     itemCategoryRequiredError: 'Item Category is required',
@@ -231,7 +231,7 @@ const en = {
     checkoutBtn: 'Proceed to checkout',
     removeBtn: 'Remove'
   },
-  viewItemPage:{
+  viewItemPage: {
     title: 'All Items',
     subTitle: 'Find your items',
     searchLabel: 'Search Items',
@@ -284,6 +284,8 @@ const en = {
     cancelButtonTitle:'Cancel',
     saveButtonTitle:'Save',
     deleteButtonTitle:'Delete',
+    editBtn: 'Edit',
+    addBtn: 'Add'
   }
 };
 

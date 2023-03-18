@@ -1,28 +1,20 @@
-import {
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  View,
-  ScrollView
-} from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
+import React from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
 import HeadLine3 from '../components/atoms/typographies/HeadLine3';
 import Paragraph from '../components/atoms/typographies/Paragraph';
-import CreditCard from '../components/molecules/CreditCard';
-import ModalButton from '../components/atoms/buttons/ModalButton';
-import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
-import { Iphone } from '../assets/image';
-import { Ionicons } from '@expo/vector-icons';
 import AddItemsForm from '../components/organisms/forms/items/addItems/AddItems';
 
-export default function ManageItems() {
-  const [searchText, setSearchText] = useState('');
+interface Props {
+  docId: string | null;
+  onCancel(): void;
+}
+
+export default function ManageItems({ docId, onCancel }: Props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const array = [1, 2, 3, 4, 5];
 
   return (
     <SafeAreaView style={style.container}>
@@ -37,7 +29,7 @@ export default function ManageItems() {
         />
       </View>
 
-      <AddItemsForm />
+      <AddItemsForm docId={docId} onCancel={onCancel} />
     </SafeAreaView>
   );
 }
