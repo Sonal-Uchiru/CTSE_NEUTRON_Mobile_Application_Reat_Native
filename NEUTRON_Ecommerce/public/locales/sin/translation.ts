@@ -55,6 +55,10 @@ const sin = {
     date: "කල්පිරෙන දිනය",
     dateRequiredError: "කල්පිරෙන දිනය අවශ්‍ය වේ",
     datePlaceholder: "කල්පිරෙන දිනය",
+
+    address: '',
+    addressRequiredError: 'Address is required',
+    addressPlaceholder: 'Address',
   },
   confirmDialog: {
     confirm: 'තහවුරු කරන්න',

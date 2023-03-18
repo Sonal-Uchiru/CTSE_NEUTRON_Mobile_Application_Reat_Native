@@ -54,7 +54,12 @@ const en = {
     date: "Expiration Date",
     dateRequiredError: "Expiration Date is required",
     datePlaceholder: "Expiration Date",
+
+    address: 'Address',
+    addressRequiredError: 'Address is required',
+    addressPlaceholder: 'Address',
   },
+  
   deleteconfirmDialog: {
     confirm: 'Cautions!',
     confirmDescription:
