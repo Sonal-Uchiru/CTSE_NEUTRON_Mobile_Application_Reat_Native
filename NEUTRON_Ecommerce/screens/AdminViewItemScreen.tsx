@@ -146,7 +146,8 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      alignItems: 'center'
+      alignItems: 'center',
+      marginBottom: 10
       //   paddingStart: 20
     },
 

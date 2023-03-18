@@ -6,4 +6,8 @@ export const AboutUs = require('./about-us.jpeg');
 export const Iphone = require('./iphone-img.jpeg');
 export const NeutronLogo = require('./logo.png');
 export const Edit = require('./edit.png');
+export const Terms = require('./double-tick.png');
+export const UserProfile = require('./userprofile.jpg');
+export const CreditCardFront = require('./credit-card.png');
+export const CreditCardBack = require('./cvv.png');
 

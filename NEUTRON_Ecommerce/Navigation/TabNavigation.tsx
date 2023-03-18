@@ -19,6 +19,11 @@ import UserRegisterScreen from '../screens/UserRegisterScreen';
 import RegisterForm from '../components/organisms/forms/users/registers/RegisterForm';
 import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
+import TermsAnsConditionsScreen from '../screens/TermsAndConditionsScreen';
+import AdminViewAllCustomersScreen from '../screens/AdminViewAllCustomersScreen';
+import AddCardForm from '../components/organisms/forms/cards/addCard/AddCardForm';
+import AddCardScreen from '../screens/AddCardScreen';
+import EditCardScreen from '../screens/EditCardScreen';
 
 
 export default function TabNavigation() {
