@@ -19,6 +19,7 @@ import UserRegisterScreen from '../screens/UserRegisterScreen';
 import RegisterForm from '../components/organisms/forms/users/registers/RegisterForm';
 import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
+import AddToCartAnimation from '../components/molecules/AddToCartAnimation';
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
@@ -32,7 +33,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={ViewCart} />
+        <Tab.Screen name="Login" component={AddToCartAnimation} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
