@@ -38,7 +38,23 @@ const en = {
     reEnterPassword: 'Re-Enter Password',
     misMatchErrorMessage: 'Passwords mismatch',
     reEnterPasswordRequiredError: 'Re-Enter Password is required',
-    reEnterPasswordPlaceholder: 'Re-Enter Password'
+    reEnterPasswordPlaceholder: 'Re-Enter Password',
+
+    displayName: 'Display Name',
+    displayNameRequiredError: 'Display Name is required',
+    displayNamePlaceholder: 'Display Name',
+
+    cardNumber: 'Card Number',
+    cardNumberRequiredError: 'Card Number is required',
+    cardNumberPlaceholder: 'Card Number',
+
+    name: "Card Holder's Name",
+    nameRequiredError: "Card Holder's Name is required",
+    namePlaceholder: "Card Holder's Name",
+
+    date: "Expiration Date",
+    dateRequiredError: "Expiration Date is required",
+    datePlaceholder: "Expiration Date",
   },
   deleteconfirmDialog: {
     confirm: 'Cautions!',
@@ -255,6 +271,20 @@ const en = {
     para6:
       'To learn more about the use of their Personal Data, Users may refer to the privacy policy of this Application.'
   },
+
+  addCardPage:{
+    title: 'Add Card',
+    subTitle: 'Add your debit/credit card',
+    buttonTitle:'Add Card'
+  },
+
+  editCardPage:{
+    title: 'Edit Card',
+    subTitle: 'Edit your debit/credit card',
+    cancelButtonTitle:'Cancel',
+    saveButtonTitle:'Save',
+    deleteButtonTitle:'Delete',
+  }
 };
 
 export default en;

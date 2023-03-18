@@ -38,7 +38,23 @@ const sin = {
     reEnterPassword: 'මුරපදය යළි ඇතුළු කරන්න',
     misMatchErrorMessage: 'මුරපද නොගැලපීම',
     reEnterPasswordRequiredError: 'මුරපදය නැවත ඇතුළත් කිරීම අවශ්‍ය වේ',
-    reEnterPasswordPlaceholder: 'මුරපදය යළි ඇතුළු කරන්න'
+    reEnterPasswordPlaceholder: 'මුරපදය යළි ඇතුළු කරන්න',
+
+    displayName: 'ප්රදර්ශන නාමය',
+    displayNameRequiredError: 'ප්රදර්ශන නාමය අවශ්‍ය වේ',
+    displayNamePlaceholder: 'ප්රදර්ශන නාමය',
+
+    cardNumber: 'කාඩ්පත් අංකය',
+    cardNumberRequiredError: 'කාඩ්පත් අංකය අවශ්‍ය වේ',
+    cardNumberPlaceholder: 'කාඩ්පත් අංකය',
+
+    name: "කාඩ්පත් ලාභියාගේ නම",
+    nameRequiredError: "කාඩ්පත් ලාභියාගේ නම අවශ්‍ය වේ",
+    namePlaceholder: "කාඩ්පත් ලාභියාගේ නම",
+
+    date: "කල්පිරෙන දිනය",
+    dateRequiredError: "කල්පිරෙන දිනය අවශ්‍ය වේ",
+    datePlaceholder: "කල්පිරෙන දිනය",
   },
   confirmDialog: {
     confirm: 'තහවුරු කරන්න',
@@ -259,6 +275,22 @@ const sin = {
     para6:
       'ඔවුන්ගේ පුද්ගලික දත්ත භාවිතය පිළිබඳ වැඩිදුර දැන ගැනීමට, පරිශීලකයන් මෙම යෙදුමේ රහස්‍යතා ප්‍රතිපත්තිය වෙත යොමු විය හැක.'
   },
+
+  addCardPage:{
+    title: 'කාඩ්පත එක් කරන්න',
+    subTitle: 'ඔබගේ හර/ක්‍රෙඩිට් කාඩ්පත එක් කරන්න',
+    buttonTitle: 'කාඩ්පතක් එක් කරන්න'
+  },
+
+  editCardPage:{
+    title: 'කාඩ්පත සංස්කරණය කරන්න',
+    subTitle: 'ඔබගේ හර/ක්‍රෙඩිට් කාඩ්පත සංස්කරණය කරන්න',
+    cancelButtonTitle:'අවලංගු කරන්න',
+    saveButtonTitle:'සුරකින්න',
+    deleteButtonTitle:'මකා දමන්න',
+
+  }
+
 };
 
 export default sin;

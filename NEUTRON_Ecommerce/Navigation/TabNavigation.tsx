@@ -21,6 +21,9 @@ import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
 import TermsAnsConditionsScreen from '../screens/TermsAndConditionsScreen';
 import AdminViewAllCustomersScreen from '../screens/AdminViewAllCustomersScreen';
+import AddCardForm from '../components/organisms/forms/cards/addCard/AddCardForm';
+import AddCardScreen from '../screens/AddCardScreen';
+import EditCardScreen from '../screens/EditCardScreen';
 
 
 export default function TabNavigation() {
@@ -35,7 +38,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={AdminViewAllCustomersScreen} />
+        <Tab.Screen name="Login" component={EditCardScreen} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
