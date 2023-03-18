@@ -21,6 +21,7 @@ import { ItemModel } from '../../types/items/ItemModel';
 import { CartItemModel } from '../../types/cart_Items/CartItemModel';
 import CartService from '../../api/services/CartService';
 import { UpdateCartItemData } from '../../types/cart_Items/UpdateCartItemData';
+import Animated, { SlideInDown, SlideInUp } from 'react-native-reanimated';
 
 interface props {
   key: number;
@@ -82,7 +83,7 @@ export default function CartCard({
   }
   return (
     <>
-      <View style={style.cardStyle}>
+      <Animated.View entering={SlideInUp} style={style.cardStyle}>
         <View style={style.column}>
           <Image
             resizeMode="stretch"
@@ -140,7 +141,7 @@ export default function CartCard({
             />
           </View>
         </View>
-      </View>
+      </Animated.View>
     </>
   );
 }

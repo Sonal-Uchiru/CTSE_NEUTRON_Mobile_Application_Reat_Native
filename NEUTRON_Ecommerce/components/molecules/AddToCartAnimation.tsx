@@ -4,7 +4,6 @@ import {
   Image,
   View,
   TouchableHighlight,
-  Animated,
   TouchableOpacity,
   Text
 } from 'react-native';
@@ -27,33 +26,14 @@ import { CurrentCartItem } from '../../types/cart_Items/CurrentCartItem';
 import { CreateCartItemData } from '../../types/cart_Items/CreateCartItemData';
 import { UpdateCartItemData } from '../../types/cart_Items/UpdateCartItemData';
 import { Button } from 'react-native-paper';
+import Animated, {SlideInDown, SlideInUp } from 'react-native-reanimated';
 
+Animated
 export default function AddToCartAnimation() {
   const [buttonScale] = useState(new Animated.Value(1));
 
-  const handlePress = () => {
-    Animated.sequence([
-      Animated.timing(buttonScale, {
-        toValue: 0.9,
-        duration: 100,
-        useNativeDriver: false
-      }),
-      Animated.timing(buttonScale, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: false
-      })
-    ]).start();
-  };
+
   return (
-    <TouchableOpacity onPress={handlePress}>
-      <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
-        <Button style={{ backgroundColor: 'blue' }}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#black' }}>
-            Add to Cart
-          </Text>
-        </Button>
-      </Animated.View>
-    </TouchableOpacity>
+   <></>
   );
 }

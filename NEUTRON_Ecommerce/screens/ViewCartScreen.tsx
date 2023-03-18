@@ -19,29 +19,27 @@ import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 export default function ViewCart() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const array = [1, 2, 3, 4, 5];
   const [totalPrice, setTotalPrice] = useState(0);
-  let itemPrice = 420000;
   const [itemList, setItemList] = useState<CartItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isQtyUpdated, setIsQtyUpdated] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
 
   const credentials = {
     email: 'sonal@gmail.com',
     password: 'Sonal123$'
   };
   useEffect(() => {
-    const ss = UserService.loginAsync(credentials);
-    console.log(ss);
     fetchCartList();
   }, []);
 
   async function fetchCartList() {
+    const ss = await UserService.loginAsync(credentials);
     setLoading(true);
     try {
       const resItems = await CartItemService.getCartItemListAsync();
       if (resItems.length > 0) {
+        setCount(resItems.length);
         setItemList(resItems);
       }
       calculateTotal(resItems);
@@ -92,7 +90,7 @@ export default function ViewCart() {
               cartItem={selectedItem}
               refreshFunc={fetchCartList}
               loadingStatus={setLoading}
-              passinError = {setError}
+              passinError={setError}
             />
           );
         })}
@@ -104,7 +102,7 @@ export default function ViewCart() {
           marginLeft={10}
         />
         <Paragraph
-          value={`(2 ${i18n.t('viewCartPage.items')})`}
+          value={`(${count} ${i18n.t('viewCartPage.items')})`}
           color={theme.COLORS.PRIMARY}
           marginLeft={10}
           marginTop={3}
