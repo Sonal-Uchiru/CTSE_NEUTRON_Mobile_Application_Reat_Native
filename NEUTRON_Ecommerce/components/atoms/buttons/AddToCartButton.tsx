@@ -7,7 +7,11 @@ import { StyleSheet, View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring
+  withSpring,
+  withTiming,
+  withRepeat,
+  withSequence,
+  withDelay
 } from 'react-native-reanimated';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import useThemedStyles from '../../../theme/hooks/UseThemedStyles';
@@ -41,12 +45,41 @@ export default function AddToCartButton({
 }: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const offset = useSharedValue(0);
+  const offset = useSharedValue(-20);
+  const offset2 = useSharedValue(-250);
+
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: offset.value * 255 }]
+      transform: [
+        {
+          translateX: offset.value
+        }
+      ]
     };
   });
+  const animatedStyles2 = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: offset2.value
+        }
+      ]
+    };
+  });
+
+  function activeAnimation() {
+    offset.value = withRepeat(
+      withSequence(withTiming(130), withDelay(300, withTiming(-20))),
+      1,
+      true
+    );
+
+    offset2.value = withRepeat(
+      withSequence(withTiming(35), withDelay(300, withTiming(-250))),
+      1,
+      true
+    );
+  }
 
   return (
     <>
@@ -62,15 +95,15 @@ export default function AddToCartButton({
         }}
         mode="contained"
         //   onPress={() => callFunction()}
-        onPress={() => (offset.value = withSpring(Math.random()))}
+        onPress={() => activeAnimation()}
         disabled={disabled}
       >
         <View style={{ flexDirection: 'row' }}>
-          <Animated.Text style={[style.buttonText, animatedStyles]}>
-            {value}
+          <Animated.Text style={[style.buttonText, animatedStyles2]}>
+            {doneText}
           </Animated.Text>
           <Animated.Text style={[style.buttonText, animatedStyles]}>
-            {doneText}
+            {value}
           </Animated.Text>
         </View>
       </Button>
