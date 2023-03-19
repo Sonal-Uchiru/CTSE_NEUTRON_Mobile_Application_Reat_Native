@@ -63,6 +63,15 @@ export default function EditCardForm() {
     EditCardInitialValues.date = String(card.expiryDate);
     EditCardInitialValues.name = card.nameOnCard;
   };
+
+  const removeCardAsync = () => {
+    try {
+      CardService.deleteCardAsync(card?.docId!);
+      //navigate to cards page
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Formik
@@ -173,6 +182,7 @@ export default function EditCardForm() {
                   color={theme.COLORS.ERROR}
                   width={130}
                   marginTop={20}
+                  callFunction={removeCardAsync}
                 />
               </View>
             </View>
