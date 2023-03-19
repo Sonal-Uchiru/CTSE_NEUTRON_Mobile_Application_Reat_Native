@@ -1,5 +1,5 @@
 export interface typographyProps {
-  value: any;
+  value: string;
   color?: string;
   marginTop?: number;
   marginBottom?: number;
