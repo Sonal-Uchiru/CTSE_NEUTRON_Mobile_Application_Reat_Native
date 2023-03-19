@@ -16,6 +16,10 @@ import { horizontalScale, verticalScale } from '../../../../../responsive/Metric
 import Paragraph from '../../../../atoms/typographies/Paragraph';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import { COLORS } from '../../../../../theme/styles/Colors';
+import { CreateUserData } from '../../../../../types/users/CreateUserData';
+import { UserRoles } from '../../../../../types/enums/UserRoles';
+import UserService from '../../../../../api/services/UserService';
+import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 
 export default function RegisterForm() {
   const [selected, setSelected] = useState<boolean>(false);
@@ -26,8 +30,34 @@ export default function RegisterForm() {
   const [showReEnterPassword, setShowReEnterPassword] = useState<boolean>(true);
 
   const registerAsync = async (values: IRegisterFormFields) => {
-    console.log(values);
+    try{
+      if(values.password != values.reEnterPassword){
+        console.log("password mismatch")
+        return
+      }
+      const newUser = new CreateUserData(
+        values.firstName,
+        values.lastName,
+        +values.contact,
+        values.email,
+        '',
+        UserRoles.customer,
+      );
+  
+      const newCredentials = new AuthenticationData(
+        values.email,
+        values.password
+      );
+      await UserService.registerAsync(newUser, newCredentials )
+      console.log(values);
+    }catch(error){
+      console.log(error);
+      
+    }
+
   };
+
+
   return (
     <>
       <Formik
