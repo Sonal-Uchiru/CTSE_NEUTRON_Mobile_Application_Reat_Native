@@ -17,26 +17,27 @@ import useTheme from '../../theme/hooks/UseTheme';
 import Paragraph from '../atoms/typographies/Paragraph';
 import ModalButton from '../atoms/buttons/ModalButton';
 import { Ionicons } from '@expo/vector-icons';
+import { ItemModel } from '../../types/items/ItemModel';
+import { CartItemModel } from '../../types/cart_Items/CartItemModel';
+import CartService from '../../api/services/CartService';
+import { UpdateCartItemData } from '../../types/cart_Items/UpdateCartItemData';
+import Animated, { SlideInDown, SlideInUp } from 'react-native-reanimated';
 
 interface props {
   key: number;
-  brand: string;
-  itemName: string;
-  skuNumber: string;
-  description: string;
-  price: number;
-  image: string;
-  calcTotal: any;
+  item: ItemModel;
+  cartItem: CartItemModel;
+  refreshFunc: any;
+  loadingStatus: any;
+  passinError: any;
 }
 
 export default function CartCard({
-  brand,
-  itemName,
-  skuNumber,
-  description,
-  price,
-  image,
-  calcTotal
+  item,
+  cartItem,
+  refreshFunc,
+  loadingStatus,
+  passinError
 }: props) {
   const [locale, setLocale] = useState(Localization.locale);
   const [itemQuantity, setitemQuantity] = useState<number>(1);
@@ -48,24 +49,41 @@ export default function CartCard({
       setLocale('en');
       return;
     }
-
     setLocale('sin');
   };
 
-  function calculateItemTotal(increase: boolean) {
-    let beforePrice = price * itemQuantity;
-    let afterPrice = 0;
-    increase
-      ? (afterPrice = price * (itemQuantity + 1))
-      : (afterPrice = price * (itemQuantity - 1));
-    increase
-      ? setitemQuantity(itemQuantity + 1)
-      : setitemQuantity(itemQuantity - 1);
-    calcTotal(afterPrice - beforePrice);
+  async function updateCartItem(increase: boolean) {
+    if (cartItem.quantity == 0 && increase == false) {
+      return;
+    }
+    increase ? cartItem.quantity++ : cartItem.quantity--;
+    try {
+      loadingStatus(true);
+      await CartService.updateCartItemAsync(
+        new UpdateCartItemData(cartItem.docId, cartItem.quantity)
+      );
+      setitemQuantity(cartItem.quantity);
+      refreshFunc();
+    } catch (error) {
+      console.log(error);
+      passinError(true);
+    }
+    return;
+  }
+  async function deleteCartItem() {
+    try {
+      loadingStatus(true);
+      await CartService.deleteCartItemAsync(cartItem.docId);
+      refreshFunc();
+    } catch (error) {
+      console.log(error);
+      passinError(true);
+    }
+    return;
   }
   return (
     <>
-      <View style={style.cardStyle}>
+      <Animated.View entering={SlideInUp} style={style.cardStyle}>
         <View style={style.column}>
           <Image
             resizeMode="stretch"
@@ -77,33 +95,33 @@ export default function CartCard({
           <HeadLine4
             marginTop={10}
             marginLeft={30}
-            value={brand}
+            value={item.brand}
             color={theme.COLORS.PRIMARY}
           />
           <ParagraphBold
             marginLeft={30}
-            value={itemName}
+            value={item.itemName}
             color={theme.COLORS.GREY}
           />
           <ParagraphBold
             marginLeft={30}
-            value={skuNumber}
+            value={item.stockKeepingUnits}
             color={theme.COLORS.WARNING}
           />
           <Paragraph
             marginTop={10}
             marginLeft={30}
-            value={description}
+            value={item.description}
             color={theme.COLORS.GREY}
           />
           <ParagraphBold
             marginTop={10}
             marginLeft={30}
-            value={`LKR.${price}`}
+            value={`LKR.${item.unitPrice}`}
             color={theme.COLORS.PRIMARY}
           />
           <View style={style.row}>
-            <TouchableHighlight onPress={() => calculateItemTotal(true)}>
+            <TouchableHighlight onPress={() => updateCartItem(true)}>
               <Ionicons name={'add-circle-outline'} style={style.icon1} />
             </TouchableHighlight>
             <ParagraphBold
@@ -111,18 +129,19 @@ export default function CartCard({
               marginTop={22}
               marginRight={20}
             />
-            <TouchableHighlight onPress={() => calculateItemTotal(false)}>
+            <TouchableHighlight onPress={() => updateCartItem(false)}>
               <Ionicons name={'remove-circle-outline'} style={style.icon2} />
             </TouchableHighlight>
             <ModalButton
-              value={i18n.t('savedCardsPage.buttonEditCard')}
-              color={theme.COLORS.ACTION}
+              value={i18n.t('viewCartPage.removeBtn')}
+              color={theme.COLORS.ERROR}
               marginTop={10}
               width={80}
+              callFunction={deleteCartItem}
             />
           </View>
         </View>
-      </View>
+      </Animated.View>
     </>
   );
 }

@@ -94,7 +94,9 @@ const sin = {
     sendcode: 'කේතය යවන්න',
     verifyCode: 'තහවුරු කිරීමේ කේතය',
     deleteMyAccount: 'මගේ ගිණුම මකන්න',
-    addToCart: 'කරත්තයට එකතු කරන්න'
+    addToCart: 'කරත්තයට එකතු කරන්න',
+    cartDone: 'කළා',
+    cartAdded: 'සාර්ථක'
   },
   forgotPasswordFormCommon: {
     title: 'මුරපදය අමතක වුණා ද?',
@@ -126,7 +128,7 @@ const sin = {
     title: 'Neutron වෙත සාදරයෙන් පිළිගනිමු',
     login: 'ඇතුල් වන්න',
     signUp: 'ලියාපදිංචි වන්න',
-    createAccountLink: "ගිණුමක් නැද්ද?"
+    createAccountLink: 'ගිණුමක් නැද්ද?'
   },
   registerPage: {
     registerBtnTitle: 'ගිණුම තනන්න',
@@ -134,7 +136,7 @@ const sin = {
       'ගිණුම සාදන්න බොත්තම ක්ලික් කිරීමෙන් ඔබ නියම සහ කොන්දේසි වලට එකඟ වේ.',
     alreadyHaveAccount: 'දැනටමත් ගිණුමක් තිබේද?',
     loginHere: 'මෙතනින් ලොග් වෙන්න',
-    terms:'නියම සහ කොන්දේසි',
+    terms: 'නියම සහ කොන්දේසි',
     back: 'ආපසු'
   },
   helpPage: {
@@ -239,7 +241,7 @@ const sin = {
     removeBtn: 'ඉවත් කරන්න'
   },
 
-  viewItemPage:{
+  viewItemPage: {
     title: 'සියලු අයිතම',
     subTitle: 'ඔබේ අයිතම සොයා ගන්න',
     searchLabel: 'අයිතම සොයන්න',

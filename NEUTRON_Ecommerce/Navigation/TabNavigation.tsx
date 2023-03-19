@@ -19,6 +19,7 @@ import UserRegisterScreen from '../screens/UserRegisterScreen';
 import RegisterForm from '../components/organisms/forms/users/registers/RegisterForm';
 import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
+import AddToCartAnimation from '../components/molecules/AddToCartAnimation';
 import TermsAnsConditionsScreen from '../screens/TermsAndConditionsScreen';
 import AdminViewAllCustomersScreen from '../screens/AdminViewAllCustomersScreen';
 import AddCardForm from '../components/organisms/forms/cards/addCard/AddCardForm';
@@ -42,7 +43,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={LoginScreen} />
+        <Tab.Screen name="Login" component={ViewItemScreen} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>

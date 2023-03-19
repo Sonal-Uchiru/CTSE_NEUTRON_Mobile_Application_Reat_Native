@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
@@ -11,16 +11,54 @@ import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
 import CartCard from '../components/molecules/CartCard';
 import { Iphone } from '../assets/image';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
+import { CartItemModel } from '../types/cart_Items/CartItemModel';
+import CartItemService from '../api/services/CartService';
+import UserService from '../api/services/UserService';
+import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 
 export default function ViewCart() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const array = [1, 2, 3, 4, 5];
   const [totalPrice, setTotalPrice] = useState(0);
-  let itemPrice = 420000;
+  const [itemList, setItemList] = useState<CartItemModel[]>([]);
+  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
 
-  function calculateTotal(itemTotalPrice: number) {
-    setTotalPrice(totalPrice + itemTotalPrice);
+  const credentials = {
+    email: 'sonal@gmail.com',
+    password: 'Sonal123$'
+  };
+  useEffect(() => {
+    fetchCartList();
+  }, []);
+
+  async function fetchCartList() {
+    const ss = await UserService.loginAsync(credentials);
+    setLoading(true);
+    try {
+      const resItems = await CartItemService.getCartItemListAsync();
+      if (resItems.length > 0) {
+        setCount(resItems.length);
+        setItemList(resItems);
+      }
+      calculateTotal(resItems);
+      setError(false);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    }
+    setLoading(false);
+  }
+
+  async function calculateTotal(passedItemList: CartItemModel[]) {
+    let tot = 0;
+    {
+      await passedItemList.map((selectedItem, i) => {
+        tot = tot + selectedItem.quantity * selectedItem.item.unitPrice;
+      });
+      setTotalPrice(tot);
+    }
   }
 
   return (
@@ -31,20 +69,28 @@ export default function ViewCart() {
           color={theme.COLORS.PRIMARY}
         />
       </View>
+
+      {loading ? (
+        <HeadLine4
+          value={'Loading...'}
+          marginTop={10}
+          marginBottom={0}
+          color={theme.COLORS.WARNING}
+        />
+      ) : (
+        <HeadLine4 value={''} marginTop={17} marginBottom={0} />
+      )}
+
       <ScrollView>
-        {array.map((value, i) => {
+        {itemList.map((selectedItem, i) => {
           return (
             <CartCard
               key={i}
-              brand={'Apple'}
-              itemName={'I phone 12 Pro Max '}
-              skuNumber={'KS944RUR'}
-              description={
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor adipiscing elit, sed do eiusmod tempor..'
-              }
-              price={itemPrice}
-              image={Iphone}
-              calcTotal={calculateTotal}
+              item={selectedItem.item}
+              cartItem={selectedItem}
+              refreshFunc={fetchCartList}
+              loadingStatus={setLoading}
+              passinError={setError}
             />
           );
         })}
@@ -56,7 +102,7 @@ export default function ViewCart() {
           marginLeft={10}
         />
         <Paragraph
-          value={`(2 ${i18n.t('viewCartPage.items')})`}
+          value={`(${count} ${i18n.t('viewCartPage.items')})`}
           color={theme.COLORS.PRIMARY}
           marginLeft={10}
           marginTop={3}
@@ -95,6 +141,12 @@ export default function ViewCart() {
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+      />
+      <ErrorSnackbar
+        text={'Something went wrong please try again'}
+        iconName={undefined}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
       />
     </SafeAreaView>
   );
