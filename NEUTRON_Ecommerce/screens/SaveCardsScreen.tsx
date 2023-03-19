@@ -13,6 +13,7 @@ import CartService from '../api/services/CartService';
 import CardService from '../api/services/CardService';
 import { CardModel } from '../types/cards/CardModel';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
+import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 
 export default function SavedCards() {
   const [searchText, setSearchText] = useState('');
@@ -39,7 +40,6 @@ export default function SavedCards() {
     setLoading(true);
     try {
       const resCards = await CardService.getCardListAsync();
-      console.log(resCards);
       if (resCards.length > 0) {
         setCount(resCards.length);
         setCardList(resCards);
@@ -48,7 +48,6 @@ export default function SavedCards() {
       setError(false);
     } catch (error) {
       setError(true);
-      console.log(error);
     }
     setLoading(false);
   }
@@ -119,6 +118,12 @@ export default function SavedCards() {
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+      />
+      <ErrorSnackbar
+        text={'Something went wrong please try again'}
+        iconName={undefined}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
       />
     </SafeAreaView>
   );
