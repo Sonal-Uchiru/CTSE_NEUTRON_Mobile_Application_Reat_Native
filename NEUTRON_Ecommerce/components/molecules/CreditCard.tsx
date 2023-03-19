@@ -16,7 +16,7 @@ interface props {
   cardName: string;
   cardNumber: string;
   type: string;
-  date: string;
+  passedDate: Date;
   owner: string;
 }
 
@@ -24,7 +24,7 @@ export default function CreditCard({
   cardName,
   cardNumber,
   type,
-  date,
+  passedDate,
   owner
 }: props) {
   const [locale, setLocale] = useState(Localization.locale);
@@ -66,7 +66,7 @@ export default function CreditCard({
           <ParagraphBold
             marginTop={10}
             marginLeft={30}
-            value={date}
+            value={cardName}
             color={theme.COLORS.PRIMARY}
           />
           <ParagraphBold
