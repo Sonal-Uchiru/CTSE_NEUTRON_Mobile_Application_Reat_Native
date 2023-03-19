@@ -2,14 +2,14 @@ export class CardBaseModel {
   displayName: string;
   cardNumber: number;
   nameOnCard: string;
-  expiryDate: Date;
+  expiryDate: string;
   uid: string;
 
   constructor(
     displayName: string,
     cardNumber: number,
     nameOnCard: string,
-    expiryDate: Date,
+    expiryDate: string,
     uid: string
   ) {
     this.displayName = displayName;

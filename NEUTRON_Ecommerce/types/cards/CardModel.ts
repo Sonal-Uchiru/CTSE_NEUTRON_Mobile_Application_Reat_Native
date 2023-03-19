@@ -8,7 +8,7 @@ export class CardModel extends CardBaseModel {
     displayName: string,
     cardNumber: number,
     nameOnCard: string,
-    expiryDate: Date,
+    expiryDate: string,
     uid: string
   ) {
     super(displayName, cardNumber, nameOnCard, expiryDate, uid);

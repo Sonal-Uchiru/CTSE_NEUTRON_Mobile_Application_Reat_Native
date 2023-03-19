@@ -43,7 +43,7 @@ export default function TabNavigation() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Login" component={AdminViewAllCustomersScreen} />
+        <Tab.Screen name="Login" component={EditCardScreen} />
         <Tab.Screen name="Demo" component={DemoForm} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>

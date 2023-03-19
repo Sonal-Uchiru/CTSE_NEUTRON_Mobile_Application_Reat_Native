@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
 import FormGroup from '../../../../molecules/FormGroup';
@@ -9,27 +9,65 @@ import ModalButton from '../../../../atoms/buttons/ModalButton';
 import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
 import { EditCardInitialValues } from './EditCardFormInitialValues';
 import { IEditCardFormFields } from './IEditCardFormFields';
- import { EditCardValidationSchema } from './EditCardFormValidations';
-import {EditCardModel } from './EditCardFormModel';
+import { EditCardValidationSchema } from './EditCardFormValidations';
+import { EditCardModel } from './EditCardFormModel';
 import Information from '../../../../atoms/typographies/Information';
-import { horizontalScale, verticalScale } from '../../../../../responsive/Metrics';
+import {
+  horizontalScale,
+  verticalScale
+} from '../../../../../responsive/Metrics';
 import Paragraph from '../../../../atoms/typographies/Paragraph';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import { COLORS } from '../../../../../theme/styles/Colors';
+import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
+import CardService from '../../../../../api/services/CardService';
+import { CardModel } from '../../../../../types/cards/CardModel';
 
 export default function EditCardForm() {
-
   const theme = useTheme();
   const style = useThemedStyles(styles);
+  const [card, setCard] = useState<CardModel>();
 
-  const addCardAsync = async (values: IEditCardFormFields) => {
-    console.log(values);
+  useEffect(() => {
+    (async () => {
+      try {
+        const resCard = await CardService.getCardByIdAsync(
+          '6aXzgS2fVomy8sg883UQ'
+        );
+        setCard(resCard);
+        setValues(resCard);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  const editCardAsync = async (values: IEditCardFormFields) => {
+    try {
+      const editedCard: UpdateCardData = new UpdateCardData(
+        values.displayName,
+        +values.cardNumber,
+        values.name,
+        values.date
+      );
+
+      await CardService.updateCardAsync(card?.docId!, editedCard);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setValues = (card: CardModel) => {
+    EditCardInitialValues.displayName = card.displayName;
+    EditCardInitialValues.cardNumber = card.cardNumber.toString();
+    EditCardInitialValues.date = String(card.expiryDate);
+    EditCardInitialValues.name = card.nameOnCard;
   };
   return (
     <>
       <Formik
         initialValues={EditCardInitialValues}
-        onSubmit={(values) => addCardAsync(values)}
+        onSubmit={(values) => editCardAsync(values)}
         validationSchema={EditCardValidationSchema}
       >
         {({
@@ -43,94 +81,101 @@ export default function EditCardForm() {
           isSubmitting
         }) => (
           <View style={style.container}>
-          <View style={style.tabView}>
-          
-            <FormGroup
-              name={i18n.t('formFields.displayName')}
-              id={'displayName'}
-              fieldstyle={
-                errors.displayName ? style.textInputError2 : style.textInput2
-              }
-              onChangeText={handleChange('displayName')}
-              onBlur={handleBlur('displayName')}
-              placeholder={i18n.t(EditCardModel.displayName.displayNamePlaceholder)}
-              fieldvalue={values.displayName}
-              error={errors.displayName}
-              borderColor={
-                errors.displayName ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
+            <View style={style.tabView}>
+              <FormGroup
+                name={i18n.t('formFields.displayName')}
+                id={'displayName'}
+                fieldstyle={
+                  errors.displayName ? style.textInputError2 : style.textInput2
+                }
+                onChangeText={handleChange('displayName')}
+                onBlur={handleBlur('displayName')}
+                placeholder={i18n.t(
+                  EditCardModel.displayName.displayNamePlaceholder
+                )}
+                fieldvalue={values.displayName}
+                error={errors.displayName}
+                borderColor={
+                  errors.displayName ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+                }
+              />
 
-            <FormGroup
-              name={i18n.t('formFields.cardNumber')}
-              id={'cardNumber'}
-              fieldstyle={
-                errors.cardNumber ? style.textInputError2 : style.textInput2
-              }
-              onChangeText={handleChange('cardNumber')}
-              onBlur={handleBlur('cardNumber')}
-              placeholder={i18n.t(EditCardModel.cardNumber.cardNumberPlaceholder)}
-              fieldvalue={values.cardNumber}
-              error={errors.cardNumber}
-              borderColor={
-                errors.cardNumber ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
-             
-          
-            <FormGroup
-              name={i18n.t('formFields.name')}
-              id={'name'}
-              fieldstyle={errors.name ? style.textInputError2 : style.textInput2}
-              onChangeText={handleChange('name')}
-              onBlur={handleBlur('name')}
-              placeholder={i18n.t(EditCardModel.name.namePlaceholder)}
-              fieldvalue={values.name}
-              error={errors.name}
-              borderColor={
-                errors.name ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
+              <FormGroup
+                name={i18n.t('formFields.cardNumber')}
+                id={'cardNumber'}
+                fieldstyle={
+                  errors.cardNumber ? style.textInputError2 : style.textInput2
+                }
+                onChangeText={handleChange('cardNumber')}
+                onBlur={handleBlur('cardNumber')}
+                placeholder={i18n.t(
+                  EditCardModel.cardNumber.cardNumberPlaceholder
+                )}
+                fieldvalue={values.cardNumber}
+                error={errors.cardNumber}
+                borderColor={
+                  errors.cardNumber ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+                }
+              />
 
-            <FormGroup
-              name={i18n.t('formFields.date')}
-              id={'date'}
-              fieldstyle={errors.date ? style.textInputError2 : style.textInput2}
-              onChangeText={handleChange('date')}
-              onBlur={handleBlur('date')}
-              placeholder={i18n.t(EditCardModel.date.datePlaceholder)}
-              fieldvalue={values.date}
-              error={errors.date}
-              borderColor={
-                errors.date ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
+              <FormGroup
+                name={i18n.t('formFields.name')}
+                id={'name'}
+                fieldstyle={
+                  errors.name ? style.textInputError2 : style.textInput2
+                }
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                placeholder={i18n.t(EditCardModel.name.namePlaceholder)}
+                fieldvalue={values.name}
+                error={errors.name}
+                borderColor={
+                  errors.name ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+                }
+              />
 
-            <View style={style.buttonView}>
-              <View style={style.row1}>
-              <ModalButton
-              value={i18n.t('editCardPage.cancelButtonTitle')}
-              color={theme.COLORS.DARK_GREY}
-              width={130}
-              marginRight={15}
-            />
+              <FormGroup
+                name={i18n.t('formFields.date')}
+                id={'date'}
+                fieldstyle={
+                  errors.date ? style.textInputError2 : style.textInput2
+                }
+                onChangeText={handleChange('date')}
+                onBlur={handleBlur('date')}
+                placeholder={i18n.t(EditCardModel.date.datePlaceholder)}
+                fieldvalue={values.date}
+                error={errors.date}
+                borderColor={
+                  errors.date ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+                }
+              />
 
-            <ModalButton
-              value={i18n.t('editCardPage.saveButtonTitle')}
-              color={theme.COLORS.PRIMARY}
-              width={130}
-              marginLeft={15}
-            />
+              <View style={style.buttonView}>
+                <View style={style.row1}>
+                  <ModalButton
+                    value={i18n.t('editCardPage.cancelButtonTitle')}
+                    color={theme.COLORS.DARK_GREY}
+                    width={130}
+                    marginRight={15}
+                  />
+
+                  <ModalButton
+                    value={i18n.t('editCardPage.saveButtonTitle')}
+                    color={theme.COLORS.PRIMARY}
+                    width={130}
+                    callFunction={handleSubmit}
+                    marginLeft={15}
+                  />
+                </View>
+
+                <ModalButton
+                  value={i18n.t('editCardPage.deleteButtonTitle')}
+                  color={theme.COLORS.ERROR}
+                  width={130}
+                  marginTop={20}
+                />
               </View>
-
-            <ModalButton
-              value={i18n.t('editCardPage.deleteButtonTitle')}
-              color={theme.COLORS.ERROR}
-              width={130}
-              marginTop={20}
-            />
             </View>
-             </View> 
           </View>
         )}
       </Formik>
@@ -153,13 +198,12 @@ const styles = (theme: {
 }) =>
   StyleSheet.create({
     container: {
-      flex:1,
-      alignItems:'center',
-      backgroundColor: theme.COLORS.WHITE,
-    
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: theme.COLORS.WHITE
     },
 
-    buttonView:{
+    buttonView: {
       alignItems: 'center',
       alignSelf: 'center',
       marginTop: 40,
@@ -172,25 +216,23 @@ const styles = (theme: {
       backgroundColor: theme.COLORS.WHITE
     },
 
-    
     textInputError2: {
       width: horizontalScale(300),
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
     },
 
-    termsView:{
-      alignItems:'flex-end',
-      justifyContent:'flex-end',
-      alignSelf:'flex-end',
+    termsView: {
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
+      alignSelf: 'flex-end',
       marginRight: horizontalScale(20),
       marginTop: 10
     },
 
     tabView: {
       marginTop: 20,
-      alignItems:'center'
-    
+      alignItems: 'center'
     },
 
     hyperlinkText: {
@@ -199,13 +241,12 @@ const styles = (theme: {
       marginBottom: 10,
       marginRight: 40
     },
-   
+
     marginView: {
       marginTop: 2
     },
 
-    
     row1: {
-      flexDirection:'row'
+      flexDirection: 'row'
     }
   });
