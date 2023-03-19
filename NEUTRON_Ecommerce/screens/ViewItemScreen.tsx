@@ -13,6 +13,7 @@ import { ItemModel } from '../types/items/ItemModel';
 import * as Location from 'expo-location';
 import { GetDistance } from '../utils/expo/GetDistance';
 import { Coordinations } from '../types/items/Coordinations';
+import { expoGetCurrentPositionAsync } from '../utils/expo/GeoLocation';
 
 export default function ViewItemScreen() {
   const theme = useTheme();
@@ -28,10 +29,9 @@ export default function ViewItemScreen() {
         setError(false);
         const resItems = await ItemService.getItemListAsync();
 
-        if (resItems.length > 0) {
+        if (true) {
           const userCurrentLocation: Location.LocationObject =
-            await Location.getCurrentPositionAsync();
-
+            await expoGetCurrentPositionAsync();
           const nearbyItems: ItemModel[] = filterItemsByDistance(
             userCurrentLocation,
             resItems

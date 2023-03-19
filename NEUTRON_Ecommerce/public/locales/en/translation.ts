@@ -94,7 +94,9 @@ const en = {
     sendcode: 'Send code',
     verifyCode: 'Verify code',
     deleteMyAccount: 'Delete My Account',
-    addToCart: 'Add To Cart'
+    addToCart: 'Add To Cart',
+    cartDone: 'Done',
+    cartAdded: 'Successful'
   },
   forgotPasswordFormCommon: {
     title: 'Forgot Password?',

@@ -19,6 +19,7 @@ import UserRegisterScreen from '../screens/UserRegisterScreen';
 import RegisterForm from '../components/organisms/forms/users/registers/RegisterForm';
 import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
+import AddToCartAnimation from '../components/molecules/AddToCartAnimation';
 import TermsAnsConditionsScreen from '../screens/TermsAndConditionsScreen';
 import AdminViewAllCustomersScreen from '../screens/AdminViewAllCustomersScreen';
 import AddCardScreen from '../screens/AddCardScreen';

@@ -23,6 +23,7 @@ import CartItemService from '../../api/services/CartService';
 import { CurrentCartItem } from '../../types/cart_Items/CurrentCartItem';
 import { CreateCartItemData } from '../../types/cart_Items/CreateCartItemData';
 import { UpdateCartItemData } from '../../types/cart_Items/UpdateCartItemData';
+import AddToCartButton from '../atoms/buttons/AddToCartButton';
 
 interface props {
   item: ItemModel;
@@ -100,12 +101,13 @@ export default function ViewItemCard({ item }: props) {
           />
 
           <View style={style.buttonView}>
-            <ModalButton
+            <AddToCartButton
               value={i18n.t('buttons.addToCart')}
               color={theme.COLORS.PRIMARY}
               marginTop={10}
               width={horizontalScale(160)}
               callFunction={addToCartAsync}
+              doneText={i18n.t('buttons.cartAdded')}
             />
           </View>
         </View>
