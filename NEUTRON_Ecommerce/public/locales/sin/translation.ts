@@ -55,6 +55,10 @@ const sin = {
     date: "කල්පිරෙන දිනය",
     dateRequiredError: "කල්පිරෙන දිනය අවශ්‍ය වේ",
     datePlaceholder: "කල්පිරෙන දිනය",
+
+    address: '',
+    addressRequiredError: 'Address is required',
+    addressPlaceholder: 'Address',
   },
   confirmDialog: {
     confirm: 'තහවුරු කරන්න',
@@ -289,6 +293,19 @@ const sin = {
     saveButtonTitle:'සුරකින්න',
     deleteButtonTitle:'මකා දමන්න',
 
+  },
+
+  profilePage:{
+    editButtonTitle:'පැතිකඩ සංස්කරණය කරන්න',
+    deleteButtonTitle: 'ගිණුම මකන්න',
+    title: 'පරිශීලක පැතිකඩ',
+    subTitle: 'පරිශීලක විස්තර'
+  },
+
+  editProfilePage:{
+    title: 'පරිශීලක පැතිකඩ සංස්කරණය කරන්න',
+    subTitle: 'පරිශීලක විස්තර සංස්කරණය කරන්න',
+    saveButtonTitle: 'සුරකින්න'
   }
 
 };

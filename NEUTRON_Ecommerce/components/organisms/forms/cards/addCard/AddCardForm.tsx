@@ -25,6 +25,10 @@ export default function AddCardForm() {
   const addCardAsync = async (values: IAddCardFormFields) => {
     console.log(values);
   };
+
+  // function addCardAsync() {
+  //   console.log("hg")
+  // }
   return (
     <>
       <Formik
@@ -111,6 +115,9 @@ export default function AddCardForm() {
               value={i18n.t('addCardPage.buttonTitle')}
               color={theme.COLORS.PRIMARY}
               width={150}
+              callFunction={() => {
+                handleSubmit();
+              }}
             />
             </View>
              </View> 
