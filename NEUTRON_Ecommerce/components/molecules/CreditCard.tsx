@@ -60,7 +60,10 @@ export default function CreditCard({
           <ParagraphBold
             marginLeft={30}
             marginTop={10}
-            value={cardNumber}
+            value={`${cardNumber.substring(
+              0,
+              5
+            )} **** **** **** ${cardNumber.substring(11, 15)}`}
             color={theme.COLORS.PRIMARY}
           />
           <ParagraphBold
