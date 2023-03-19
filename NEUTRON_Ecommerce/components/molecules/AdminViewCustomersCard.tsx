@@ -20,6 +20,7 @@ interface props {
   name: string;
   email: string;
   contact: string;
+  profileUrl: string;
 }
 
 export default function AdminViewItemCard({
@@ -28,86 +29,75 @@ export default function AdminViewItemCard({
   contact,
   label1,
   label2,
-  label3
+  label3,
+  profileUrl
 }: props) {
-  const [locale, setLocale] = useState(Localization.locale);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
 
   return (
     <>
       <View style={style.cardStyle}>
         <View style={style.column}>
-        <View style={style.imageView}>
-        <Image
-            resizeMode="contain"
-            source={UserProfile}
-            style={style.imageStyle}
-          />
-         </View> 
+          <View style={style.imageView}>
+            <Image
+              resizeMode="contain"
+              source={{
+                uri:
+                  profileUrl == ''
+                    ? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'
+                    : profileUrl
+              }}
+              style={style.imageStyle}
+            />
+          </View>
         </View>
         <View style={style.columnRight}>
-       
-      <View style={style.row1}>
-       <ParagraphBold
-            marginLeft={10}
-         
-            marginTop={10}
-            value={label1}
-            color={theme.COLORS.PRIMARY}
-          />
-       <ParagraphBold
-            marginLeft={5}
-            marginTop={10}
-            value={name}
-            color={theme.COLORS.BLACK}
-          />
-       </View>
+          <View style={style.row1}>
+            <ParagraphBold
+              marginLeft={10}
+              marginTop={10}
+              value={label1}
+              color={theme.COLORS.PRIMARY}
+            />
+            <ParagraphBold
+              marginLeft={5}
+              marginTop={10}
+              value={name}
+              color={theme.COLORS.BLACK}
+            />
+          </View>
 
-       <View style={style.row1}>
-       <ParagraphBold
-            marginLeft={10}
-         
-            marginTop={10}
-            value={label2}
-            color={theme.COLORS.PRIMARY}
-          />
-       <ParagraphBold
-            marginTop={10}
-            marginLeft={5}
-            value={email}
-            color={theme.COLORS.BLACK}
-          />
-       </View>
+          <View style={style.row1}>
+            <ParagraphBold
+              marginLeft={10}
+              marginTop={10}
+              value={label2}
+              color={theme.COLORS.PRIMARY}
+            />
+            <ParagraphBold
+              marginTop={10}
+              marginLeft={5}
+              value={email}
+              color={theme.COLORS.BLACK}
+            />
+          </View>
 
-       <View style={style.row1}>
-       <ParagraphBold
-            marginLeft={10}
-         
-            marginTop={10}
-            value={label3}
-            color={theme.COLORS.PRIMARY}
-          />
-         
-         <ParagraphBold
-            marginTop={10}
-            marginLeft={5}
-            value={contact}
-            color={theme.COLORS.BLACK}
-          />
-       </View>
-         
-        
+          <View style={style.row1}>
+            <ParagraphBold
+              marginLeft={10}
+              marginTop={10}
+              value={label3}
+              color={theme.COLORS.PRIMARY}
+            />
 
+            <ParagraphBold
+              marginTop={10}
+              marginLeft={5}
+              value={contact}
+              color={theme.COLORS.BLACK}
+            />
+          </View>
         </View>
       </View>
     </>
@@ -144,50 +134,49 @@ const styles = (theme: {
 
     headerStyle: {
       alignSelf: 'flex-start',
-      marginStart: 20,
+      marginStart: 20
     },
 
     imageStyle: {
-      height: 100, 
-      width: 100, 
-      alignSelf:'center', 
-      borderColor: theme.COLORS.BLACK, 
-      borderWidth: 2, 
-      borderRadius: 100/2,
+      height: 100,
+      width: 100,
+      alignSelf: 'center',
+      borderColor: theme.COLORS.BLACK,
+      borderWidth: 2,
+      borderRadius: 100 / 2
     },
 
-    column: { 
-      flexDirection: 'column', 
+    column: {
+      flexDirection: 'column',
       marginTop: 10,
-      padding: 5 
+      padding: 5
     },
 
-    row: { 
-      flexDirection: 'row', 
-      alignSelf: 'flex-end' 
-    },
-    
-    columnRight: { 
-      flexDirection: 'column', 
-      marginTop: 10 ,
-      padding: 5  
+    row: {
+      flexDirection: 'row',
+      alignSelf: 'flex-end'
     },
 
-    imageView:{
+    columnRight: {
+      flexDirection: 'column',
+      marginTop: 10,
+      padding: 5
+    },
+
+    imageView: {
       backgroundColor: 'white',
-      height: 100, 
-      width: 100, 
-      borderRadius: 100/2,
-          // add shadows for Android only
-          // No options for shadow offset, shadow opacity like iOS
+      height: 100,
+      width: 100,
+      borderRadius: 100 / 2,
+      // add shadows for Android only
+      // No options for shadow offset, shadow opacity like iOS
       elevation: 10,
-    
-      
-          // shadow color
-      shadowColor: 'black',
+
+      // shadow color
+      shadowColor: 'black'
     },
 
-    row1:{
-      flexDirection:'row'
+    row1: {
+      flexDirection: 'row'
     }
   });

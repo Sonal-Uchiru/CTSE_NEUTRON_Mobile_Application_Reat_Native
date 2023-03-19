@@ -56,10 +56,14 @@ export default function AdminViewItemScreen() {
   return (
     <>
       {isEditing ? (
-        <ManageItems docId={itemDocId} onCancel={() => {
-          setIsDataChanged(!isDataChanged)
-          setItemDocId(null)
-          setIsEditing(false)}} />
+        <ManageItems
+          docId={itemDocId}
+          onCancel={() => {
+            setIsDataChanged(!isDataChanged);
+            setItemDocId(null);
+            setIsEditing(false);
+          }}
+        />
       ) : (
         <SafeAreaView style={style.container}>
           <View style={style.headerStyle}>
@@ -114,11 +118,11 @@ export default function AdminViewItemScreen() {
                     skuNumber={item.stockKeepingUnits}
                     description={item.description}
                     price={item.unitPrice}
-                    image={item.imageUrl ?? null}
+                    image={item.imageUrl}
                     onRemove={() => setIsDataChanged(!isDataChanged)}
                     onEdit={(id) => {
-                      setItemDocId(id)
-                      setIsEditing(true)
+                      setItemDocId(id);
+                      setIsEditing(true);
                     }}
                   />
                 );

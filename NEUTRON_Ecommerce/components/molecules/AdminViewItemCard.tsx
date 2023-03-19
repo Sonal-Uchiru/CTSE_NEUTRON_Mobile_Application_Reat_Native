@@ -18,7 +18,7 @@ interface props {
   skuNumber: string;
   description: string;
   price: number;
-  image: string | null;
+  image: string;
   onRemove(): void;
   onEdit(docId: string): void;
 }
@@ -54,8 +54,9 @@ export default function AdminViewItemCard({
             resizeMode="stretch"
             source={{
               uri:
-                image ??
-                'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'
+                image == ''
+                  ? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'
+                  : image
             }}
             style={style.imageStyle}
           />

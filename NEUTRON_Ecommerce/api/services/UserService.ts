@@ -76,10 +76,10 @@ export class UserService {
           users.push(
             new UserModel(
               doc.id,
-              user['email'],
               user['firstName'],
               user['lastName'],
               user['mobile'],
+              user['email'],
               user['address'],
               user['profileImageUrl'],
               user['role']
@@ -100,10 +100,10 @@ export class UserService {
       const content = querySnapshot.data();
       return new UserModel(
         querySnapshot.id,
-        content['email'],
         content['firstName'],
         content['lastName'],
         content['mobile'],
+        content['email'],
         content['address'],
         content['profileImageUrl'],
         content['role']

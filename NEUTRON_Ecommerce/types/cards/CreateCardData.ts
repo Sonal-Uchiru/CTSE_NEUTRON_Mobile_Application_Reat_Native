@@ -4,7 +4,7 @@ export class CreateCardData extends CardBaseModel {
     displayName: string,
     cardNumber: number,
     nameOnCard: string,
-    expiryDate: Date,
+    expiryDate: string,
   ) {
     super(displayName, cardNumber, nameOnCard, expiryDate, '');
   }

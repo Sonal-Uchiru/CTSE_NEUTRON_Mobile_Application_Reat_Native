@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
@@ -15,12 +15,47 @@ import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale } from '../responsive/Metrics';
 import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
 import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCard';
+import UserService from '../api/services/UserService';
+import { UserModel } from '../types/users/UserModel';
 
 export default function AdminViewAllCustomersScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const array = [1, 2, 3, 4, 5];
   const [searchText, setSearchText] = useState('');
+  const [users, setUsers] = useState<UserModel[]>([]);
+  const [copyUsers, setCopyUsers] = useState<UserModel[]>([]);
+  const [error, setError] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const resUsers = await UserService.getUserListAsync();
+
+        if (resUsers.length > 0) {
+          setUsers(resUsers);
+          setCopyUsers(resUsers);
+        }
+        setError(false);
+      } catch (error) {
+        setError(true);
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  const searchUsers = (input: any) => {
+    if (input.length == 1) return setUsers(copyUsers);
+
+    if (input.length > 3) {
+      const content: UserModel[] = copyUsers.filter(
+        (i) =>
+          i.firstName.toLowerCase().includes(input.toLowerCase()) ||
+          i.lastName.toLowerCase().includes(input.toLowerCase())
+      );
+      setUsers(content);
+    }
+  };
 
   return (
     <SafeAreaView style={style.container}>
@@ -30,39 +65,43 @@ export default function AdminViewAllCustomersScreen() {
           color={theme.COLORS.PRIMARY}
         />
         <Paragraph
-        value={i18n.t('adminViewCustomersPage.subTitle')}
-        color={theme.COLORS.PRIMARY}
+          value={i18n.t('adminViewCustomersPage.subTitle')}
+          color={theme.COLORS.PRIMARY}
         />
       </View>
       <View>
-      <FormGroupWithIcon
-            name={i18n.t('adminViewCustomersPage.searchLabel')}
-            id={'search'}
-            fieldvalue={searchText}
-            placeholder={i18n.t('adminViewCustomersPage.searchPlaceHolder')}
-            fieldstyle={style.textInput}
-            onChangeText={(newText: React.SetStateAction<string>) =>
-              setSearchText(newText)
-            }
-            error={undefined}
-            iconFirst={'magnify'}
-            iconSecond={'magnify'}
-            callFunction={undefined}
-          />
+        <FormGroupWithIcon
+          name={i18n.t('adminViewCustomersPage.searchLabel')}
+          id={'search'}
+          fieldvalue={searchText}
+          placeholder={i18n.t('adminViewCustomersPage.searchPlaceHolder')}
+          fieldstyle={style.textInput}
+          onChangeText={(newText: React.SetStateAction<string>) => {
+            setSearchText(newText);
+            searchUsers(newText);
+          }}
+          error={undefined}
+          iconFirst={'magnify'}
+          iconSecond={'magnify'}
+          callFunction={undefined}
+        />
       </View>
       <ScrollView>
-        {array.map((value, i) => {
-          return (
-            <AdminViewCustomersCard key={i}
-            label1={'Name :'}
-            label2={'Email :'}
-            label3={'Contact:'}
-            name={'Dulan Madushan'} 
-            email={'dulan@gmail.com'} 
-            contact={'+94-765521245'} 
-          />
-          );
-        })}
+        {users.length > 0 &&
+          users.map((user, index) => {
+            return (
+              <AdminViewCustomersCard
+                key={index}
+                label1={'Name :'}
+                label2={'Email :'}
+                label3={'Contact:'}
+                name={`${user.firstName} ${user.lastName}`}
+                email={user.email}
+                contact={`+94-${user.mobile}`}
+                profileUrl={user.profileImageUrl}
+              />
+            );
+          })}
       </ScrollView>
     </SafeAreaView>
   );
@@ -76,29 +115,29 @@ const styles = (theme: {
 }) =>
   StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: theme.COLORS.WHITE,
-        alignItems: 'center',
-     
-        //   paddingStart: 20
-      },
-      
-      headerStyle: {
-        alignSelf: 'flex-start',
-        marginStart: 20,
-        marginTop: 20
-      },
-      textInput: {
-        width: horizontalScale(300),
-        marginTop: 20,
-        backgroundColor: theme.COLORS.WHITE
-      },
-     
-      column: { flexDirection: 'column' },
-      row: {
-        flexDirection: 'row',
-        alignSelf: 'flex-start',
-        marginTop: 20,
-        marginBottom: 20
-      },
+      flex: 1,
+      backgroundColor: theme.COLORS.WHITE,
+      alignItems: 'center'
+
+      //   paddingStart: 20
+    },
+
+    headerStyle: {
+      alignSelf: 'flex-start',
+      marginStart: 20,
+      marginTop: 20
+    },
+    textInput: {
+      width: horizontalScale(300),
+      marginTop: 20,
+      backgroundColor: theme.COLORS.WHITE
+    },
+
+    column: { flexDirection: 'column' },
+    row: {
+      flexDirection: 'row',
+      alignSelf: 'flex-start',
+      marginTop: 20,
+      marginBottom: 20
+    }
   });
