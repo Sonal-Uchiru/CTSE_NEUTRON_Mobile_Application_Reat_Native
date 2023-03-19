@@ -69,7 +69,9 @@ export default function CreditCard({
           <ParagraphBold
             marginTop={10}
             marginLeft={30}
-            value={cardName}
+            value={`${passedDate.toString().substring(5, 7)}/${passedDate
+              .toString()
+              .substring(8, 10)}`}
             color={theme.COLORS.PRIMARY}
           />
           <ParagraphBold
