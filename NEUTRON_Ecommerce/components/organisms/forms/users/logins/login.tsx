@@ -23,7 +23,8 @@ import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFi
 import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
 import { horizontalScale } from '../../../../../responsive/Metrics';
 import Paragraph from '../../../../atoms/typographies/Paragraph';
-
+import UserService from '../../../../../api/services/UserService';
+import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -34,74 +35,16 @@ export default function Login() {
   const [selected, setSelected] = useState<boolean>(false);
 
   const loginAsync = async (values: ILoginFormFields) => {
-    //await ItemRepository.AddItemAsync();
-    // try {
-    //   const response: AxiosResponse = await UserAuthenticationApi.loginAsync(
-    //     values
-    //   );
-    //   const data: ILoginResponse = response.data;
-    // await ExpoLocalStorage.setTokenToLocalStorageAsync(data.token);
-    //   await ExpoLocalStorage.setRoleToLocalStorageAsync(data.role);
-    //   //navigate to home
-    //   console.log(data);
-    // } catch (error: any) {
-    //   setIsError(true);
-    //   console.log(error);
-    // }
-  };
-
-  const test = async () => {
-    try {
-      // await UserService.registerAsync(
-      //   new CreateUserData(
-      //     'sonal',
-      //     'jayawardana',
-      //     766419220,
-      //     'sonal123@gmail.com',
-      //     'athurugiriya',
-      //     0
-      //   ),
-      //   new AuthenticationData('sonal123@gmail.com', 'Sonal123$')
-      // );
-     // await UserService.loginAsync(new AuthenticationData('sonal@gmail.com', 'Sonal123$'));
-      //await UserService.deleteUserAsync()
-      // await UserService.updateUserAsync(new UpdateUserData('hima', 'jayakody', 394,'athu', ''));
-     //await CardService.addCardAsync(new CreateCardData('sonal',789,'sona', new Date()));
-     
-     //console.log(await CardService.getCardListAsync());
-
-      //await ItemService.addItemAsync(new CreateItemData('test1','mobile',10,45,'apple','nice','athu',34,34,'dkfj57','rgg'));
-
-     // console.log(await ItemService.deleteItemAsync('LRezDJy27gOkG1hU333E'));
-      //await CartItemService.addCartItemAsync(new CreateCartItemData('13qIJqEC8MvxcZWNSnPK',10));
-     // console.log(await CartItemService.isCartItemAvailableAsync('13qIJqEC8MvxcZWNSnPi'));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [image, setImage] = useState<any>(null);
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    //   selectionLimit: 1
-    // });
-
-    // console.log(result);
-
-    // if (!result.canceled) {
-    //   setImage(result.assets[0].uri);
-    //   //uploadFile(result.assets[0],'users','sonal-image');
-    //   const u = await ItemService.updateItemImageAsync('apple',result.assets[0]);
-    //   await ItemService.updateItemAsync(
-    //     new UpdateItemData('13qIJqEC8MvxcZWNSnPK','samsung','mobile',10,20,'apple','dd','ddd',34,45,'df89',u)
-    //   );
-    // }
+    try{
+      const newlogin = new AuthenticationData(
+        values.email,
+        values.password
+      );
+      await UserService.loginAsync(newlogin);
+      console.log("login Success");
+   }catch(error){
+    console.log(error)
+   }
   };
 
   return (
