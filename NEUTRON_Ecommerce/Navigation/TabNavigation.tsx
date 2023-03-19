@@ -20,6 +20,16 @@ import RegisterForm from '../components/organisms/forms/users/registers/Register
 import ViewItemScreen from '../screens/ViewItemScreen';
 import AdminViewItemScreen from '../screens/AdminViewItemScreen';
 import AddToCartAnimation from '../components/molecules/AddToCartAnimation';
+import TermsAnsConditionsScreen from '../screens/TermsAndConditionsScreen';
+import AdminViewAllCustomersScreen from '../screens/AdminViewAllCustomersScreen';
+import AddCardForm from '../components/organisms/forms/cards/addCard/AddCardForm';
+import AddCardScreen from '../screens/AddCardScreen';
+import EditCardScreen from '../screens/EditCardScreen';
+import ProfileForm from '../components/organisms/forms/users/profile/Profile';
+import AddItemsForm from '../components/organisms/forms/items/addItems/AddItems';
+import ProfileScreen from '../screens/ViewProfileScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
+
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();

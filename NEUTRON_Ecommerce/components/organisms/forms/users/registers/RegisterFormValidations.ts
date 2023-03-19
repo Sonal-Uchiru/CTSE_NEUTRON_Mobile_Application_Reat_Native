@@ -11,7 +11,7 @@ export const RegisterValidationSchema = yup.object().shape({
     .required(RegisterModel.lastName.requiredErrorMessage),
 
   contact: yup
-    .string()
+    .number()
     .required(RegisterModel.contact.requiredErrorMessage),
 
   email: yup
