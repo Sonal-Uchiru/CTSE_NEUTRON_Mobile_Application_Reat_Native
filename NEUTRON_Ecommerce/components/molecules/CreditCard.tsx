@@ -16,7 +16,7 @@ interface props {
   cardName: string;
   cardNumber: string;
   type: string;
-  passedDate: Date;
+  passedDate: string;
   owner: string;
 }
 
@@ -69,7 +69,7 @@ export default function CreditCard({
           <ParagraphBold
             marginTop={10}
             marginLeft={30}
-            value={`${passedDate.toString().substring(5, 7)}/${passedDate
+            value={`${passedDate.substring(5, 7)}/${passedDate
               .toString()
               .substring(8, 10)}`}
             color={theme.COLORS.PRIMARY}
