@@ -293,6 +293,19 @@ const sin = {
     saveButtonTitle:'සුරකින්න',
     deleteButtonTitle:'මකා දමන්න',
 
+  },
+
+  profilePage:{
+    editButtonTitle:'පැතිකඩ සංස්කරණය කරන්න',
+    deleteButtonTitle: 'ගිණුම මකන්න',
+    title: 'පරිශීලක පැතිකඩ',
+    subTitle: 'පරිශීලක විස්තර'
+  },
+
+  editProfilePage:{
+    title: 'පරිශීලක පැතිකඩ සංස්කරණය කරන්න',
+    subTitle: 'පරිශීලක විස්තර සංස්කරණය කරන්න',
+    saveButtonTitle: 'සුරකින්න'
   }
 
 };

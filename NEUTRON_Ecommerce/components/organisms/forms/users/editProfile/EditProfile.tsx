@@ -7,17 +7,17 @@ import useThemedStyles from '../../../../../theme/hooks/UseThemedStyles';
 import useTheme from '../../../../../theme/hooks/UseTheme';
 import ModalButton from '../../../../atoms/buttons/ModalButton';
 import FormGroupWithIcon from '../../../../molecules/FormGroupWithIcon';
-import { ProfileInitialValues } from './ProfileFormInitialValues';
-import { IProfileFormFields } from './IProfileFormFields';
-import { ProfileValidationSchema } from './ProfileFormValidations';
-import { ProfileModel } from './ProfileFormModel';
+import { EditProfileInitialValues } from './EditProfileFormInitialValues';
+import { IEditProfileFormFields } from './IEditProfileFormFields';
+import { EditProfileValidationSchema } from './EditProfileFormValidations';
+import { EditProfileModel } from './EditProfileFormModel';
 import Information from '../../../../atoms/typographies/Information';
 import { horizontalScale, verticalScale } from '../../../../../responsive/Metrics';
 import Paragraph from '../../../../atoms/typographies/Paragraph';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import { COLORS } from '../../../../../theme/styles/Colors';
 
-export default function ProfileForm() {
+export default function EditProfileForm() {
   const [selected, setSelected] = useState<boolean>(false);
 
   const theme = useTheme();
@@ -25,15 +25,15 @@ export default function ProfileForm() {
   const [showPassword, setShowPassword] = useState<boolean>(true);
   const [showReEnterPassword, setShowReEnterPassword] = useState<boolean>(true);
 
-  const registerAsync = async (values: IProfileFormFields) => {
+  const registerAsync = async (values: IEditProfileFormFields) => {
     console.log(values);
   };
   return (
     <>
       <Formik
-        initialValues={ProfileInitialValues}
+        initialValues={EditProfileInitialValues}
         onSubmit={(values) => registerAsync(values)}
-        validationSchema={ProfileValidationSchema}
+        validationSchema={EditProfileValidationSchema}
       >
         {({
           values,
@@ -56,7 +56,7 @@ export default function ProfileForm() {
               }
               onChangeText={handleChange('firstName')}
               onBlur={handleBlur('firstName')}
-              placeholder={i18n.t(ProfileModel.firstName.firstNamePlaceholder)}
+              placeholder={i18n.t(EditProfileModel.firstName.firstNamePlaceholder)}
               fieldvalue={values.firstName}
               error={errors.firstName}
               borderColor={
@@ -72,7 +72,7 @@ export default function ProfileForm() {
               }
               onChangeText={handleChange('lastName')}
               onBlur={handleBlur('lastName')}
-              placeholder={i18n.t(ProfileModel.lastName.lastNamePlaceholder)}
+              placeholder={i18n.t(EditProfileModel.lastName.lastNamePlaceholder)}
               fieldvalue={values.lastName}
               error={errors.lastName}
               borderColor={
@@ -88,7 +88,7 @@ export default function ProfileForm() {
               fieldstyle={errors.contact ? style.textInputError2 : style.textInput2}
               onChangeText={handleChange('contact')}
               onBlur={handleBlur('contact')}
-              placeholder={i18n.t(ProfileModel.contact.contactPlaceholder)}
+              placeholder={i18n.t(EditProfileModel.contact.contactPlaceholder)}
               fieldvalue={values.contact}
               error={errors.contact}
               borderColor={
@@ -102,7 +102,7 @@ export default function ProfileForm() {
               fieldstyle={errors.address ? style.textInputError2 : style.textInput2}
               onChangeText={handleChange('address')}
               onBlur={handleBlur('address')}
-              placeholder={i18n.t(ProfileModel.address.addressPlaceholder)}
+              placeholder={i18n.t(EditProfileModel.address.addressPlaceholder)}
               fieldvalue={values.address}
               error={errors.address}
               borderColor={
@@ -113,27 +113,15 @@ export default function ProfileForm() {
             </View> 
 
             <View style={style.marginView}></View>
-            <View style={style.row1}>
+           
             <ModalButton
               width={horizontalScale(140)}
-              value={i18n.t('profilePage.editButtonTitle')}
+              value={i18n.t('editProfilePage.saveButtonTitle')}
               color={theme.COLORS.PRIMARY}
               marginTop={25}
               marginRight={10}
+              marginBottom={20}
             />
-
-            <ModalButton
-              width={horizontalScale(140)}
-              value={i18n.t('profilePage.deleteButtonTitle')}
-              color={theme.COLORS.ERROR}
-              marginTop={25}
-              marginLeft={10}
-            />
-
-          
-            </View>
-           
-
           </View>
         )}
       </Formik>

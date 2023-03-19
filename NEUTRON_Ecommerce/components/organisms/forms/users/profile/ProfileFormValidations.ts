@@ -11,7 +11,7 @@ export const ProfileValidationSchema = yup.object().shape({
     .required(ProfileModel.lastName.requiredErrorMessage),
 
   contact: yup
-    .number()
+    .string()
     .required(ProfileModel.contact.requiredErrorMessage),
 
   address: yup

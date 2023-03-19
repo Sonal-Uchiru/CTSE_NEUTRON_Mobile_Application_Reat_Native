@@ -291,6 +291,19 @@ const en = {
     deleteButtonTitle:'Delete',
     editBtn: 'Edit',
     addBtn: 'Add'
+  }, 
+  
+  profilePage:{
+    editButtonTitle:'Edit  Profile',
+    deleteButtonTitle: 'Delete Account',
+    title: 'User Profile',
+    subTitle: 'User Deatails',
+  },
+
+  editProfilePage:{
+    title: 'Edit User Profile',
+    subTitle: 'Edit User Deatails',
+    saveButtonTitle: 'Save'
   }
 };
 
