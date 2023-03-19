@@ -107,7 +107,7 @@ export default function ViewItemCard({ item }: props) {
               marginTop={10}
               width={horizontalScale(160)}
               callFunction={addToCartAsync}
-              doneText={i18n.t('buttons.cartDone')}
+              doneText={i18n.t('buttons.cartAdded')}
             />
           </View>
         </View>

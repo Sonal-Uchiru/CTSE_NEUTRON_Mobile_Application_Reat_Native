@@ -74,7 +74,8 @@ const en = {
     verifyCode: 'Verify code',
     deleteMyAccount: 'Delete My Account',
     addToCart: 'Add To Cart',
-    cartDone: 'Done'
+    cartDone: 'Done',
+    cartAdded: 'Successful'
   },
   forgotPasswordFormCommon: {
     title: 'Forgot Password?',

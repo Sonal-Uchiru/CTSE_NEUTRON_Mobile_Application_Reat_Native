@@ -7,7 +7,6 @@ import { StyleSheet, View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withTiming,
   withRepeat,
   withSequence,
@@ -45,7 +44,7 @@ export default function AddToCartButton({
 }: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const offset = useSharedValue(-20);
+  const offset = useSharedValue(-60);
   const offset2 = useSharedValue(-250);
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -66,16 +65,15 @@ export default function AddToCartButton({
       ]
     };
   });
-
   function activeAnimation() {
     offset.value = withRepeat(
-      withSequence(withTiming(130), withDelay(300, withTiming(-20))),
+      withSequence(withTiming(130), withDelay(1500, withTiming(-60))),
       1,
       true
     );
 
     offset2.value = withRepeat(
-      withSequence(withTiming(35), withDelay(300, withTiming(-250))),
+      withSequence(withTiming(20), withDelay(1500, withTiming(-250))),
       1,
       true
     );
@@ -112,7 +110,7 @@ export default function AddToCartButton({
 }
 
 const styles = (theme: {
-  COLORS: { ERROR: string; WHITE: string; GREY: string };
+  COLORS: { ERROR: string; WHITE: string; ACTION: string };
   TYPOGRAPHY: {
     FONT_WEIGHT: any;
     FONT_SIZE: { M1: number; S2: number; L1: number; M2: number; L3: number };
@@ -124,6 +122,13 @@ const styles = (theme: {
       color: theme.COLORS.ERROR
     },
     buttonText: {
-      color: theme.COLORS.WHITE
+      color: theme.COLORS.WHITE,
+      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.bold,
+      marginTop: 6
+    },
+    buttonTextDone: {
+      color: theme.COLORS.ACTION,
+      fontWeight: theme.TYPOGRAPHY.FONT_WEIGHT.bold,
+      marginTop: 6
     }
   });
