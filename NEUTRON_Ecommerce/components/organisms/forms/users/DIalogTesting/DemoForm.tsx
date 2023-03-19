@@ -109,7 +109,10 @@ export default function DemoForm() {
         iconName="checkmark-circle"
         dismissFunc={onDismissSnackBar}
       />
-      <DeleteAccountConfirmDialog isVisible={dialogVisible} dismissFunc={hideDialog} />
+      <DeleteAccountConfirmDialog
+        isVisible={dialogVisible}
+        dismissFunc={hideDialog}
+      />
     </>
   );
 }
