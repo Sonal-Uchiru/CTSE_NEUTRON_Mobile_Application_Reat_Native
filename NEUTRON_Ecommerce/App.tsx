@@ -15,7 +15,6 @@ import { mainStyle } from './responsive/GlobalStyle';
 import AppHeader from './Navigation/appbar/Appbar';
 import ThemeProvider from './theme/hooks/ThemeProvider';
 import StackNavigation from './Navigation/CardNavigation';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AddCardScreen from './screens/AddCardScreen';
 
 export default function App() {

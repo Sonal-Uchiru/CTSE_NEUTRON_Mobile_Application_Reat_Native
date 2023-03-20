@@ -22,17 +22,21 @@ import { COLORS } from '../../../../../theme/styles/Colors';
 import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
 import CardService from '../../../../../api/services/CardService';
 import { CardModel } from '../../../../../types/cards/CardModel';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
+export default function EditCardForm() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const [card, setCard] = useState<CardModel>();
+  const navigation = useNavigation();
+  const route = useRoute();
 
   useEffect(() => {
     (async () => {
       try {
-        const resCard = await CardService.getCardByIdAsync(
-          '6aXzgS2fVomy8sg883UQ'
-        );
+        const resCard = await CardService.getCardByIdAsync(route.params?.docId);
+        console.log(resCard);
+
         setCard(resCard);
         setValues(resCard);
       } catch (error) {
@@ -165,8 +169,8 @@ import { CardModel } from '../../../../../types/cards/CardModel';
                     color={theme.COLORS.DARK_GREY}
                     width={130}
                     marginRight={15}
+                    callFunction={() => navigation.goBack()}
                   />
-
                   <ModalButton
                     value={i18n.t('editCardPage.saveButtonTitle')}
                     color={theme.COLORS.PRIMARY}

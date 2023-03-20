@@ -112,6 +112,7 @@ export default function SavedCards() {
                 type={card.type}
                 passedDate={card.expiryDate}
                 owner={card.nameOnCard}
+                documentId={card.docId}
               />
             );
           })}

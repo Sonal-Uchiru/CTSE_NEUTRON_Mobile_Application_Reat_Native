@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 import { mainStyle } from '../../responsive/GlobalStyle';
 import useTheme from '../../theme/hooks/UseTheme';
 import { useNavigation } from '@react-navigation/native';
+import UserService from '../../api/services/UserService';
 
 export default function AppHeader() {
   const [visible, setVisible] = useState(true);
@@ -54,8 +55,10 @@ export default function AppHeader() {
           />
           <Menu.Item
             leadingIcon="help-circle-outline"
-            onPress={() => {
-              navigation.navigate('Help'), closeMenu();
+            onPress={async () => {
+              await UserService.signOut(),
+                navigation.navigate('Help'),
+                closeMenu();
             }}
             title="Help"
           />

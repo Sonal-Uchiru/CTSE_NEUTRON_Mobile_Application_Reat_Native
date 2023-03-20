@@ -51,28 +51,26 @@ export default function EditProfileForm() {
   const [cameraVisible, setCameraVisibility] = useState(true);
   const ref = useRef(null);
   let camera: Camera | null = null;
-  const [isDataChanged,setIsDataChanged] = useState<boolean>(false);
+  const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
 
   useEffect(() => {
-    UserService.loginAsync(
-      new AuthenticationData('sonal@gmail.com', 'Sonal123$')
-    ).then(() => {
-      UserService.getUserAsync()
-        .then((res) => {
-          setInitailValue(res);
-          setUser(res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+    UserService.getUserAsync()
+      .then((res) => {
+        setInitailValue(res);
+        setUser(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [isDataChanged]);
 
   const editProfileAsync = async (values: IEditProfileFormFields) => {
     try {
       let imageUrl = '';
-      if(profilePicture != ''){
-        imageUrl = await UserService.updateUserProfilePictureAsync(profilePicture);
+      if (profilePicture != '') {
+        imageUrl = await UserService.updateUserProfilePictureAsync(
+          profilePicture
+        );
       }
       const editedUser = new UpdateUserData(
         values.firstName,

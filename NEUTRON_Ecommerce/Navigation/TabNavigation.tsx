@@ -55,7 +55,7 @@ export default function TabNavigation() {
 
             // You can return any component that you like here!
             return (
-              <Ionicons name={'home'} size={30} color={COLORS.PRIMARY} />
+              <Ionicons name={iconName} size={30} color={COLORS.PRIMARY} />
             );
           },
           tabBarActiveTintColor: COLORS.PRIMARY,

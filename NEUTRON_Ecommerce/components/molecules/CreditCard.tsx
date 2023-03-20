@@ -19,6 +19,7 @@ interface props {
   type: string;
   passedDate: string;
   owner: string;
+  documentId: string;
 }
 
 export default function CreditCard({
@@ -26,7 +27,8 @@ export default function CreditCard({
   cardNumber,
   type,
   passedDate,
-  owner
+  owner,
+  documentId
 }: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -77,7 +79,7 @@ export default function CreditCard({
               value={i18n.t('savedCardsPage.buttonEditCard')}
               color={theme.COLORS.ACTION}
               marginTop={10}
-              callFunction={() => navigation.navigate('EditCard')}
+              callFunction={() => navigation.navigate('EditCard', {docId: documentId})}
             />
           </View>
         </View>

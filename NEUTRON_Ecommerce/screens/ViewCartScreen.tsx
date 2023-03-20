@@ -25,17 +25,12 @@ export default function ViewCart() {
   const [loading, setLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
 
-  const credentials = {
-    email: 'sonal@gmail.com',
-    password: 'Sonal123$'
-  };
   useEffect(() => {
     fetchCartList();
   }, []);
 
   async function fetchCartList() {
     setLoading(true);
-    const ss = await UserService.loginAsync(credentials);
     try {
       const resItems = await CartItemService.getCartItemListAsync();
       if (resItems.length > 0) {
