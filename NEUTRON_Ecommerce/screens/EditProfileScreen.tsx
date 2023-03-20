@@ -7,7 +7,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
@@ -35,50 +35,16 @@ import FlipCard from 'react-native-flip-card';
 import ProfileForm from '../components/organisms/forms/users/profile/Profile';
 import HeadLine2 from '../components/atoms/typographies/HeadLine2';
 import EditProfileForm from '../components/organisms/forms/users/editProfile/EditProfile';
+import UserService from '../api/services/UserService';
+import { AuthenticationData } from '../types/authentication/AuthenticationData';
+import { UserModel } from '../types/users/UserModel';
 
 export default function EditProfileScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const [photoDialogVisible, setPhotoDialogVisible] = useState<boolean>(false);
-  const hidePhotoDialog = () => setPhotoDialogVisible(false);
+
   return (
     <SafeAreaView style={style.container}>
-      <View style={style.headerStyle}>
-        <HeadLine3
-          value={i18n.t('editProfilePage.title')}
-          color={theme.COLORS.PRIMARY}
-        />
-        <Paragraph
-          value={i18n.t('editProfilePage.subTitle')}
-          color={theme.COLORS.PRIMARY}
-        />
-      </View>
-      <View style={style.row1}>
-        <View style={style.imageView}>
-          <Image
-            resizeMode="contain"
-            source={UserProfile}
-            style={style.imageStyle}
-          />
-        </View>
-        <TouchableHighlight
-          underlayColor={theme.COLORS.WHITE}
-          onPress={() => setPhotoDialogVisible(true)}
-        >
-          <Image resizeMode="contain" source={Edit} style={style.imageIcon} />
-        </TouchableHighlight>
-      </View>
-      <HeadLine2
-        value={'Christine Tia'}
-        color={theme.COLORS.BLACK}
-        marginTop={10}
-      />
-
-      <HeadLine4
-        value={'christine@gmail.com'}
-        color={theme.COLORS.PRIMARY}
-        marginTop={2}
-      />
       <ScrollView>
         <EditProfileForm />
       </ScrollView>
@@ -153,3 +119,6 @@ const styles = (theme: {
 
     row1: { flexDirection: 'row' }
   });
+function setInitailValue(res: UserModel) {
+  throw new Error('Function not implemented.');
+}
