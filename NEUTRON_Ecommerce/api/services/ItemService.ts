@@ -99,7 +99,7 @@ class ItemService {
   ): Promise<string> {
     try {
       const itemImageUrl: string | null = await uploadFile(
-        itemImage,
+        itemImage.uri,
         'items',
         `${itemName}_${Date.now()}_image`
       );

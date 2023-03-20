@@ -113,20 +113,19 @@ export class UserService {
     }
   }
 
-  async updateUserProfilePictureAsync(imageAssest: ImagePickerAsset): Promise<string> {
+  async updateUserProfilePictureAsync(uri: string): Promise<string> {
     try {
       const user: UserModel = await this.getUserAsync();
 
       const profileImageUrl: string | null = await uploadFile(
-        imageAssest,
+        uri,
         'users',
         `${user.uid}_profile_image`
       );
 
-      if(profileImageUrl == null) throw new Error('profile url not found');
+      if (profileImageUrl == null) throw new Error('profile url not found');
 
       return profileImageUrl;
-
     } catch (error) {
       throw new Error((error as Error).message);
     }
