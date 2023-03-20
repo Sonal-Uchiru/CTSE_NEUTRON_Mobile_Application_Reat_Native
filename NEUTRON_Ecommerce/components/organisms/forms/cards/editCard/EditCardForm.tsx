@@ -23,7 +23,6 @@ import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
 import CardService from '../../../../../api/services/CardService';
 import { CardModel } from '../../../../../types/cards/CardModel';
 
-export default function EditCardForm() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const [card, setCard] = useState<CardModel>();

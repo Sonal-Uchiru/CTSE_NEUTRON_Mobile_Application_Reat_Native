@@ -14,6 +14,11 @@ import { CardModel } from '../types/cards/CardModel';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import { AuthenticationData } from '../types/authentication/AuthenticationData';
+import { useNavigation } from '@react-navigation/native';
+
+interface props {
+  onClick: any;
+}
 
 export default function SavedCards() {
   const [searchText, setSearchText] = useState('');
@@ -25,7 +30,8 @@ export default function SavedCards() {
   const [cardList, setCardList] = useState<CardModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [copyCards, setCopyCards] = useState<CardModel[]>([]);
-  
+  const navigation = useNavigation();
+
   useEffect(() => {
     fetchCardList();
   }, []);
@@ -33,7 +39,9 @@ export default function SavedCards() {
   async function fetchCardList() {
     setLoading(true);
     try {
-      UserService.loginAsync(new AuthenticationData('sonal@gmail.com','Sonal123'))
+      UserService.loginAsync(
+        new AuthenticationData('sonal@gmail.com', 'Sonal123')
+      );
       const resCards = await CardService.getCardListAsync();
       if (resCards.length > 0) {
         setCount(resCards.length);
@@ -109,12 +117,12 @@ export default function SavedCards() {
           })}
         </ScrollView>
       )}
-
       <ModalButton
         value={i18n.t('savedCardsPage.buttonAddCard')}
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+        callFunction={() => navigation.navigate('AddCards')}
       />
       <ErrorSnackbar
         text={'Something went wrong please try again'}

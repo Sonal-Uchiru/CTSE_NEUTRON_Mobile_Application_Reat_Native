@@ -10,6 +10,7 @@ import * as Localization from 'expo-localization';
 import useTheme from '../../theme/hooks/UseTheme';
 import Paragraph from '../atoms/typographies/Paragraph';
 import ModalButton from '../atoms/buttons/ModalButton';
+import { useNavigation } from '@react-navigation/native';
 
 interface props {
   key: number;
@@ -29,6 +30,7 @@ export default function CreditCard({
 }: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
+  const navigation = useNavigation();
 
   return (
     <>
@@ -75,6 +77,7 @@ export default function CreditCard({
               value={i18n.t('savedCardsPage.buttonEditCard')}
               color={theme.COLORS.ACTION}
               marginTop={10}
+              callFunction={() => navigation.navigate('EditCard')}
             />
           </View>
         </View>

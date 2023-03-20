@@ -30,12 +30,13 @@ import { Ionicons } from '@expo/vector-icons';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
 import useTheme from '../theme/hooks/UseTheme';
 import { COLORS } from '../theme/styles/Colors';
+import CardNavigation from './CardNavigation';
+import HomeNavigation from './HomeNavigation';
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
   const [load, setLoad] = useState(false);
   const Tab = createBottomTabNavigator();
-
   return (
     <Suspense fallback={<Text>Loading...</Text>}>
       <Tab.Navigator
@@ -54,17 +55,16 @@ export default function TabNavigation() {
 
             // You can return any component that you like here!
             return (
-              <Ionicons name={iconName} size={30} color={COLORS.PRIMARY} />
+              <Ionicons name={'home'} size={30} color={COLORS.PRIMARY} />
             );
           },
           tabBarActiveTintColor: COLORS.PRIMARY,
           tabBarInactiveTintColor: COLORS.DARK_GREY
         })}
       >
-        <Tab.Screen name="Home" component={ViewItemScreen} />
-        <Tab.Screen name="Cards" component={ViewCards} />
+        <Tab.Screen name="Home" component={HomeNavigation} />
+        <Tab.Screen name="Cards" component={CardNavigation} />
         <Tab.Screen name="Cart" component={ViewCart} />
-        {/* {load && <Lazy />} */}
       </Tab.Navigator>
     </Suspense>
   );

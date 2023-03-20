@@ -14,7 +14,9 @@ import TabNavigation from './Navigation/TabNavigation';
 import { mainStyle } from './responsive/GlobalStyle';
 import AppHeader from './Navigation/appbar/Appbar';
 import ThemeProvider from './theme/hooks/ThemeProvider';
-
+import StackNavigation from './Navigation/CardNavigation';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AddCardScreen from './screens/AddCardScreen';
 
 export default function App() {
   const [locale, setLocale] = useState(Localization.locale);
@@ -23,23 +25,13 @@ export default function App() {
   i18n.translations = { en, sin };
   i18n.locale = locale;
 
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
   return (
     <PaperProvider>
       <ThemeProvider>
-        {/* <AppHeader /> */}
         <NavigationContainer>
+          <AppHeader />
           <SafeAreaView style={mainStyle.container}>
             <TabNavigation />
-            {/* <Text>{i18n.t('title')}</Text>
-        <Button onPress={changeLanguage} title="change language" /> */}
           </SafeAreaView>
         </NavigationContainer>
       </ThemeProvider>
