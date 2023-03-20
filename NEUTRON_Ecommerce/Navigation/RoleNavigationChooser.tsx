@@ -7,15 +7,12 @@ import React, {
   useTransition
 } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AddCardScreen from '../screens/AddCardScreen';
-import SavedCards from '../screens/SaveCardsScreen';
-import EditCardScreen from '../screens/EditCardScreen';
 import TabNavigation from './TabNavigation';
 import GuestNavigation from './GuestNavigation';
 import ExpoLocalStorage from '../authentication/secure_stores/ExpoLocalStorage';
-import RoleNavigationChooser from './RoleNavigationChooser';
+import AdminNavigation from './AdminNavigation';
 
-export default function NavigationChooser() {
+export default function RoleNavigationChooser() {
   const Stack = createNativeStackNavigator();
 
   const [userRole, setUserRole] = useState<number>(-99);
@@ -30,15 +27,15 @@ export default function NavigationChooser() {
   }, [userRole]);
 
   return (
-    <Stack.Navigator initialRouteName={userRole != -99 ? 'LoggedIn' : 'Guest'}>
+    <Stack.Navigator initialRouteName={userRole != 0 ? 'Client' : 'Admin'}>
       <Stack.Screen
-        name="LoggedIn"
-        component={RoleNavigationChooser}
+        name="Client"
+        component={TabNavigation}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Guest"
-        component={GuestNavigation}
+        name="Admin"
+        component={AdminNavigation}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

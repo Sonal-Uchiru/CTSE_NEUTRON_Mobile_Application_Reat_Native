@@ -2,7 +2,8 @@ import {
   StyleSheet,
   Image,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Formik, FormikErrors } from 'formik';
@@ -263,6 +264,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                   />
                 </TouchableHighlight>
               </View>
+
               <FormGroupWithDropDown
                 fieldstyle={
                   errors.itemCategory ? style.dropdownError : style.dropdown
@@ -432,16 +434,16 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         value={i18n.t('addItemsForm.cancel')}
         color={theme.COLORS.ERROR}
         callFunction={() => {
-          setIsScreenChanged(!isScreenChanged)
-          onCancel()}}
+          setIsScreenChanged(!isScreenChanged);
+          onCancel();
+        }}
         marginLeft={20}
         marginTop={40}
       />
       <UploadPhotoDialog
         isVisible={photoDialogVisible}
         dismissFunc={hidePhotoDialog}
-        pickImage={pickImage}
-      />
+        pickImage={pickImage} captureImage={undefined}      />
       <ErrorSnackbar
         text={'Something went wrong!'}
         iconName={'error'}
