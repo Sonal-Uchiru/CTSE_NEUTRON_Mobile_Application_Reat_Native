@@ -16,6 +16,7 @@ import AppHeader from './Navigation/appbar/Appbar';
 import ThemeProvider from './theme/hooks/ThemeProvider';
 import StackNavigation from './Navigation/CardNavigation';
 import AddCardScreen from './screens/AddCardScreen';
+import NavigationChooser from './Navigation/NavigationChooser';
 
 export default function App() {
   const [locale, setLocale] = useState(Localization.locale);
@@ -30,7 +31,7 @@ export default function App() {
         <NavigationContainer>
           <AppHeader />
           <SafeAreaView style={mainStyle.container}>
-            <TabNavigation />
+            <NavigationChooser />
           </SafeAreaView>
         </NavigationContainer>
       </ThemeProvider>

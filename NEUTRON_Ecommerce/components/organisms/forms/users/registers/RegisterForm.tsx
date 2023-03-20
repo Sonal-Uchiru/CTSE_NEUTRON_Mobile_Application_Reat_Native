@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -12,7 +12,10 @@ import { IRegisterFormFields } from './IRegisterFormFields';
 import { RegisterValidationSchema } from './RegisterFormValidations';
 import { RegisterModel } from './RegisterFormModel';
 import Information from '../../../../atoms/typographies/Information';
-import { horizontalScale, verticalScale } from '../../../../../responsive/Metrics';
+import {
+  horizontalScale,
+  verticalScale
+} from '../../../../../responsive/Metrics';
 import Paragraph from '../../../../atoms/typographies/Paragraph';
 import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import { COLORS } from '../../../../../theme/styles/Colors';
@@ -20,6 +23,7 @@ import { CreateUserData } from '../../../../../types/users/CreateUserData';
 import { UserRoles } from '../../../../../types/enums/UserRoles';
 import UserService from '../../../../../api/services/UserService';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
+import { useNavigation } from '@react-navigation/native';
 
 export default function RegisterForm() {
   const [selected, setSelected] = useState<boolean>(false);
@@ -28,12 +32,13 @@ export default function RegisterForm() {
   const style = useThemedStyles(styles);
   const [showPassword, setShowPassword] = useState<boolean>(true);
   const [showReEnterPassword, setShowReEnterPassword] = useState<boolean>(true);
+  const navigation = useNavigation();
 
   const registerAsync = async (values: IRegisterFormFields) => {
-    try{
-      if(values.password != values.reEnterPassword){
-        console.log("password mismatch")
-        return
+    try {
+      if (values.password != values.reEnterPassword) {
+        console.log('password mismatch');
+        return;
       }
       const newUser = new CreateUserData(
         values.firstName,
@@ -41,22 +46,20 @@ export default function RegisterForm() {
         +values.contact,
         values.email,
         '',
-        UserRoles.customer,
+        UserRoles.customer
       );
-  
+
       const newCredentials = new AuthenticationData(
         values.email,
         values.password
       );
-      await UserService.registerAsync(newUser, newCredentials )
+      await UserService.registerAsync(newUser, newCredentials);
       console.log(values);
-    }catch(error){
+      navigation.navigate('Login');
+    } catch (error) {
       console.log(error);
-      
     }
-
   };
-
 
   return (
     <>
@@ -76,52 +79,62 @@ export default function RegisterForm() {
           isSubmitting
         }) => (
           <View style={style.container}>
-          <View style={style.tabView}>
-          <View style={style.tabView2}>
-          <View style={style.tabView3}>
-            <FormGroup
-              name={i18n.t('formFields.firstName')}
-              id={'firstName'}
-              fieldstyle={
-                errors.firstName ? style.textInputError : style.textInput
-              }
-              onChangeText={handleChange('firstName')}
-              onBlur={handleBlur('firstName')}
-              placeholder={i18n.t(RegisterModel.firstName.firstNamePlaceholder)}
-              fieldvalue={values.firstName}
-              error={errors.firstName}
-              borderColor={
-                errors.firstName ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
-      </View> 
-      </View> 
-        
-        <View style={style.tabView2}>
-        <View style={style.tabView3}>
-            <FormGroup
-              name={i18n.t('formFields.lastName')}
-              id={'lastName'}
-              fieldstyle={
-                errors.lastName ? style.textInputError : style.textInput
-              }
-              onChangeText={handleChange('lastName')}
-              onBlur={handleBlur('lastName')}
-              placeholder={i18n.t(RegisterModel.lastName.lastNamePlaceholder)}
-              fieldvalue={values.lastName}
-              error={errors.lastName}
-              borderColor={
-                errors.lastName ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
-              </View> 
+            <View style={style.tabView}>
+              <View style={style.tabView2}>
+                <View style={style.tabView3}>
+                  <FormGroup
+                    name={i18n.t('formFields.firstName')}
+                    id={'firstName'}
+                    fieldstyle={
+                      errors.firstName ? style.textInputError : style.textInput
+                    }
+                    onChangeText={handleChange('firstName')}
+                    onBlur={handleBlur('firstName')}
+                    placeholder={i18n.t(
+                      RegisterModel.firstName.firstNamePlaceholder
+                    )}
+                    fieldvalue={values.firstName}
+                    error={errors.firstName}
+                    borderColor={
+                      errors.firstName
+                        ? theme.COLORS.ERROR
+                        : theme.COLORS.PRIMARY
+                    }
+                  />
+                </View>
               </View>
-              </View> 
-          
+
+              <View style={style.tabView2}>
+                <View style={style.tabView3}>
+                  <FormGroup
+                    name={i18n.t('formFields.lastName')}
+                    id={'lastName'}
+                    fieldstyle={
+                      errors.lastName ? style.textInputError : style.textInput
+                    }
+                    onChangeText={handleChange('lastName')}
+                    onBlur={handleBlur('lastName')}
+                    placeholder={i18n.t(
+                      RegisterModel.lastName.lastNamePlaceholder
+                    )}
+                    fieldvalue={values.lastName}
+                    error={errors.lastName}
+                    borderColor={
+                      errors.lastName
+                        ? theme.COLORS.ERROR
+                        : theme.COLORS.PRIMARY
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+
             <FormGroup
               name={i18n.t('formFields.email')}
               id={'email'}
-              fieldstyle={errors.email ? style.textInputError2 : style.textInput2}
+              fieldstyle={
+                errors.email ? style.textInputError2 : style.textInput2
+              }
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               placeholder={i18n.t(RegisterModel.email.emailPlaceholder)}
@@ -135,7 +148,9 @@ export default function RegisterForm() {
             <FormGroup
               name={i18n.t('formFields.contact')}
               id={'contact'}
-              fieldstyle={errors.contact ? style.textInputError2 : style.textInput2}
+              fieldstyle={
+                errors.contact ? style.textInputError2 : style.textInput2
+              }
               onChangeText={handleChange('contact')}
               onBlur={handleBlur('contact')}
               placeholder={i18n.t(RegisterModel.contact.contactPlaceholder)}
@@ -145,7 +160,6 @@ export default function RegisterForm() {
                 errors.contact ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
             />
-
 
             <FormGroupWithIcon
               name={i18n.t('formFields.password')}
@@ -174,7 +188,9 @@ export default function RegisterForm() {
                 RegisterModel.reEnterPassword.reEnterPasswordPlaceholder
               )}
               fieldstyle={
-                errors.reEnterPassword ? style.textInputError2 : style.textInput2
+                errors.reEnterPassword
+                  ? style.textInputError2
+                  : style.textInput2
               }
               onChangeText={handleChange('reEnterPassword')}
               onBlur={handleBlur('reEnterPassword')}
@@ -192,12 +208,8 @@ export default function RegisterForm() {
             <View style={style.marginView}></View>
 
             <View style={style.termsView}>
-            <Hyperlink
-            value={i18n.t('registerPage.terms')}
-            marginTop={5}
-            />
+              <Hyperlink value={i18n.t('registerPage.terms')} marginTop={5} />
             </View>
-            
 
             <ModalButton
               width={horizontalScale(150)}
@@ -208,31 +220,34 @@ export default function RegisterForm() {
               marginTop={25}
             />
 
-          
             {/* <Information
               value={i18n.t('registerPage.termsAndConditions')}
               marginTop={5}
             /> */}
             <View style={style.row1}>
-            <Paragraph 
-            value={i18n.t('registerPage.alreadyHaveAccount')}
-            marginTop={10}
-            marginRight={5}
-            />
+              <Paragraph
+                value={i18n.t('registerPage.alreadyHaveAccount')}
+                marginTop={10}
+                marginRight={5}
+              />
 
-            <Hyperlink
-            value={i18n.t('registerPage.loginHere')}
-            marginTop={10}
-            />
+              <Pressable onPress={() => navigation.navigate('Login')}>
+                <Hyperlink
+                  value={i18n.t('registerPage.loginHere')}
+                  marginTop={10}
+                />
+              </Pressable>
             </View>
-            
+
             <View style={style.marginView}></View>
 
-            <Hyperlink
-            value={i18n.t('registerPage.back')}
-            color={COLORS.PRIMARY}
-            marginTop={10}
-            />
+            <Pressable onPress={() => navigation.navigate('Login')}>
+              <Hyperlink
+                value={i18n.t('registerPage.back')}
+                color={COLORS.PRIMARY}
+                marginTop={10}
+              />
+            </Pressable>
           </View>
         )}
       </Formik>
@@ -255,10 +270,9 @@ const styles = (theme: {
 }) =>
   StyleSheet.create({
     container: {
-      flex:1,
-      alignItems:'center',
-      backgroundColor: theme.COLORS.WHITE,
-    
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: theme.COLORS.WHITE
     },
     textInput: {
       width: horizontalScale(130),
@@ -278,17 +292,16 @@ const styles = (theme: {
       backgroundColor: theme.COLORS.WHITE
     },
 
-    
     textInputError2: {
       width: horizontalScale(300),
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
     },
 
-    termsView:{
-      alignItems:'flex-end',
-      justifyContent:'flex-end',
-      alignSelf:'flex-end',
+    termsView: {
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
+      alignSelf: 'flex-end',
       marginRight: horizontalScale(20),
       marginTop: 10
     },
@@ -296,16 +309,13 @@ const styles = (theme: {
     tabView: {
       flexDirection: 'row',
       marginTop: 20,
-      alignItems:'center'
-    
+      alignItems: 'center'
     },
 
-    tabView2:{
+    tabView2: {
       flexDirection: 'column',
       marginLeft: 20,
       marginRight: 20
-      
-  
     },
 
     hyperlinkText: {
@@ -314,13 +324,12 @@ const styles = (theme: {
       marginBottom: 10,
       marginRight: 40
     },
-   
+
     marginView: {
       marginTop: 2
     },
 
-    
     row1: {
-      flexDirection:'row'
+      flexDirection: 'row'
     }
   });

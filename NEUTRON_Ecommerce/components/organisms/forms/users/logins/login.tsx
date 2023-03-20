@@ -1,4 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { LoginValidationSchema } from './LoginFormValidations';
@@ -25,6 +32,7 @@ import { horizontalScale } from '../../../../../responsive/Metrics';
 import Paragraph from '../../../../atoms/typographies/Paragraph';
 import UserService from '../../../../../api/services/UserService';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -33,25 +41,26 @@ export default function Login() {
   const style = useThemedStyles(styles);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [selected, setSelected] = useState<boolean>(false);
+  const navigation = useNavigation();
 
   const loginAsync = async (values: ILoginFormFields) => {
-    try{
-      const newlogin = new AuthenticationData(
-        values.email,
-        values.password
-      );
+    try {
+      const newlogin = new AuthenticationData(values.email, values.password);
       await UserService.loginAsync(newlogin);
-      console.log("login Success");
-   }catch(error){
-    console.log(error)
-   }
+      console.log('login Success');
+      navigation.navigate('LoggedIn');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-   
-      <>
+    <>
       <View style={style.tabView}>
-        <HeadLine2 value={i18n.t('loginPage.title')} color={theme.COLORS.PRIMARY}/>
+        <HeadLine2
+          value={i18n.t('loginPage.title')}
+          color={theme.COLORS.PRIMARY}
+        />
       </View>
       <Formik
         initialValues={LoginInitialValues}
@@ -81,7 +90,6 @@ export default function Login() {
               borderColor={
                 errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
               }
-              
             />
             <FormGroupWithIcon
               name={i18n.t('formFields.password')}
@@ -101,24 +109,22 @@ export default function Login() {
               }
             />
             <View style={style.buttonView}>
-            <ModalButton
-              value={i18n.t('loginPage.login')}
-              color={theme.COLORS.PRIMARY}
-              callFunction={() => handleSubmit()}
-              disabled={!isValid}
-            />
-            </View> 
+              <ModalButton
+                value={i18n.t('loginPage.login')}
+                color={theme.COLORS.PRIMARY}
+                callFunction={() => handleSubmit()}
+                disabled={!isValid}
+              />
+            </View>
             <View style={style.marginView}>
-            <Paragraph 
-            value={i18n.t('loginPage.createAccountLink')}
-            marginTop={2}
-            marginRight={5}
-            />
-
-            <Hyperlink
-            value={i18n.t('loginPage.signUp')}
-            marginTop={2}
-            />
+              <Paragraph
+                value={i18n.t('loginPage.createAccountLink')}
+                marginTop={2}
+                marginRight={5}
+              />
+              <Pressable onPress={() => navigation.navigate('Register')}>
+                <Hyperlink value={i18n.t('loginPage.signUp')} marginTop={2} />
+              </Pressable>
             </View>
           </View>
         )}
@@ -129,8 +135,7 @@ export default function Login() {
           setIsError(false);
         }}
       />
-      </>
-
+    </>
   );
 }
 
@@ -154,40 +159,38 @@ const styles = (theme: {
       width: '100%'
     },
 
-    buttonView:{
+    buttonView: {
       alignItems: 'center',
       alignSelf: 'center',
       marginTop: 50
     },
 
-    errroStyle:{
-      alignSelf:'center',
-      backgroundColor: theme.COLORS.WHITE,
+    errroStyle: {
+      alignSelf: 'center',
+      backgroundColor: theme.COLORS.WHITE
     },
 
-    text2:{
+    text2: {
       color: theme.COLORS.PRIMARY,
-      textDecorationLine:'underline'
+      textDecorationLine: 'underline'
     },
 
     textInput: {
       width: horizontalScale(300),
       marginTop: 25,
-      alignSelf:'center',
-      backgroundColor: theme.COLORS.WHITE,
-  
+      alignSelf: 'center',
+      backgroundColor: theme.COLORS.WHITE
     },
-    
+
     tabView: {
-     alignSelf:'center',
+      alignSelf: 'center',
       marginTop: 60
     },
-   
+
     marginView: {
       marginBottom: 30,
       marginTop: 30,
-      alignSelf:'center',
-      flexDirection:'row'
-
+      alignSelf: 'center',
+      flexDirection: 'row'
     }
   });

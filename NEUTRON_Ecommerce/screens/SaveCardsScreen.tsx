@@ -39,9 +39,6 @@ export default function SavedCards() {
   async function fetchCardList() {
     setLoading(true);
     try {
-      UserService.loginAsync(
-        new AuthenticationData('sonal@gmail.com', 'Sonal123')
-      );
       const resCards = await CardService.getCardListAsync();
       if (resCards.length > 0) {
         setCount(resCards.length);

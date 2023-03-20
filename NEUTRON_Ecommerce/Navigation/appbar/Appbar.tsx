@@ -27,7 +27,6 @@ export default function AppHeader() {
   }, [userRole]);
   return (
     <View>
-      {console.log(userRole)}
       {userRole != -99 ? (
         <Appbar.Header>
           <Appbar.BackAction
