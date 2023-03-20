@@ -87,7 +87,14 @@ export default function CartCard({
         <View style={style.column}>
           <Image
             resizeMode="stretch"
-            source={Iphone}
+            source={{
+              uri:
+                item?.imageUrl ==
+                  'https://media.istockphoto.com/id/1028085402/vector/avatar-icon-avatar-flat-symbol-isolated-on-white.jpg?s=170667a&w=0&k=20&c=1F45oPbJyaUtNt1lMwqS2Tg1HXlHsUjAr6H04hdespc=' ||
+                item?.imageUrl == undefined
+                  ? 'https://media.istockphoto.com/id/1028085402/vector/avatar-icon-avatar-flat-symbol-isolated-on-white.jpg?s=170667a&w=0&k=20&c=1F45oPbJyaUtNt1lMwqS2Tg1HXlHsUjAr6H04hdespc='
+                  : item?.imageUrl
+            }}
             style={style.imageStyle}
           />
         </View>
@@ -174,7 +181,7 @@ const styles = (theme: {
       alignSelf: 'flex-start',
       marginStart: 20
     },
-    imageStyle: { height: 220, width: 100, borderRadius: 20 },
+    imageStyle: { height: 220, width: 100, borderRadius: 20, marginTop: 5 },
     column: { flexDirection: 'column' },
     row: { flexDirection: 'row', alignSelf: 'flex-end' },
     columnRight: { flexDirection: 'column', width: 260 },

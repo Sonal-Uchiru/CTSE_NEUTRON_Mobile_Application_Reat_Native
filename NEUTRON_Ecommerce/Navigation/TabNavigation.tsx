@@ -9,7 +9,7 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import UserAccessScreen from '../screens/UserAccessScreen';
 import HelpScreen from '../screens/HelpScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
-import SavedCards from '../screens/SaveCardsScreen';
+import ViewCards from '../screens/SaveCardsScreen';
 import ManageItems from '../screens/ManageItems';
 import Login from '../components/organisms/forms/users/logins/login';
 import DemoForm from '../components/organisms/forms/users/DIalogTesting/DemoForm';
@@ -26,6 +26,10 @@ import AddCardScreen from '../screens/AddCardScreen';
 import EditCardScreen from '../screens/EditCardScreen';
 import ProfileScreen from '../screens/ViewProfileScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import { Ionicons } from '@expo/vector-icons';
+import useThemedStyles from '../theme/hooks/UseThemedStyles';
+import useTheme from '../theme/hooks/UseTheme';
+import { COLORS } from '../theme/styles/Colors';
 
 export default function TabNavigation() {
   const [, startTransition] = useTransition();
@@ -35,12 +39,31 @@ export default function TabNavigation() {
   return (
     <Suspense fallback={<Text>Loading...</Text>}>
       <Tab.Navigator
-        screenOptions={{
-          headerShown: false
-        }}
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName: string = '';
+
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Cards') {
+              iconName = focused ? 'card' : 'card-outline';
+            } else if (route.name === 'Cart') {
+              iconName = focused ? 'cart' : 'cart-outline';
+            }
+
+            // You can return any component that you like here!
+            return (
+              <Ionicons name={iconName} size={30} color={COLORS.PRIMARY} />
+            );
+          },
+          tabBarActiveTintColor: COLORS.PRIMARY,
+          tabBarInactiveTintColor: COLORS.DARK_GREY
+        })}
       >
-        <Tab.Screen name="Login" component={EditProfileScreen} />
-        <Tab.Screen name="Demo" component={DemoForm} />
+        <Tab.Screen name="Home" component={ViewItemScreen} />
+        <Tab.Screen name="Cards" component={ViewCards} />
+        <Tab.Screen name="Cart" component={ViewCart} />
         {/* {load && <Lazy />} */}
       </Tab.Navigator>
     </Suspense>

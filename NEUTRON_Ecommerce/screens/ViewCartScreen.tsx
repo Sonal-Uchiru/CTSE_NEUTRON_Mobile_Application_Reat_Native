@@ -34,8 +34,8 @@ export default function ViewCart() {
   }, []);
 
   async function fetchCartList() {
-    const ss = await UserService.loginAsync(credentials);
     setLoading(true);
+    const ss = await UserService.loginAsync(credentials);
     try {
       const resItems = await CartItemService.getCartItemListAsync();
       if (resItems.length > 0) {
