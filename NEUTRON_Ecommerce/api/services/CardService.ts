@@ -4,6 +4,8 @@ import { UpdateCardData } from '../../types/cards/UpdateCardData';
 import { CardModel } from '../../types/cards/CardModel';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import AuthenticationRepository from '../repositories/AuthenticationRepository';
+import { getCardType } from '../../shared/CreditCard';
+
 
 export class CardService {
   async addCardAsync(card: CreateCardData): Promise<void> {
@@ -53,6 +55,7 @@ export class CardService {
                 card['cardNumber'],
                 card['nameOnCard'],
                 card['expiryDate'],
+                getCardType(card['cardNumber'].toString()),
                 card['uid']
               )
             );
@@ -78,6 +81,7 @@ export class CardService {
         content['cardNumber'],
         content['nameOnCard'],
         content['expiryDate'],
+        getCardType(content['cardNumber'].toString()),
         content['uid']
       );
     } catch (error) {

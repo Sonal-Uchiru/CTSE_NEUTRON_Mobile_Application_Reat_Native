@@ -8,6 +8,8 @@ export const AddCardValidationSchema = yup.object().shape({
 
   cardNumber: yup
     .number()
+    .max(16)
+    .min(14)
     .required(AddCardModel.cardNumber.requiredErrorMessage),
 
   name: yup

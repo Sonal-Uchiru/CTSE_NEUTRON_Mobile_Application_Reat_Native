@@ -9,11 +9,11 @@ import CreditCard from '../components/molecules/CreditCard';
 import ModalButton from '../components/atoms/buttons/ModalButton';
 import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
 import UserService from '../api/services/UserService';
-import CartService from '../api/services/CartService';
 import CardService from '../api/services/CardService';
 import { CardModel } from '../types/cards/CardModel';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
+import { AuthenticationData } from '../types/authentication/AuthenticationData';
 
 export default function SavedCards() {
   const [searchText, setSearchText] = useState('');
@@ -25,20 +25,15 @@ export default function SavedCards() {
   const [cardList, setCardList] = useState<CardModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [copyCards, setCopyCards] = useState<CardModel[]>([]);
-
-  const credentials = {
-    email: 'sonal@gmail.com',
-    password: 'Sonal123$'
-  };
-
+  
   useEffect(() => {
     fetchCardList();
   }, []);
 
   async function fetchCardList() {
-    const ss = await UserService.loginAsync(credentials);
     setLoading(true);
     try {
+      UserService.loginAsync(new AuthenticationData('sonal@gmail.com','Sonal123'))
       const resCards = await CardService.getCardListAsync();
       if (resCards.length > 0) {
         setCount(resCards.length);
@@ -47,6 +42,7 @@ export default function SavedCards() {
       }
       setError(false);
     } catch (error) {
+      console.log(error);
       setError(true);
     }
     setLoading(false);
@@ -62,6 +58,7 @@ export default function SavedCards() {
       setCardList(content);
     }
   };
+
   return (
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
@@ -103,8 +100,8 @@ export default function SavedCards() {
               <CreditCard
                 key={i}
                 cardName={card.displayName}
-                cardNumber={`Visa ${card.cardNumber}`}
-                type={'visa'}
+                cardNumber={`${card.cardNumber}`}
+                type={card.type}
                 passedDate={card.expiryDate}
                 owner={card.nameOnCard}
               />

@@ -1,7 +1,7 @@
 import { StyleSheet, SafeAreaView, Image, View } from 'react-native';
 import React, { useState } from 'react';
 import i18n from 'i18n-js';
-import { VisaImg } from '../../assets/image';
+import { MasterImg, VisaImg } from '../../assets/image';
 import useThemedStyles from '../../theme/hooks/UseThemedStyles';
 import HeadLine3 from '../atoms/typographies/HeadLine3';
 import HeadLine4 from '../atoms/typographies/HeadLine4';
@@ -27,18 +27,8 @@ export default function CreditCard({
   passedDate,
   owner
 }: props) {
-  const [locale, setLocale] = useState(Localization.locale);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
 
   return (
     <>
@@ -46,7 +36,7 @@ export default function CreditCard({
         <View style={style.column}>
           <Image
             resizeMode="contain"
-            source={VisaImg}
+            source={type == 'Visa' ? VisaImg : MasterImg}
             style={style.imageStyle}
           />
         </View>
@@ -60,10 +50,10 @@ export default function CreditCard({
           <ParagraphBold
             marginLeft={30}
             marginTop={10}
-            value={`${cardNumber.substring(
-              0,
-              5
-            )} **** **** **** ${cardNumber.substring(11, 15)}`}
+            value={`**** **** **** ${cardNumber.substring(
+              cardNumber.length - 4,
+              cardNumber.length - 0
+            )}`}
             color={theme.COLORS.PRIMARY}
           />
           <ParagraphBold
