@@ -14,12 +14,14 @@ interface props {
   isVisible: boolean;
   dismissFunc: any;
   pickImage: any;
+  captureImage: any
 }
 
 export default function UploadPhotoDialog({
   isVisible,
   dismissFunc,
-  pickImage
+  pickImage,
+  captureImage
 }: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -41,7 +43,7 @@ export default function UploadPhotoDialog({
           <View style={style.bottonView}>
             <ModalButton
               value={i18n.t('uploadPhotoModal.buttonTakePhoto')}
-              callFunction={() => alert('yeee')}
+              callFunction={captureImage}
               color={theme.COLORS.PRIMARY}
               width={170}
             />

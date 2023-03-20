@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { uploadBytes } from 'firebase/storage';
 
 export const uploadFile = async (
-  file: ImagePicker.ImagePickerAsset,
+  fileUri: string,
   folderName: string,
   fileName: string
 ): Promise<string | null> => {
@@ -14,7 +14,7 @@ export const uploadFile = async (
   );
 
   return new Promise<string | null>(async (resolve, reject) => {
-    const image: Blob | null = await uriToBlobConvert(file.uri);
+    const image: Blob | null = await uriToBlobConvert(fileUri);
     if (image == null) throw new Error('image not available');
 
     uploadBytes(storageRef, image).then((snapshot) => {
