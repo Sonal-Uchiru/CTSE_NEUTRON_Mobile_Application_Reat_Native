@@ -30,7 +30,7 @@ import { UpdateUserData } from '../../../../../types/users/UpdateUserData';
 import { UserModel } from '../../../../../types/users/UserModel';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
-import { Edit } from '../../../../../assets/image';
+import { Edit, Logo } from '../../../../../assets/image';
 import HeadLine3 from '../../../../atoms/typographies/HeadLine3';
 import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
 import HeadLine4 from '../../../../atoms/typographies/HeadLine4';
@@ -83,44 +83,45 @@ export default function EditProfileForm() {
   const captureImage = async () => {};
   return (
     <>
-    <View>
-      <View style={style.headerStyle}>
-        <HeadLine3
-          value={i18n.t('editProfilePage.title')}
-          color={theme.COLORS.PRIMARY}
-        />
-        <Paragraph
-          value={i18n.t('editProfilePage.subTitle')}
-          color={theme.COLORS.PRIMARY}
-        />
-      </View>
-      <View style={style.row1}>
-        <View style={style.imageView}>
-          <Image
-            resizeMode="contain"
-            source={{
-              uri:
-                user?.profileImageUrl ==
-                  'https://media.istockphoto.com/id/1028085402/vector/avatar-icon-avatar-flat-symbol-isolated-on-white.jpg?s=170667a&w=0&k=20&c=1F45oPbJyaUtNt1lMwqS2Tg1HXlHsUjAr6H04hdespc=' ||
-                user?.profileImageUrl == undefined
-                  ? ''
-                  : user?.profileImageUrl
-            }}
-            style={style.imageStyle}
+      <View>
+        <View style={style.headerStyle}>
+          <HeadLine3
+            value={i18n.t('editProfilePage.title')}
+            color={theme.COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={i18n.t('editProfilePage.subTitle')}
+            color={theme.COLORS.PRIMARY}
           />
         </View>
-      </View>
-      <HeadLine2
-        value={`${user?.firstName} ${user?.lastName}`}
-        color={theme.COLORS.BLACK}
-        marginTop={10}
-      />
+        <View style={style.row1}>
+          <View style={style.imageView}>
+            <Image
+              resizeMode="contain"
+              source={{
+                uri:
+                  user?.profileImageUrl ==
+                    'https://media.istockphoto.com/id/1028085402/vector/avatar-icon-avatar-flat-symbol-isolated-on-white.jpg?s=170667a&w=0&k=20&c=1F45oPbJyaUtNt1lMwqS2Tg1HXlHsUjAr6H04hdespc=' ||
+                  user?.profileImageUrl == undefined
+                    ? ''
+                    : user?.profileImageUrl
+              }}
+              style={style.imageStyle}
+            />
+          </View>
+        </View>
+        <View style={style.userHeader}>
+          <HeadLine2
+            value={`${user?.firstName} ${user?.lastName}`}
+            color={theme.COLORS.BLACK}
+          />
 
-      <HeadLine4
-        value={user?.email == undefined ? '' : user?.email}
-        color={theme.COLORS.PRIMARY}
-        marginTop={2}
-      />
+          <HeadLine4
+            value={user?.email == undefined ? '' : user?.email}
+            color={theme.COLORS.PRIMARY}
+            marginTop={2}
+          />
+        </View>
       </View>
       <Formik
         initialValues={EditProfileInitialValues}
@@ -258,13 +259,12 @@ const styles = (theme: {
     imageView: {
       backgroundColor: 'white',
       marginTop: 20,
-      height: 250,
+      height: 180,
       width: 250,
       borderRadius: 250 / 2,
       // add shadows for Android only
       // No options for shadow offset, shadow opacity like iOS
       elevation: 10,
-
       // shadow color
       shadowColor: 'black'
     },
@@ -321,8 +321,16 @@ const styles = (theme: {
     marginView: {
       marginTop: 2
     },
-
+    userHeader: {
+      alignItems: 'center'
+    },
+    imageStyle: {
+      height: 150,
+      width: 300,
+      borderRadius: 400 / 2,
+      // alignSelf: 'center'
+    },
     row1: {
-      flexDirection: 'row',
+      flexDirection: 'row'
     }
   });
