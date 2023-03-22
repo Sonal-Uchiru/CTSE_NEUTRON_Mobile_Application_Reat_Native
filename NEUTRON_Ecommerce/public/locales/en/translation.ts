@@ -67,7 +67,8 @@ const en = {
   },
   confirmDialog: {
     confirm: 'Confirm',
-    confirmDescription: 'Do you want to save the changes?'
+    confirmDescription: 'Do you want to save the changes?',
+    checkOutComplete: 'Thank you for your purchase! We just received your order and we’ll get started right away.'
   },
   errorDialog: {
     error: 'Error!',

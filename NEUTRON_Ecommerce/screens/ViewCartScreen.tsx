@@ -16,6 +16,8 @@ import CartItemService from '../api/services/CartService';
 import UserService from '../api/services/UserService';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import { useNavigation } from '@react-navigation/native';
+import ConfirmDialog from '../hooks/dialogs/Confirm';
+import SuccessDialog from '../hooks/dialogs/SuccessDialog';
 
 export default function ViewCart() {
   const theme = useTheme();
@@ -24,6 +26,7 @@ export default function ViewCart() {
   const [itemList, setItemList] = useState<CartItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const navigation = useNavigation();
 
@@ -141,12 +144,17 @@ export default function ViewCart() {
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+        callFunction={()=>setDialogVisible(!dialogVisible)}
       />
       <ErrorSnackbar
         text={'Something went wrong please try again'}
         iconName={undefined}
         isVisible={error}
         dismissFunc={() => setError(false)}
+      />
+      <SuccessDialog
+        isVisible={dialogVisible}
+        dismissFunc={() => setDialogVisible(!dialogVisible)}
       />
     </SafeAreaView>
   );
