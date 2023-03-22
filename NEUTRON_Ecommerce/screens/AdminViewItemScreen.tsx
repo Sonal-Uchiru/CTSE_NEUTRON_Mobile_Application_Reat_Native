@@ -27,10 +27,11 @@ export default function AdminViewItemScreen() {
   const [itemDocId, setItemDocId] = useState<string | null>(null);
   const navigation = useNavigation();
 
+  const focusHandler = navigation.addListener('focus', () => {
+    loadItems();
+  });
+
   useEffect(() => {
-    const focusHandler = navigation.addListener('focus', () => {
-      loadItems();
-    });
     return focusHandler;
   }, []);
 

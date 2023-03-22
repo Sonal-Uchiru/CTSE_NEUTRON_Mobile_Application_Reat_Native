@@ -30,10 +30,10 @@ export default function ViewCart() {
   const [count, setCount] = useState<number>(0);
   const navigation = useNavigation();
 
+  const focusHandler = navigation.addListener('focus', () => {
+    fetchCartList();
+  });
   useEffect(() => {
-    const focusHandler = navigation.addListener('focus', () => {
-      fetchCartList();
-    });
     return focusHandler;
   }, []);
 
@@ -144,7 +144,7 @@ export default function ViewCart() {
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
-        callFunction={()=>setDialogVisible(!dialogVisible)}
+        callFunction={() => setDialogVisible(!dialogVisible)}
       />
       <ErrorSnackbar
         text={'Something went wrong please try again'}

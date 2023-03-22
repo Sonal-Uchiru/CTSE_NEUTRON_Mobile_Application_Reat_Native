@@ -32,10 +32,13 @@ export default function SavedCards() {
   const [copyCards, setCopyCards] = useState<CardModel[]>([]);
   const navigation = useNavigation();
 
+  const [focusState, setFocusState] = useState();
+  
+  const focusHandler = navigation.addListener('focus', () => {
+    fetchCardList();
+  });
+
   useEffect(() => {
-    const focusHandler = navigation.addListener('focus', () => {
-      fetchCardList();
-    });
     return focusHandler;
   }, []);
 

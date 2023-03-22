@@ -29,23 +29,22 @@ export default function AdminViewAllCustomersScreen() {
   const [error, setError] = useState<boolean>(false);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const focusHandler = navigation.addListener('focus', () => {
-      (async () => {
-        try {
-          const resUsers = await UserService.getUserListAsync();
+  const focusHandler = navigation.addListener('focus', async () => {
+    try {
+      const resUsers = await UserService.getUserListAsync();
 
-          if (resUsers.length > 0) {
-            setUsers(resUsers);
-            setCopyUsers(resUsers);
-          }
-          setError(false);
-        } catch (error) {
-          setError(true);
-          console.log(error);
-        }
-      })();
-    });
+      if (resUsers.length > 0) {
+        setUsers(resUsers);
+        setCopyUsers(resUsers);
+      }
+      setError(false);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    }
+  });
+
+  useEffect(() => {
     return focusHandler;
   }, []);
 
