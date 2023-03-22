@@ -36,8 +36,8 @@ export default function EditCardForm() {
     (async () => {
       try {
         const resCard = await CardService.getCardByIdAsync(docId);
-        setCard(resCard);
-        setValues(resCard);
+        await setValues(resCard);
+        await setCard(resCard);
       } catch (error) {
         console.log(error);
       }
@@ -54,13 +54,15 @@ export default function EditCardForm() {
       );
 
       await CardService.updateCardAsync(card?.docId!, editedCard);
+
       navigation.navigate('ViewItems');
     } catch (error) {
       console.log(error);
     }
   };
 
-  const setValues = (card: CardModel) => {
+  const setValues = async (card: CardModel) => {
+    console.log(card);
     EditCardInitialValues.displayName = card.displayName;
     EditCardInitialValues.cardNumber = card.cardNumber.toString();
     EditCardInitialValues.date = String(card.expiryDate);
@@ -79,7 +81,7 @@ export default function EditCardForm() {
     <>
       <Formik
         initialValues={EditCardInitialValues}
-        onSubmit={(values) => editCardAsync(values)}
+        onSubmit={(values, { resetForm }) => editCardAsync(values)}
         validationSchema={EditCardValidationSchema}
       >
         {({
