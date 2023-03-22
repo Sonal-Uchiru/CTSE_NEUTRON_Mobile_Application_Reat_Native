@@ -29,24 +29,27 @@ export default function AdminViewItemScreen() {
 
   useEffect(() => {
     const focusHandler = navigation.addListener('focus', () => {
-      (async () => {
-        try {
-          const resItems = await ItemService.getItemListAsync();
-
-          if (resItems.length > 0) {
-            setItems(resItems);
-            setCopyItems(resItems);
-          }
-          setError(false);
-        } catch (error) {
-          setError(true);
-          console.log(error);
-        }
-      })();
+      loadItems();
     });
     return focusHandler;
-  }, [isDataChanged]);
+  }, []);
 
+  const loadItems = async () => {
+    setItemDocId(null);
+
+    try {
+      const resItems = await ItemService.getItemListAsync();
+
+      if (resItems.length > 0) {
+        setItems(resItems);
+        setCopyItems(resItems);
+      }
+      setError(false);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    }
+  };
   const searchItems = (input: any) => {
     if (input.length == 1) return setItems(copyItems);
 
@@ -65,8 +68,8 @@ export default function AdminViewItemScreen() {
           docId={itemDocId}
           onCancel={() => {
             setIsDataChanged(!isDataChanged);
-            setItemDocId(null);
             setIsEditing(false);
+            loadItems();
           }}
         />
       ) : (
@@ -124,7 +127,7 @@ export default function AdminViewItemScreen() {
                     description={item.description}
                     price={item.unitPrice}
                     image={item.imageUrl}
-                    onRemove={() => setIsDataChanged(!isDataChanged)}
+                    onRemove={() => loadItems()}
                     onEdit={(id) => {
                       setItemDocId(id);
                       setIsEditing(true);

@@ -127,6 +127,8 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
       );
       await ItemService.addItemAsync(newItem);
       setSuccess(true);
+      setIsScreenChanged(!isScreenChanged);
+      onCancel();
     } catch (error) {
       setError(true);
       setSuccess(false);
@@ -180,6 +182,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
       );
       await ItemService.updateItemAsync(newItem);
       setSuccess(true);
+      onCancel();
     } catch (error) {
       setError(true);
       setSuccess(false);
@@ -349,7 +352,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                 value={i18n.t('addItemsForm.next')}
                 color={theme.COLORS.PRIMARY}
                 callFunction={async () => {
-                  await handleSubmit(), await viewSecondStep(errors);
+                  await viewSecondStep(errors);
                 }}
                 marginTop={10}
               />
@@ -436,7 +439,6 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         value={i18n.t('addItemsForm.cancel')}
         color={theme.COLORS.ERROR}
         callFunction={() => {
-          setIsScreenChanged(!isScreenChanged);
           onCancel();
         }}
         marginLeft={20}
