@@ -14,6 +14,7 @@ import * as Location from 'expo-location';
 import { GetDistance } from '../utils/expo/GetDistance';
 import { Coordinations } from '../types/items/Coordinations';
 import { expoGetCurrentPositionAsync } from '../utils/expo/GeoLocation';
+import AppHeader from '../Navigation/appbar/Appbar';
 
 export default function ViewItemScreen() {
   const theme = useTheme();
@@ -79,6 +80,7 @@ export default function ViewItemScreen() {
 
   return (
     <SafeAreaView style={style.container}>
+     
       <View style={style.headerStyle}>
         <HeadLine3
           value={i18n.t('viewItemPage.title')}

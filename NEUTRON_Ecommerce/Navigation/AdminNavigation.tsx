@@ -31,12 +31,14 @@ import useThemedStyles from '../theme/hooks/UseThemedStyles';
 import useTheme from '../theme/hooks/UseTheme';
 import { COLORS } from '../theme/styles/Colors';
 import CardNavigation from './CardNavigation';
+import AppHeader from './appbar/Appbar';
 // import HomeNavigation from './HomeNavigation';
 
 export default function AdminNavigation() {
   const Tab = createBottomTabNavigator();
   return (
-    <Suspense fallback={<Text>Loading...</Text>}>
+    <>
+      <AppHeader />
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
@@ -61,7 +63,7 @@ export default function AdminNavigation() {
         <Tab.Screen name="Customes" component={AdminViewAllCustomersScreen} />
         <Tab.Screen name="Items" component={AdminViewItemScreen} />
       </Tab.Navigator>
-    </Suspense>
+    </>
   );
 }
 

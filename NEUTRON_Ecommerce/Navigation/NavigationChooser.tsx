@@ -20,28 +20,9 @@ import AdminNavigation from './AdminNavigation';
 
 export default function NavigationChooser() {
   const Stack = createNativeStackNavigator();
-  const [userRole, setUserRole] = useState<number>(-99);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        let user: any = await UserService.getUserAsync();
-        setUserRole(user?.role);
-      } catch (e) {
-        setUserRole(-99);
-      }
-
-      // console.log(user?.firstName);
-    })();
-  }, [userRole]);
 
   return (
-    <Stack.Navigator initialRouteName={userRole != -99 ? 'LoggedIn' : 'Guest'}>
-      <Stack.Screen
-        name="LoggedIn"
-        component={RoleNavigationChooser}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator initialRouteName="Guest">
       <Stack.Screen
         name="Guest"
         component={GuestNavigation}

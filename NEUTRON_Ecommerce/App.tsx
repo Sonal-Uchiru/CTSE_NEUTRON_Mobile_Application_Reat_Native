@@ -29,10 +29,9 @@ export default function App() {
     <PaperProvider>
       <ThemeProvider>
         <NavigationContainer>
-          <AppHeader />
-          <SafeAreaView style={mainStyle.container}>
+          
             <NavigationChooser />
-          </SafeAreaView>
+         
         </NavigationContainer>
       </ThemeProvider>
     </PaperProvider>
