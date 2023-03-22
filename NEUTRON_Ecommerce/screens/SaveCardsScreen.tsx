@@ -33,7 +33,10 @@ export default function SavedCards() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    fetchCardList();
+    const focusHandler = navigation.addListener('focus', () => {
+      fetchCardList();
+    });
+    return focusHandler;
   }, []);
 
   async function fetchCardList() {

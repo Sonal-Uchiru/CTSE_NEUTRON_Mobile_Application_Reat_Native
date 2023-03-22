@@ -13,6 +13,7 @@ import ItemService from '../api/services/ItemService';
 import { ItemModel } from '../types/items/ItemModel';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import ManageItems from './ManageItems';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AdminViewItemScreen() {
   const theme = useTheme();
@@ -24,22 +25,26 @@ export default function AdminViewItemScreen() {
   const [error, setError] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [itemDocId, setItemDocId] = useState<string | null>(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const resItems = await ItemService.getItemListAsync();
+    const focusHandler = navigation.addListener('focus', () => {
+      (async () => {
+        try {
+          const resItems = await ItemService.getItemListAsync();
 
-        if (resItems.length > 0) {
-          setItems(resItems);
-          setCopyItems(resItems);
+          if (resItems.length > 0) {
+            setItems(resItems);
+            setCopyItems(resItems);
+          }
+          setError(false);
+        } catch (error) {
+          setError(true);
+          console.log(error);
         }
-        setError(false);
-      } catch (error) {
-        setError(true);
-        console.log(error);
-      }
-    })();
+      })();
+    });
+    return focusHandler;
   }, [isDataChanged]);
 
   const searchItems = (input: any) => {

@@ -15,6 +15,7 @@ import { CartItemModel } from '../types/cart_Items/CartItemModel';
 import CartItemService from '../api/services/CartService';
 import UserService from '../api/services/UserService';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ViewCart() {
   const theme = useTheme();
@@ -24,9 +25,13 @@ export default function ViewCart() {
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    fetchCartList();
+    const focusHandler = navigation.addListener('focus', () => {
+      fetchCartList();
+    });
+    return focusHandler;
   }, []);
 
   async function fetchCartList() {

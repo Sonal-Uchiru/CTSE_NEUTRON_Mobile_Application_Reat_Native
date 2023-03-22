@@ -28,6 +28,7 @@ import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
 import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 import { ItemModel } from '../../../../../types/items/ItemModel';
 import { UpdateItemData } from '../../../../../types/items/UpdateItemData';
+import { useNavigation } from '@react-navigation/native';
 
 interface Props {
   docId: string | null;
@@ -42,6 +43,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
   const [success, setSuccess] = useState<boolean>(false);
   const [item, setItem] = useState<ItemModel>();
   const [isScreenChanged, setIsScreenChanged] = useState<boolean>();
+  const navigation = useNavigation();
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -443,7 +445,9 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
       <UploadPhotoDialog
         isVisible={photoDialogVisible}
         dismissFunc={hidePhotoDialog}
-        pickImage={pickImage} captureImage={undefined}      />
+        pickImage={pickImage}
+        captureImage={undefined}
+      />
       <ErrorSnackbar
         text={'Something went wrong!'}
         iconName={'error'}
