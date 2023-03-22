@@ -33,6 +33,7 @@ import Paragraph from '../../../../atoms/typographies/Paragraph';
 import UserService from '../../../../../api/services/UserService';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 import { useNavigation } from '@react-navigation/native';
+import { UserModel } from '../../../../../types/users/UserModel';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -47,8 +48,15 @@ export default function Login() {
     try {
       const newlogin = new AuthenticationData(values.email, values.password);
       await UserService.loginAsync(newlogin);
+      let user: UserModel = await UserService.getUserAsync();
       console.log('login Success');
-      navigation.navigate('LoggedIn');
+      // console.log(user?.firstName);
+
+      if (user?.role == 0) {
+        navigation.navigate('Client', { userRole: user?.role });
+      } else {
+        navigation.navigate('Admin', { userRole: user?.role });
+      }
     } catch (error) {
       console.log(error);
     }

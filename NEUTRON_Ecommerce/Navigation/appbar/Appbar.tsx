@@ -6,7 +6,6 @@ import { mainStyle } from '../../responsive/GlobalStyle';
 import useTheme from '../../theme/hooks/UseTheme';
 import { useNavigation } from '@react-navigation/native';
 import UserService from '../../api/services/UserService';
-import ExpoLocalStorage from '../../authentication/secure_stores/ExpoLocalStorage';
 
 export default function AppHeader() {
   const [visible, setVisible] = useState(true);
@@ -20,13 +19,17 @@ export default function AppHeader() {
 
   useEffect(() => {
     (async () => {
-      let a = 0;
-      let role = await ExpoLocalStorage.getRoleFromLocalStorageAsync();
-      role != null ? setUserRole(role) : setUserRole(-88);
+      try {
+        let user: any = await UserService.getUserAsync();
+        setUserRole(user?.role);
+      } catch (e) {
+        setUserRole(-99);
+      }
     })();
   }, [userRole]);
   return (
     <View>
+      {/* {console.log(userRole)} */}
       {userRole != -99 ? (
         <Appbar.Header>
           <Appbar.BackAction
@@ -50,29 +53,36 @@ export default function AppHeader() {
                 />
               }
             >
-              <Menu.Item
-                leadingIcon="account"
-                onPress={() => {
-                  navigation.navigate('Profile'), closeMenu();
-                }}
-                title="Profile"
-              />
-              <Menu.Item
-                leadingIcon="exclamation"
-                onPress={() => {
-                  navigation.navigate('AboutUs'), closeMenu();
-                }}
-                title="About Us"
-              />
-              <Menu.Item
-                leadingIcon="help-circle-outline"
-                onPress={async () => {
-                  await UserService.signOut(),
-                    navigation.navigate('Help'),
-                    closeMenu();
-                }}
-                title="Help"
-              />
+              {userRole == 0 ? (
+                <>
+                  <Menu.Item
+                    leadingIcon="account"
+                    onPress={() => {
+                      navigation.navigate('Profile'), closeMenu();
+                    }}
+                    title="Profile"
+                  />
+                  <Menu.Item
+                    leadingIcon="exclamation"
+                    onPress={() => {
+                      navigation.navigate('AboutUs'), closeMenu();
+                    }}
+                    title="About Us"
+                  />
+                  <Menu.Item
+                    leadingIcon="help-circle-outline"
+                    onPress={async () => {
+                      await UserService.signOut(),
+                        navigation.navigate('Help'),
+                        closeMenu();
+                    }}
+                    title="Help"
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+
               <Menu.Item
                 leadingIcon="logout"
                 onPress={() => {

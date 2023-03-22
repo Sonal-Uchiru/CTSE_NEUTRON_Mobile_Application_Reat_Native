@@ -31,9 +31,9 @@ import useThemedStyles from '../theme/hooks/UseThemedStyles';
 import useTheme from '../theme/hooks/UseTheme';
 import { COLORS } from '../theme/styles/Colors';
 import CardNavigation from './CardNavigation';
-import HomeNavigation from './HomeNavigation';
+// import HomeNavigation from './HomeNavigation';
 
-export default function TabNavigation() {
+export default function AdminNavigation() {
   const Tab = createBottomTabNavigator();
   return (
     <Suspense fallback={<Text>Loading...</Text>}>
