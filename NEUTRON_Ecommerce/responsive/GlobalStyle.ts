@@ -3,7 +3,7 @@ import { Platform, StyleSheet, StatusBar } from 'react-native';
 export const mainStyle = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red'
+    backgroundColor: '#fff'
   },
   errorText: {
     fontSize: 10,
