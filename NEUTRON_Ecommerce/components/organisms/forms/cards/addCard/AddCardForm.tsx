@@ -21,10 +21,12 @@ import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import { COLORS } from '../../../../../theme/styles/Colors';
 import { CreateCardData } from '../../../../../types/cards/CreateCardData';
 import CardService from '../../../../../api/services/CardService';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AddCardForm() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
+  const navigation = useNavigation();
 
   const addCardAsync = async (values: IAddCardFormFields) => {
     try {
@@ -36,6 +38,7 @@ export default function AddCardForm() {
       );
 
       await CardService.addCardAsync(newCard);
+      navigation.navigate('ViewItems');
     } catch (error) {
       console.log(error);
     }

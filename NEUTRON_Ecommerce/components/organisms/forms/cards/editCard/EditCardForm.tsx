@@ -30,13 +30,12 @@ export default function EditCardForm() {
   const [card, setCard] = useState<CardModel>();
   const navigation = useNavigation();
   const route = useRoute();
+  const docId = route.params?.docId;
 
   useEffect(() => {
     (async () => {
       try {
-        const resCard = await CardService.getCardByIdAsync(route.params?.docId);
-        console.log(resCard);
-
+        const resCard = await CardService.getCardByIdAsync(docId);
         setCard(resCard);
         setValues(resCard);
       } catch (error) {
@@ -55,6 +54,7 @@ export default function EditCardForm() {
       );
 
       await CardService.updateCardAsync(card?.docId!, editedCard);
+      navigation.navigate('ViewItems');
     } catch (error) {
       console.log(error);
     }

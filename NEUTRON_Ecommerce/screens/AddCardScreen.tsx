@@ -29,10 +29,12 @@ import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
 import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCard';
 import AddCardForm from '../components/organisms/forms/cards/addCard/AddCardForm';
 import FlipCard from 'react-native-flip-card';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AddCardScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
+  
 
   return (
     <SafeAreaView style={style.container}>
