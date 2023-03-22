@@ -32,10 +32,10 @@ export default function AppHeader() {
       {/* {console.log(userRole)} */}
       {userRole != -99 ? (
         <Appbar.Header>
-          <Appbar.BackAction
+          {/* <Appbar.BackAction
             color={theme.COLORS.PRIMARY}
             onPress={() => navigation.goBack()}
-          />
+          /> */}
           <Appbar.Content
             title="Neutron"
             color={theme.COLORS.PRIMARY}

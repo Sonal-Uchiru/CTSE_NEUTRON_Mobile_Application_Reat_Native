@@ -208,7 +208,9 @@ export default function RegisterForm() {
             <View style={style.marginView}></View>
 
             <View style={style.termsView}>
-              <Hyperlink value={i18n.t('registerPage.terms')} marginTop={5} />
+              <Pressable onPress={() => navigation.navigate('Terms')}>
+                <Hyperlink value={i18n.t('registerPage.terms')} marginTop={5} />
+              </Pressable>
             </View>
 
             <ModalButton

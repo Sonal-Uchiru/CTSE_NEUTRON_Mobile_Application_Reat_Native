@@ -14,6 +14,7 @@ import TabNavigation from './TabNavigation';
 import CardNavigation from './CardNavigation';
 import LoginScreen from '../screens/LoginScreen';
 import UserRegisterScreen from '../screens/UserRegisterScreen';
+import TermsAndConditionsScreen from '../screens/TermsAndConditionsScreen';
 
 export default function GuestNavigation() {
   const Stack = createNativeStackNavigator();
@@ -28,6 +29,11 @@ export default function GuestNavigation() {
       <Stack.Screen
         name="Register"
         component={UserRegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Terms"
+        component={TermsAndConditionsScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

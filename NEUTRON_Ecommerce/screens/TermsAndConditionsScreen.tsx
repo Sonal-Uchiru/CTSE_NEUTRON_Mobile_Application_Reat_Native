@@ -1,4 +1,12 @@
-import { StyleSheet, SafeAreaView, Text, Image, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  Image,
+  View,
+  ScrollView,
+  Pressable
+} from 'react-native';
 import React, { useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -10,6 +18,7 @@ import { AboutUs, Terms } from '../assets/image';
 import Hyperlink from '../components/atoms/typographies/HyperLink';
 import ParagraphBold from '../components/atoms/typographies/ParagraphBold';
 import { COLORS } from '../theme/styles/Colors';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TermsAndConditionsScreen() {
   const [locale, setLocale] = useState(Localization.locale);
@@ -18,6 +27,7 @@ export default function TermsAndConditionsScreen() {
   const [showCard, setShowCard] = useState(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
+  const navigation = useNavigation();
 
   const changeLanguage = () => {
     if (locale == 'sin') {
@@ -37,24 +47,60 @@ export default function TermsAndConditionsScreen() {
         marginBottom={10}
       />
       <ScrollView>
-      <View style={style.paragraphStyle}>
-        <Paragraph value={i18n.t('termsAndConditionsPage.para1')} />
-        <ParagraphBold value={i18n.t('termsAndConditionsPage.topic1')} marginTop={10} color={COLORS.PRIMARY} />
-        <Paragraph value={i18n.t('termsAndConditionsPage.para2')} marginTop={10} />
-        <ParagraphBold value={i18n.t('termsAndConditionsPage.topic3')} marginTop={10} color={COLORS.PRIMARY} />
-        <Paragraph value={i18n.t('termsAndConditionsPage.para4')} marginTop={10} />
-        <ParagraphBold value={i18n.t('termsAndConditionsPage.topic2')} marginTop={10} color={COLORS.PRIMARY} />
-        <Paragraph value={i18n.t('termsAndConditionsPage.para3')} marginTop={10} />
-        <ParagraphBold value={i18n.t('termsAndConditionsPage.topic4')} marginTop={10} color={COLORS.PRIMARY} />
-        <Paragraph value={i18n.t('termsAndConditionsPage.para5')} marginTop={10} />
-        <ParagraphBold value={i18n.t('termsAndConditionsPage.topic5')} marginTop={10} color={COLORS.PRIMARY} />
-        <Paragraph value={i18n.t('termsAndConditionsPage.para6')} marginTop={10} />
-      </View>
+        <View style={style.paragraphStyle}>
+          <Paragraph value={i18n.t('termsAndConditionsPage.para1')} />
+          <ParagraphBold
+            value={i18n.t('termsAndConditionsPage.topic1')}
+            marginTop={10}
+            color={COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={i18n.t('termsAndConditionsPage.para2')}
+            marginTop={10}
+          />
+          <ParagraphBold
+            value={i18n.t('termsAndConditionsPage.topic3')}
+            marginTop={10}
+            color={COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={i18n.t('termsAndConditionsPage.para4')}
+            marginTop={10}
+          />
+          <ParagraphBold
+            value={i18n.t('termsAndConditionsPage.topic2')}
+            marginTop={10}
+            color={COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={i18n.t('termsAndConditionsPage.para3')}
+            marginTop={10}
+          />
+          <ParagraphBold
+            value={i18n.t('termsAndConditionsPage.topic4')}
+            marginTop={10}
+            color={COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={i18n.t('termsAndConditionsPage.para5')}
+            marginTop={10}
+          />
+          <ParagraphBold
+            value={i18n.t('termsAndConditionsPage.topic5')}
+            marginTop={10}
+            color={COLORS.PRIMARY}
+          />
+          <Paragraph
+            value={i18n.t('termsAndConditionsPage.para6')}
+            marginTop={10}
+          />
+        </View>
       </ScrollView>
       <View style={style.backView}>
-      <Hyperlink value={i18n.t('termsAndConditionsPage.back')} />
+        <Pressable onPress={() => navigation.navigate('Register')}>
+          <Hyperlink value={i18n.t('termsAndConditionsPage.back')} />
+        </Pressable>
       </View>
-     
     </SafeAreaView>
   );
 }
@@ -76,8 +122,8 @@ const styles = (theme: {
       padding: 20
     },
 
-    backView:{
-        marginBottom: 20,
-        marginTop: 20
+    backView: {
+      marginBottom: 20,
+      marginTop: 20
     }
   });
