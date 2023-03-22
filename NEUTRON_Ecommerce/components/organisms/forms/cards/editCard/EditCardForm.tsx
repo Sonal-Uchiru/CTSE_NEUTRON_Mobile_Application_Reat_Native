@@ -62,7 +62,6 @@ export default function EditCardForm() {
   };
 
   const setValues = async (card: CardModel) => {
-    console.log(card);
     EditCardInitialValues.displayName = card.displayName;
     EditCardInitialValues.cardNumber = card.cardNumber.toString();
     EditCardInitialValues.date = String(card.expiryDate);
@@ -72,7 +71,7 @@ export default function EditCardForm() {
   const removeCardAsync = () => {
     try {
       CardService.deleteCardAsync(card?.docId!);
-      //navigate to cards page
+      navigation.navigate('ViewItems');
     } catch (error) {
       console.log(error);
     }
