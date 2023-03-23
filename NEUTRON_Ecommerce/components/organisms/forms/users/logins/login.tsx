@@ -68,12 +68,10 @@ export default function Login() {
         //@ts-ignore
         navigation.navigate('Admin', { userRole: user?.role });
       }
-     
     } catch (error) {
       setError(true);
       setLoading(false);
       console.log(error);
-      
     }
   };
 
@@ -100,63 +98,67 @@ export default function Login() {
           isValid,
           isSubmitting
         }) => (
-
-          <>
-          {loading ? (
-          <View style={style.loading}>
-            <ActivityIndicator size="large" />
-          </View>
-         ) : (
           <View style={style.inputView}>
-              <FormGroup
-                name={i18n.t('formFields.email')}
-                id={'password'}
-                fieldstyle={style.textInput}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('Email')}
-                placeholder={i18n.t('formFields.emailPlaceholder')}
-                fieldvalue={values.email}
-                error={errors.email}
-                borderColor={errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY} />
-              <FormGroupWithIcon
-                name={i18n.t('formFields.password')}
-                id={'password'}
-                fieldvalue={values.password}
-                placeholder={i18n.t('formFields.passwordPlaceholder')}
-                fieldstyle={style.textInput}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('Password')}
-                error={errors.password}
-                iconFirst={'eye-off'}
-                iconSecond={'eye'}
-                hiddenStatus={showPassword}
-                callFunction={() => setShowPassword(!showPassword)}
-                borderColor={errors.password ? theme.COLORS.ERROR : theme.COLORS.PRIMARY} />
+            <FormGroup
+              name={i18n.t('formFields.email')}
+              id={'password'}
+              fieldstyle={style.textInput}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('Email')}
+              placeholder={i18n.t('formFields.emailPlaceholder')}
+              fieldvalue={values.email}
+              error={errors.email}
+              borderColor={
+                errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+              }
+            />
+            <FormGroupWithIcon
+              name={i18n.t('formFields.password')}
+              id={'password'}
+              fieldvalue={values.password}
+              placeholder={i18n.t('formFields.passwordPlaceholder')}
+              fieldstyle={style.textInput}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('Password')}
+              error={errors.password}
+              iconFirst={'eye-off'}
+              iconSecond={'eye'}
+              hiddenStatus={showPassword}
+              callFunction={() => setShowPassword(!showPassword)}
+              borderColor={
+                errors.password ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+              }
+            />
+            {!loading ? (
               <View style={style.buttonView}>
                 <ModalButton
                   value={i18n.t('loginPage.login')}
                   color={theme.COLORS.PRIMARY}
                   callFunction={() => handleSubmit()}
-                  disabled={!isValid} />
+                  disabled={!isValid}
+                />
               </View>
-              <View style={style.marginView}>
-                <Paragraph
-                  value={i18n.t('loginPage.createAccountLink')}
-                  marginTop={2}
-                  marginRight={5} />
-               
-                <Pressable 
-                   //@ts-ignore
-                onPress={() => navigation.navigate('Register')}>
-                  <Hyperlink value={i18n.t('loginPage.signUp')} marginTop={2} />
-                </Pressable>
+            ) : (
+              <View style={style.loading}>
+                <ActivityIndicator size="large" />
               </View>
-            </View>
-               )}
-            </>
+            )}
+            <View style={style.marginView}>
+              <Paragraph
+                value={i18n.t('loginPage.createAccountLink')}
+                marginTop={2}
+                marginRight={5}
+              />
 
+              <Pressable
+                //@ts-ignore
+                onPress={() => navigation.navigate('Register')}
+              >
+                <Hyperlink value={i18n.t('loginPage.signUp')} marginTop={2} />
+              </Pressable>
+            </View>
+          </View>
         )}
-     
       </Formik>
       <ErrorDialog
         isVisible={isError}
@@ -215,6 +217,8 @@ const styles = (theme: {
       right: 0,
       top: '60%',
       bottom: 0,
+      marginBottom: 60,
+      marginTop: 50
     },
 
     errroStyle: {
