@@ -85,7 +85,6 @@ export default function AppHeader() {
               ) : (
                 <></>
               )}
-
               <Menu.Item
                 leadingIcon="logout"
                 onPress={() => {
