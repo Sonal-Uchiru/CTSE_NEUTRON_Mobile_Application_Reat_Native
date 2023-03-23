@@ -35,6 +35,7 @@ export default function HelpScreen() {
   };
 
   return (
+
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
         <HeadLine3
@@ -137,6 +138,7 @@ export default function HelpScreen() {
       </Card>
       </ScrollView>
     </SafeAreaView>
+    
   );
 }
 
