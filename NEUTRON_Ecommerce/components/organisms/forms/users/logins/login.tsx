@@ -62,6 +62,7 @@ export default function Login() {
       await UserService.loginAsync(newlogin);
       let user: UserModel = await UserService.getUserAsync();
       setSuccess(true);
+      console.log(user);
       console.log('login Success');
       setLoading(false);
 

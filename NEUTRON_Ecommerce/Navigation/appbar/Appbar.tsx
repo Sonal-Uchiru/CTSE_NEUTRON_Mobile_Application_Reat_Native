@@ -15,10 +15,7 @@ export default function AppHeader() {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
   const openMenu = () => setVisible(true);
-  const closeMenu = async () => {
-    await UserService.signOut(),
-    setVisible(false);
-  }
+  const closeMenu = () => setVisible(false);
 
   type Nav = {
     navigate: (value: string, metaData?: any) => void;
@@ -75,9 +72,9 @@ export default function AppHeader() {
                   />
                   <Menu.Item
                     leadingIcon="help-circle-outline"
-                    onPress={async () => {
-                        navigation.navigate('Help'),
-                        closeMenu();
+                    onPress={() => {
+                      navigation.navigate('Help');
+                      closeMenu();
                     }}
                     title="Help"
                   />
@@ -87,8 +84,9 @@ export default function AppHeader() {
               )}
               <Menu.Item
                 leadingIcon="logout"
-                onPress={() => {
-                  navigation.navigate('Guest'), closeMenu();
+                onPress={async () => {
+                  navigation.navigate('Guest');
+                  await UserService.signOut();
                 }}
                 title="Logout"
               />
