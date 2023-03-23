@@ -72,7 +72,7 @@ export default function ViewItemScreen() {
         new Coordinations(i.latitude, i.longitude)
       );
 
-      if (distance <= 10000) {
+      if (distance <= 10000000) {
         return true;
       }
       return false;
