@@ -184,6 +184,9 @@ const styles = (theme: {
       marginTop: 20,
       backgroundColor: theme.COLORS.WHITE
     },
+    loading:{
+      marginTop: 20
+    },
 
     column: { flexDirection: 'column' },
     row: {

@@ -15,6 +15,7 @@ import { GetDistance } from '../utils/expo/GetDistance';
 import { Coordinations } from '../types/items/Coordinations';
 import { expoGetCurrentPositionAsync } from '../utils/expo/GeoLocation';
 import AppHeader from '../Navigation/appbar/Appbar';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function ViewItemScreen() {
   const theme = useTheme();
@@ -23,6 +24,7 @@ export default function ViewItemScreen() {
   const [items, setItems] = useState<ItemModel[]>([]);
   const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const isFoucused = useIsFocused();
 
   useEffect(() => {
     (async () => {
@@ -44,7 +46,7 @@ export default function ViewItemScreen() {
         setError(true);
       }
     })();
-  }, []);
+  }, [isFoucused]);
 
   const searchItems = (input: any) => {
     if (input.length == 1) return setItems(copyItems);

@@ -17,7 +17,6 @@ class AuthenticationRepository {
         userData.email,
         userData.password
       );
-
       return user;
     } catch (error) {
       throw new Error((error as Error).message);

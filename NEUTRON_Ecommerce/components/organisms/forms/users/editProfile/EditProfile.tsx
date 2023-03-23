@@ -160,7 +160,7 @@ export default function EditProfileForm() {
             </View>
             <View style={style.userHeader}>
               <HeadLine2
-                value={`${user?.firstName} ${user?.lastName}`}
+                value={user ? `${user?.firstName} ${user?.lastName}` : 'Full name and Email'}
                 color={theme.COLORS.BLACK}
               />
 

@@ -89,11 +89,9 @@ export default function CartCard({
             resizeMode="stretch"
             source={{
               uri:
-                item?.imageUrl ==
-                  'https://media.istockphoto.com/id/1028085402/vector/avatar-icon-avatar-flat-symbol-isolated-on-white.jpg?s=170667a&w=0&k=20&c=1F45oPbJyaUtNt1lMwqS2Tg1HXlHsUjAr6H04hdespc=' ||
-                item?.imageUrl == undefined
-                  ? 'https://media.istockphoto.com/id/1028085402/vector/avatar-icon-avatar-flat-symbol-isolated-on-white.jpg?s=170667a&w=0&k=20&c=1F45oPbJyaUtNt1lMwqS2Tg1HXlHsUjAr6H04hdespc='
-                  : item?.imageUrl
+                item.imageUrl == ''
+                  ? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'
+                  : item.imageUrl
             }}
             style={style.imageStyle}
           />
