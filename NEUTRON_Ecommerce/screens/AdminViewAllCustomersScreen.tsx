@@ -108,7 +108,7 @@ export default function AdminViewAllCustomersScreen() {
         <HeadLine4 value={''} marginTop={12} marginBottom={0} />
       )}
       <ScrollView>
-        {users.length > 0 &&
+        {users.length > 0 ?
           users.map((user, index) => {
             return (
               <AdminViewCustomersCard
@@ -122,7 +122,7 @@ export default function AdminViewAllCustomersScreen() {
                 profileUrl={user.profileImageUrl}
               />
             );
-          })}
+          }): (<View><HeadLine4 value={'Customers Not Available'} color={theme.COLORS.PRIMARY}/></View>)}
       </ScrollView>
     </SafeAreaView>
     <ErrorSnackbar

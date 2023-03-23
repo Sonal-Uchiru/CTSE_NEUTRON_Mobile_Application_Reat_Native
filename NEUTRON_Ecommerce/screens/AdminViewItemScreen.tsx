@@ -132,7 +132,7 @@ export default function AdminViewItemScreen() {
         <HeadLine4 value={''} marginTop={12} marginBottom={0} />
       )}
           <ScrollView>
-            {items.length > 0 &&
+            {items.length > 0 ?
               items.map((item, index) => {
                 return (
                   <AdminViewItemCard
@@ -151,7 +151,7 @@ export default function AdminViewItemScreen() {
                     }}
                   />
                 );
-              })}
+              }): (<View><HeadLine4 value={'Items Not Available'} color={theme.COLORS.PRIMARY}/></View>)}
           </ScrollView>
           <ErrorSnackbar
             text={errorMsg}

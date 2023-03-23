@@ -86,7 +86,8 @@ export default function ViewCart() {
       )}
 
       <ScrollView>
-        {itemList.map((selectedItem, i) => {
+        {itemList.length > 0 ?
+         itemList.map((selectedItem, i) => {
           return (
             <CartCard
               key={i}
@@ -97,7 +98,7 @@ export default function ViewCart() {
               passinError={setError}
             />
           );
-        })}
+        }): (<View><HeadLine4 value={'Cart Is Empty'} color={theme.COLORS.PRIMARY}/></View>)}
       </ScrollView>
       <View style={style.row}>
         <HeadLine4
