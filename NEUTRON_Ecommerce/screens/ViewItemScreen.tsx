@@ -14,7 +14,6 @@ import * as Location from 'expo-location';
 import { GetDistance } from '../utils/expo/GetDistance';
 import { Coordinations } from '../types/items/Coordinations';
 import { expoGetCurrentPositionAsync } from '../utils/expo/GeoLocation';
-import AppHeader from '../Navigation/appbar/Appbar';
 import { useIsFocused } from '@react-navigation/native';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
@@ -37,13 +36,14 @@ export default function ViewItemScreen() {
         setError(false);
         const resItems = await ItemService.getItemListAsync();
 
-        if (true) {
+        if (resItems.length > 0) {
           const userCurrentLocation: Location.LocationObject =
             await expoGetCurrentPositionAsync();
           const nearbyItems: ItemModel[] = filterItemsByDistance(
             userCurrentLocation,
             resItems
           );
+          console.log(userCurrentLocation)
           setItems(nearbyItems);
           setCopyItems(nearbyItems);
         }
