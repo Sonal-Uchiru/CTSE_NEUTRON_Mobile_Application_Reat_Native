@@ -62,8 +62,10 @@ export default function Login() {
       // console.log(user?.firstName);
 
       if (user?.role == 0) {
+        //@ts-ignore
         navigation.navigate('Client', { userRole: user?.role });
       } else {
+        //@ts-ignore
         navigation.navigate('Admin', { userRole: user?.role });
       }
      
@@ -142,7 +144,10 @@ export default function Login() {
                   value={i18n.t('loginPage.createAccountLink')}
                   marginTop={2}
                   marginRight={5} />
-                <Pressable onPress={() => navigation.navigate('Register')}>
+               
+                <Pressable 
+                   //@ts-ignore
+                onPress={() => navigation.navigate('Register')}>
                   <Hyperlink value={i18n.t('loginPage.signUp')} marginTop={2} />
                 </Pressable>
               </View>

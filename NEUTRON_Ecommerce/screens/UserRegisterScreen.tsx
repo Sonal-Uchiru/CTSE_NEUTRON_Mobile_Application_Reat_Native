@@ -1,4 +1,11 @@
-import { StyleSheet, SafeAreaView, Text, Image, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  Image,
+  View,
+  ScrollView
+} from 'react-native';
 import React, { useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -13,31 +20,24 @@ import RegisterForm from '../components/organisms/forms/users/registers/Register
 
 export default function UserRegisterScreen() {
   const [locale, setLocale] = useState(Localization.locale);
- 
+
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
-
   return (
     <SafeAreaView style={style.container}>
-       <ScrollView>
+      <ScrollView>
         <View style={style.imageView}>
-      <Image 
-       source={NeutronLogo}
-       style={style.image}/>
-       </View>
-       <View style={style.formView}>
-       <RegisterForm/>
-       </View>
-      
+          <Image
+            source={{
+              uri: 'https://firebasestorage.googleapis.com/v0/b/ctsereactnativeneutron.appspot.com/o/logo.png?alt=media&token=135f327b-5fdd-4f40-87b3-914c84251948'
+            }}
+            style={style.image}
+          />
+        </View>
+        <View style={style.formView}>
+          <RegisterForm />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -53,25 +53,24 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      justifyContent:"center"
-
+      justifyContent: 'center'
     },
-    image:{
-        height:190,
-        width:220,
-        borderWidth: 2,
-        borderColor: theme.COLORS.PRIMARY,
-        borderRadius: 10,
-        resizeMode:'contain',
-        alignSelf:"center"
-      },
-  
-      imageView:{
-        marginTop: 60
-      },
-      
-      formView:{
-        alignItems:'center',
-        marginBottom: 20
-      }
+    image: {
+      height: 190,
+      width: 220,
+      borderWidth: 2,
+      borderColor: theme.COLORS.PRIMARY,
+      borderRadius: 10,
+      resizeMode: 'contain',
+      alignSelf: 'center'
+    },
+
+    imageView: {
+      marginTop: -110
+    },
+
+    formView: {
+      alignItems: 'center',
+      marginBottom: 20
+    }
   });
