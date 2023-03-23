@@ -5,7 +5,7 @@ import {
   View,
   TouchableHighlight
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import { Iphone, VisaImg } from '../../assets/image';
 import useThemedStyles from '../../theme/hooks/UseThemedStyles';
@@ -25,7 +25,6 @@ import Animated, { SlideInDown, SlideInUp } from 'react-native-reanimated';
 
 interface props {
   key: number;
-  item: ItemModel;
   cartItem: CartItemModel;
   refreshFunc: any;
   loadingStatus: any;
@@ -33,30 +32,22 @@ interface props {
 }
 
 export default function CartCard({
-  item,
   cartItem,
   refreshFunc,
   loadingStatus,
   passinError
 }: props) {
-  const [locale, setLocale] = useState(Localization.locale);
-  const [itemQuantity, setitemQuantity] = useState<number>(1);
+  const [itemQuantity, setitemQuantity] = useState<number>(cartItem.quantity);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-    setLocale('sin');
-  };
 
   async function updateCartItem(increase: boolean) {
     if (cartItem.quantity == 0 && increase == false) {
       return;
     }
+
     increase ? cartItem.quantity++ : cartItem.quantity--;
+
     try {
       loadingStatus(true);
       await CartService.updateCartItemAsync(
@@ -89,9 +80,9 @@ export default function CartCard({
             resizeMode="stretch"
             source={{
               uri:
-                item.imageUrl == ''
+                cartItem.item.imageUrl == ""
                   ? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'
-                  : item.imageUrl
+                  : cartItem.item.imageUrl
             }}
             style={style.imageStyle}
           />
@@ -100,29 +91,29 @@ export default function CartCard({
           <HeadLine4
             marginTop={10}
             marginLeft={30}
-            value={item.brand}
+            value={cartItem.item.brand}
             color={theme.COLORS.PRIMARY}
           />
           <ParagraphBold
             marginLeft={30}
-            value={item.itemName}
+            value={cartItem.item.itemName}
             color={theme.COLORS.GREY}
           />
           <ParagraphBold
             marginLeft={30}
-            value={item.stockKeepingUnits}
+            value={cartItem.item.stockKeepingUnits}
             color={theme.COLORS.WARNING}
           />
           <Paragraph
             marginTop={10}
             marginLeft={30}
-            value={item.description}
+            value={cartItem.item.description}
             color={theme.COLORS.GREY}
           />
           <ParagraphBold
             marginTop={10}
             marginLeft={30}
-            value={`LKR.${item.unitPrice}`}
+            value={`LKR.${cartItem.item.unitPrice}`}
             color={theme.COLORS.PRIMARY}
           />
           <View style={style.row}>

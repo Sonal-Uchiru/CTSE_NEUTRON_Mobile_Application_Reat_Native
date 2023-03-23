@@ -15,7 +15,7 @@ import { CartItemModel } from '../types/cart_Items/CartItemModel';
 import CartItemService from '../api/services/CartService';
 import UserService from '../api/services/UserService';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import ConfirmDialog from '../hooks/dialogs/Confirm';
 import SuccessDialog from '../hooks/dialogs/SuccessDialog';
 
@@ -29,13 +29,12 @@ export default function ViewCart() {
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
 
-  const focusHandler = navigation.addListener('focus', () => {
-    fetchCartList();
-  });
   useEffect(() => {
-    return focusHandler;
-  }, []);
+    fetchCartList();
+  }, [isFocused, isDataChanged]);
 
   async function fetchCartList() {
     setLoading(true);
@@ -44,6 +43,8 @@ export default function ViewCart() {
       if (resItems.length > 0) {
         setCount(resItems.length);
         setItemList(resItems);
+      } else {
+        setItemList([]);
       }
       calculateTotal(resItems);
       setError(false);
@@ -63,6 +64,33 @@ export default function ViewCart() {
       setTotalPrice(tot);
     }
   }
+
+  const proceedCheckoutAsync = async () => {
+    try {
+      setError(false);
+      setLoading(true);
+
+      if (itemList.length == 0) {
+        return;
+      }
+
+      const cartItemIds: string[] = [];
+
+      await itemList.forEach((item) => {
+        cartItemIds.push(item.docId);
+      });
+      
+      await CartItemService.deleteAllCartItemsAsync(cartItemIds);
+
+      setDialogVisible(!dialogVisible);
+      setIsDataChanged(!isDataChanged);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={style.container}>
@@ -89,9 +117,8 @@ export default function ViewCart() {
           return (
             <CartCard
               key={i}
-              item={selectedItem.item}
               cartItem={selectedItem}
-              refreshFunc={fetchCartList}
+              refreshFunc={() => setIsDataChanged(!isDataChanged)}
               loadingStatus={setLoading}
               passinError={setError}
             />
@@ -144,7 +171,7 @@ export default function ViewCart() {
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
-        callFunction={() => setDialogVisible(!dialogVisible)}
+        callFunction={() => proceedCheckoutAsync()}
       />
       <ErrorSnackbar
         text={'Something went wrong please try again'}
