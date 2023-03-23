@@ -28,7 +28,7 @@ import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
 import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 import { ItemModel } from '../../../../../types/items/ItemModel';
 import { UpdateItemData } from '../../../../../types/items/UpdateItemData';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { horizontalScale } from '../../../../../responsive/Metrics';
 
 interface Props {
@@ -43,8 +43,9 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [item, setItem] = useState<ItemModel>();
-  const [isScreenChanged, setIsScreenChanged] = useState<boolean>();
   const navigation = useNavigation();
+
+  const isFocused = useIsFocused();
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -68,7 +69,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         console.log(error);
       }
     })();
-  }, [isScreenChanged]);
+  }, [isFocused]);
 
   const setInitialValues = (item: ItemModel | null) => {
     AddItemsInitialValues.itemName = item == null ? '' : item.itemName;
@@ -128,7 +129,6 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
       );
       await ItemService.addItemAsync(newItem);
       setSuccess(true);
-      setIsScreenChanged(!isScreenChanged);
       onCancel();
     } catch (error) {
       setError(true);
@@ -167,8 +167,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         imageUrl = item?.imageUrl!;
       }
 
-      const newItem = new UpdateItemData(
-        docId!,
+      const updatedItem = new UpdateItemData(
         values.itemName,
         values.itemCategory,
         +values.quantity,
@@ -181,7 +180,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         values.skuNumber,
         imageUrl == null ? '' : imageUrl
       );
-      await ItemService.updateItemAsync(newItem);
+      await ItemService.updateItemAsync(docId!, updatedItem);
       setSuccess(true);
       onCancel();
     } catch (error) {
@@ -193,7 +192,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
 
   const submitAsync = async (values: IAddItemsFormFields) => {
     console.log(docId);
-    if (docId == null) {
+    if (!docId) {
       await saveItemAsync(values);
     } else {
       await editItemAsync(values);
@@ -422,7 +421,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
               />
               <View style={style.row}>
                 <ModalButton
-                  value={i18n.t('addItemsForm.addItem')}
+                  value={docId ? 'Edit' : 'Add'}
                   color={theme.COLORS.PRIMARY}
                   callFunction={() => {
                     handleSubmit();

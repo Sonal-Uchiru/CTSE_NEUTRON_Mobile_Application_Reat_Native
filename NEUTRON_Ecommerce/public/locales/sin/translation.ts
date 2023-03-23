@@ -308,7 +308,8 @@ const sin = {
   editProfilePage: {
     title: 'පරිශීලක පැතිකඩ සංස්කරණය කරන්න',
     subTitle: 'පරිශීලක විස්තර සංස්කරණය කරන්න',
-    saveButtonTitle: 'සුරකින්න'
+    saveButtonTitle: 'සුරකින්න',
+    delete: 'ගිණුම මකන්න'
   }
 };
 

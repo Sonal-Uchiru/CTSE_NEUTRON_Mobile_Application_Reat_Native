@@ -32,7 +32,13 @@ export default function AddCardForm() {
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const navigation = useNavigation();
+
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
 
   const addCardAsync = async (values: IAddCardFormFields) => {
     try {

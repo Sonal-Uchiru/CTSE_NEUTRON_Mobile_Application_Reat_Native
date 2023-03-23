@@ -16,16 +16,7 @@ export default function AboutUsScreen() {
   const [showCard, setShowCard] = useState(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
-
+  
   return (
     <SafeAreaView style={style.container}>
       <ScrollView>

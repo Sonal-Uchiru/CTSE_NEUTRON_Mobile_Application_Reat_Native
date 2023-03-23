@@ -39,6 +39,7 @@ import { Camera, CameraType } from 'expo-camera';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
 import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
 import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 export default function EditProfileForm() {
   const theme = useTheme();
@@ -58,21 +59,31 @@ export default function EditProfileForm() {
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
 
- 
+  const isFocused = useIsFocused();
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
+
   useEffect(() => {
+    getUserDetailsAsync();
+  }, [isFocused, isDataChanged]);
+
+  const getUserDetailsAsync = async () => {
     setLoading(true);
-    UserService.getUserAsync()
-      .then((res) => {
-        setInitailValue(res);
-        setUser(res);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        setError(true);
-        console.log(error);
-      });
-  }, [isDataChanged]);
+    try {
+      const res = await UserService.getUserAsync();
+      setInitailValue(res);
+      setUser(res);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+      console.log(error);
+    }
+  };
 
   const editProfileAsync = async (values: IEditProfileFormFields) => {
     try {
@@ -115,6 +126,21 @@ export default function EditProfileForm() {
     if (!camera) return;
     const photo = await camera.takePictureAsync();
     setProfilePicture(photo.uri);
+  };
+
+  const deleteAccountAsync = async () => {
+    try {
+      setLoading(true);
+      await UserService.deleteUserAsync();
+      await UserService.signOut();
+      navigation.navigate('Login');
+      setSuccess(true);
+      setLoading(false);
+    } catch (error) {
+      setError(true);
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   return (
@@ -160,7 +186,11 @@ export default function EditProfileForm() {
             </View>
             <View style={style.userHeader}>
               <HeadLine2
-                value={user ? `${user?.firstName} ${user?.lastName}` : 'Full name and Email'}
+                value={
+                  user
+                    ? `${user?.firstName} ${user?.lastName}`
+                    : 'Full name and Email'
+                }
                 color={theme.COLORS.BLACK}
               />
 
@@ -246,6 +276,7 @@ export default function EditProfileForm() {
                     borderColor={
                       errors.contact ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                     }
+                    keyBoardType="numeric"
                   />
 
                   <FormGroup
@@ -277,6 +308,16 @@ export default function EditProfileForm() {
                   marginRight={10}
                   marginBottom={20}
                   callFunction={handleSubmit}
+                />
+
+                <ModalButton
+                  width={horizontalScale(140)}
+                  value={i18n.t('editProfilePage.delete')}
+                  color={theme.COLORS.ERROR}
+                  marginTop={25}
+                  marginRight={10}
+                  marginBottom={20}
+                  callFunction={deleteAccountAsync}
                 />
               </View>
             )}
@@ -369,7 +410,6 @@ const styles = (theme: {
     },
 
     imageView: {
-    
       backgroundColor: 'white',
       marginTop: 20,
       height: 200,
@@ -381,7 +421,7 @@ const styles = (theme: {
       elevation: 10,
       // shadow color
       shadowColor: 'black',
-      alignSelf:'center'
+      alignSelf: 'center'
     },
     profileImageEditIcon: {
       marginTop: 0
@@ -444,7 +484,7 @@ const styles = (theme: {
       height: 200,
       width: 200,
       borderRadius: 200 / 2,
-      alignSelf:'center'
+      alignSelf: 'center'
       // alignSelf: 'center'
     },
     row1: {

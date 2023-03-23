@@ -1,10 +1,8 @@
 import { ItemBaseModel } from './ItemBaseModel';
 
 export class UpdateItemData extends ItemBaseModel {
-  docId: string;
 
   constructor(
-    docId: string,
     itemName: string,
     category: string,
     quantity: number,
@@ -30,6 +28,5 @@ export class UpdateItemData extends ItemBaseModel {
       stockKeepingUnits,
       imageUrl
     );
-    this.docId = docId;
   }
 }

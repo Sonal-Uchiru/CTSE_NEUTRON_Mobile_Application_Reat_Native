@@ -307,7 +307,8 @@ const en = {
   editProfilePage:{
     title: 'Edit User Profile',
     subTitle: 'Edit User Deatails',
-    saveButtonTitle: 'Save'
+    saveButtonTitle: 'Save',
+    delete: 'Delete Account'
   }
 };
 

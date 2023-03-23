@@ -20,7 +20,7 @@ export default function ManageItems({ docId, onCancel }: Props) {
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
         <HeadLine3
-          value={i18n.t('addItemsForm.title')}
+          value={docId ? 'Edit Item' : 'Add Item'}
           color={theme.COLORS.PRIMARY}
         />
         <Paragraph

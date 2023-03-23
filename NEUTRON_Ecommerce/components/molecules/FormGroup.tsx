@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, KeyboardTypeOptions } from 'react-native';
 import { mainStyle } from '../../responsive/GlobalStyle';
 import InputField from '../atoms/InputField';
 import InputLabel from '../atoms/InputLabel';
@@ -18,6 +18,7 @@ interface props {
   borderColor?: string;
   multiLine?: boolean;
   noOfLines?: number;
+  keyBoardType?: KeyboardTypeOptions;
 }
 export default function FormGroup({
   name,
@@ -30,7 +31,8 @@ export default function FormGroup({
   error,
   borderColor,
   multiLine = false,
-  noOfLines = 1
+  noOfLines = 1,
+  keyBoardType = 'default'
 }: props) {
   return (
     <>
@@ -45,6 +47,7 @@ export default function FormGroup({
         borderColor={borderColor}
         multiLine={multiLine}
         noOfLines={noOfLines}
+        keyBoardType={keyBoardType}
       />
       {error ? (
         <InputLabel value={i18n.t(error)} labelstyle={mainStyle.errorText} />
