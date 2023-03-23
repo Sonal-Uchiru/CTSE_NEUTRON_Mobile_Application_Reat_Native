@@ -37,6 +37,7 @@ export default function AdminViewAllCustomersScreen() {
     fetchCardList();
   }, [isFocused]);
 
+  //fetch card details
   const fetchCardList = async () => {
     try {
       setLoading(true);
