@@ -25,8 +25,7 @@ export default function UserRegisterScreen() {
   const style = useThemedStyles(styles);
 
   return (
-    <SafeAreaView style={style.container}>
-           
+    <SafeAreaView style={style.container}>     
       <View style={style.imageView}>
           <Image
             source={{
@@ -59,11 +58,11 @@ const styles = (theme: {
     image: {
       height: 190,
       width: 220,
-     
       marginBottom: 20,
       borderWidth: 2,
       borderColor: theme.COLORS.PRIMARY,
       borderRadius: 10,
+      
       resizeMode: 'contain',
       alignSelf: 'center'
     },

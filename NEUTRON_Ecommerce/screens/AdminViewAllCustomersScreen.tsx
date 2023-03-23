@@ -37,6 +37,7 @@ export default function AdminViewAllCustomersScreen() {
     fetchCardList();
   }, [isFocused]);
 
+  //fetch card details
   const fetchCardList = async () => {
     try {
       setLoading(true);
@@ -59,6 +60,7 @@ export default function AdminViewAllCustomersScreen() {
     }
   };
 
+ //search function
   const searchUsers = (input: any) => {
     if (input.length == 1) return setUsers(copyUsers);
 

@@ -47,7 +47,7 @@ const styles = (theme: {
         width:220,
         borderWidth: 2,
         borderColor: theme.COLORS.PRIMARY,
-        borderRadius: 10,
+        borderRadius: 12,
         resizeMode:'contain',
         alignSelf:"center"
       },

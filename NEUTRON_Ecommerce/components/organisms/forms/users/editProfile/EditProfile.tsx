@@ -89,6 +89,7 @@ export default function EditProfileForm() {
     }
   };
 
+  //update function
   const editProfileAsync = async (values: IEditProfileFormFields) => {
     try {
       setLoading(true);

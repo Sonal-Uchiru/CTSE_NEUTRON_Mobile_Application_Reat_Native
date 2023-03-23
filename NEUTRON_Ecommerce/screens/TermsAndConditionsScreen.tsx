@@ -38,6 +38,7 @@ export default function TermsAndConditionsScreen() {
         color={theme.COLORS.PRIMARY}
         marginBottom={10}
       />
+      
       <ScrollView>
         <View style={style.paragraphStyle}>
           <Paragraph value={i18n.t('termsAndConditionsPage.para1')} />
