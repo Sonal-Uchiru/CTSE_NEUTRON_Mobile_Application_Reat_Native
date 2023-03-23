@@ -102,11 +102,7 @@ const styles = (theme: {
       height: 250,
       width: 250,
       borderRadius: 250 / 2,
-      // add shadows for Android only
-      // No options for shadow offset, shadow opacity like iOS
       elevation: 10,
-
-      // shadow color
       shadowColor: 'black'
     },
 
