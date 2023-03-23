@@ -18,6 +18,7 @@ export default function AboutUsScreen() {
   const style = useThemedStyles(styles);
   
   return (
+
     <SafeAreaView style={style.container}>
       <ScrollView>
         <View style={style.title}>
@@ -34,6 +35,7 @@ export default function AboutUsScreen() {
       </View>
       </ScrollView>
     </SafeAreaView>
+    
   );
 }
 
