@@ -6,7 +6,7 @@ import {
     Text,
     Image
 } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
