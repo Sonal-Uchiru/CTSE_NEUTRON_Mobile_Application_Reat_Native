@@ -35,7 +35,7 @@ export default function EditCardScreen() {
                 />
                 <Paragraph
                     value={i18n.t('editCardPage.subTitle')}
-                    color={theme.COLORS.PRIMARY}
+                    color={theme.COLORS.SECONDARY}
                 />
             </View>
 
