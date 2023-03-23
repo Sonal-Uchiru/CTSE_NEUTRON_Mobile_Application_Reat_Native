@@ -107,6 +107,12 @@ export class CartItemService {
 
     return null;
   }
+
+  async deleteAllCartItemsAsync(docIds: string[]): Promise<void> {
+    await docIds.forEach(async (docId: string) => {
+      await CartItemRepository.deleteCartItemAsync(docId);
+    });
+  }
 }
 
 export default new CartItemService();
