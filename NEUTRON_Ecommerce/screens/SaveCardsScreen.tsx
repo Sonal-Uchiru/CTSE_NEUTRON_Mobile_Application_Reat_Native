@@ -22,10 +22,6 @@ import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import { AuthenticationData } from '../types/authentication/AuthenticationData';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-interface props {
-  onClick: any;
-}
-
 export default function SavedCards() {
   const [searchText, setSearchText] = useState('');
   const theme = useTheme();
@@ -36,6 +32,7 @@ export default function SavedCards() {
   const [cardList, setCardList] = useState<CardModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [copyCards, setCopyCards] = useState<CardModel[]>([]);
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   type Nav = {
     navigate: (value: string, metaData?: any) => void;
@@ -63,9 +60,12 @@ export default function SavedCards() {
         setCopyCards([]);
       }
       setError(false);
-    } catch (error) {
+      setLoading(false);
+    } catch (error: any) {
       console.log(error);
+      setLoading(false);
       setError(true);
+      setErrorMsg(error.message);
     }
     setLoading(false);
   }
@@ -108,11 +108,13 @@ export default function SavedCards() {
         iconSecond={'magnify'}
         callFunction={undefined}
       />
-      {loading ? (
+        {loading ? (
         <View style={style.loading}>
-          <ActivityIndicator size="large" />
-        </View>
+        <ActivityIndicator size="large" />
+      </View>
       ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
         <ScrollView>
           {cardList.map((card, i) => {
             return (
@@ -128,7 +130,6 @@ export default function SavedCards() {
             );
           })}
         </ScrollView>
-      )}
 
       <ModalButton
         value={i18n.t('savedCardsPage.buttonAddCard')}
@@ -140,7 +141,7 @@ export default function SavedCards() {
       />
 
       <ErrorSnackbar
-        text={'Something went wrong!'}
+        text={errorMsg}
         iconName={undefined}
         isVisible={error}
         dismissFunc={() => setError(false)}

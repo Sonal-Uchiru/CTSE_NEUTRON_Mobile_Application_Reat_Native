@@ -128,14 +128,15 @@ export default function CartCard({
             <TouchableHighlight onPress={() => updateCartItem(false)}>
               <Ionicons name={'remove-circle-outline'} style={style.icon2} />
             </TouchableHighlight>
-            <ModalButton
+            
+          </View>
+          <ModalButton
               value={i18n.t('viewCartPage.removeBtn')}
               color={theme.COLORS.ERROR}
               marginTop={10}
               width={80}
               callFunction={deleteCartItem}
             />
-          </View>
         </View>
       </Animated.View>
     </>

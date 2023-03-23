@@ -42,11 +42,12 @@ export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(true);
   const [selected, setSelected] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   type Nav = {
     navigate: (value: string, metaData?: any) => void;
@@ -69,8 +70,9 @@ export default function Login() {
       } else {
         navigation.navigate('Admin', { userRole: user?.role });
       }
-    } catch (error) {
+    } catch (error: any) {
       setError(true);
+      setErrorMsg(error.message);
       setLoading(false);
       console.log(error);
     }
@@ -166,7 +168,7 @@ export default function Login() {
       />
 
       <ErrorSnackbar
-        text={'Invalid Credentials!'}
+        text={errorMsg}
         iconName={'error'}
         isVisible={error}
         dismissFunc={() => setError(false)}

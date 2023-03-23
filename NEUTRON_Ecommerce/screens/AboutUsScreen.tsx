@@ -32,9 +32,9 @@ export default function AboutUsScreen() {
         <Paragraph value={i18n.t('aboutUsPage.para1')} />
         <Paragraph value={i18n.t('aboutUsPage.para2')} marginTop={20} />
       </View>
-      <View style={style.back}>
+      {/* <View style={style.back}>
       <Hyperlink value={i18n.t('aboutUsPage.back')}/>
-      </View>
+      </View> */}
       
       </ScrollView>
     </SafeAreaView>

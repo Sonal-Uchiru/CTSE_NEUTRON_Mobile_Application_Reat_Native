@@ -20,6 +20,7 @@ import { ItemModel } from '../types/items/ItemModel';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import ManageItems from './ManageItems';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
+import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 
 export default function AdminViewItemScreen() {
   const theme = useTheme();
@@ -32,6 +33,7 @@ export default function AdminViewItemScreen() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [itemDocId, setItemDocId] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const navigation = useNavigation();
 
   const isFocused = useIsFocused();
@@ -56,9 +58,10 @@ export default function AdminViewItemScreen() {
       }
       setLoading(false);
       setError(false);
-    } catch (error) {
+    } catch (error: any) {
       setLoading(false);
       setError(true);
+      setErrorMsg(error.message);
       console.log(error);
     }
   };
@@ -96,6 +99,7 @@ export default function AdminViewItemScreen() {
               color={theme.COLORS.PRIMARY}
             />
           </View>
+
           <View>
             <FormGroupWithIcon
               name={i18n.t('viewItemPage.searchLabel')}
@@ -113,6 +117,7 @@ export default function AdminViewItemScreen() {
               callFunction={undefined}
             />
           </View>
+
           <View>
             <ModalButton
               value={i18n.t('viewItemPage.addBtn')}
@@ -126,36 +131,37 @@ export default function AdminViewItemScreen() {
               }}
             />
           </View>
-          {loading ? (
-            <View style={style.loading}>
-              <ActivityIndicator size="large" />
-            </View>
-          ) : (
-            <ScrollView>
-              {items.length > 0 &&
-                items.map((item, index) => {
-                  return (
-                    <AdminViewItemCard
-                      docId={item.docId}
-                      key={index}
-                      brand={item.brand}
-                      itemName={item.itemName}
-                      skuNumber={item.stockKeepingUnits}
-                      description={item.description}
-                      price={item.unitPrice}
-                      image={item.imageUrl}
-                      onRemove={() => setIsDataChanged(!isDataChanged)}
-                      onEdit={(id) => {
-                        setItemDocId(id);
-                        setIsEditing(true);
-                      }}
-                    />
-                  );
-                })}
-            </ScrollView>
-          )}
+           {loading ? (
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
+      ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
+          <ScrollView>
+            {items.length > 0 ?
+              items.map((item, index) => {
+                return (
+                  <AdminViewItemCard
+                  docId={item.docId}
+                  key={index}
+                  brand={item.brand}
+                  itemName={item.itemName}
+                  skuNumber={item.stockKeepingUnits}
+                  description={item.description}
+                  price={item.unitPrice}
+                  image={item.imageUrl}
+                  onRemove={() => setIsDataChanged(!isDataChanged)}
+                  onEdit={(id) => {
+                    setItemDocId(id);
+                    setIsEditing(true);
+                  }}
+                />
+                );
+              }): (<View><HeadLine4 value={'Items Not Available'} color={theme.COLORS.PRIMARY}/></View>)}
+          </ScrollView>
           <ErrorSnackbar
-            text={'Something went wrong!'}
+            text={errorMsg}
             iconName={'error'}
             isVisible={error}
             dismissFunc={() => {}}

@@ -29,6 +29,7 @@ export default function AddCardForm() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
@@ -54,9 +55,10 @@ export default function AddCardForm() {
       setSuccess(true);
       setLoading(false);
       navigation.navigate('ViewItems');
-    } catch (error) {
+    } catch (error: any) {
       setError(true);
       setLoading(false);
+      setErrorMsg(error.message);
       console.log(error);
     }
   };
@@ -78,11 +80,6 @@ export default function AddCardForm() {
           isSubmitting
         }) => (
           <View style={style.container}>
-            {loading ? (
-            <View style={style.loading}>
-              <ActivityIndicator size="large" />
-            </View>
-           ) : (
             <View style={style.tabView}>
               <FormGroup
                 name={i18n.t('formFields.displayName')}
@@ -151,7 +148,11 @@ export default function AddCardForm() {
                   errors.date ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
               />
-
+          {loading ? (
+            <View style={style.loading}>
+              <ActivityIndicator size="large" />
+            </View>
+           ) : (
               <View style={style.buttonView}>
                 <ModalButton
                   value={i18n.t('addCardPage.buttonTitle')}
@@ -162,13 +163,14 @@ export default function AddCardForm() {
                   }}
                 />
               </View>
+                )}
             </View>
-           )}
+         
           </View>
         )}
       </Formik>
       <ErrorSnackbar
-        text={'Something went wrong!'}
+        text={errorMsg}
         iconName={'error'}
         isVisible={error}
         dismissFunc={() => setError(false)}

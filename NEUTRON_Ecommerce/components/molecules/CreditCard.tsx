@@ -49,7 +49,7 @@ export default function CreditCard({
             marginTop={10}
             marginLeft={30}
             value={cardName}
-            color={theme.COLORS.GREY}
+            color={theme.COLORS.DARK_GREY}
           />
           <ParagraphBold
             marginLeft={30}

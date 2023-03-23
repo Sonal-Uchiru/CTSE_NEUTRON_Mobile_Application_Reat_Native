@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { LogBox, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, {
   lazy,
   Suspense,
@@ -18,6 +18,8 @@ import TermsAndConditionsScreen from '../screens/TermsAndConditionsScreen';
 
 export default function GuestNavigation() {
   const Stack = createNativeStackNavigator();
+  LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+  LogBox.ignoreAllLogs();
 
   return (
     <Stack.Navigator>
