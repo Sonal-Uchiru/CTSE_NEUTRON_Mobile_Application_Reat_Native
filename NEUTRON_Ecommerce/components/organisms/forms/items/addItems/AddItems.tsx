@@ -335,6 +335,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                 borderColor={
                   errors.quantity ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
+                keyBoardType="numeric"
               />
               <FormGroup
                 name={i18n.t('addItemsForm.unitPrice')}
@@ -352,6 +353,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                 borderColor={
                   errors.unitPrice ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
+                keyBoardType="numeric"
               />
               <ModalButton
                 value={i18n.t('addItemsForm.next')}
@@ -439,7 +441,6 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                   marginTop={40}
                 />
               </View>
-          
             </View>
            
           </>

@@ -118,6 +118,7 @@ export default function AddCardForm() {
                 borderColor={
                   errors.cardNumber ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
+                keyBoardType="numeric"
               />
 
               <FormGroup
