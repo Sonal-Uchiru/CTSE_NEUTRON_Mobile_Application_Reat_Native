@@ -10,6 +10,7 @@ import * as Localization from 'expo-localization';
 import useTheme from '../../theme/hooks/UseTheme';
 import Paragraph from '../atoms/typographies/Paragraph';
 import ModalButton from '../atoms/buttons/ModalButton';
+import { useNavigation } from '@react-navigation/native';
 
 interface props {
   key: number;
@@ -18,6 +19,7 @@ interface props {
   type: string;
   passedDate: string;
   owner: string;
+  documentId: string;
 }
 
 export default function CreditCard({
@@ -25,10 +27,12 @@ export default function CreditCard({
   cardNumber,
   type,
   passedDate,
-  owner
+  owner,
+  documentId
 }: props) {
   const theme = useTheme();
   const style = useThemedStyles(styles);
+  const navigation = useNavigation();
 
   return (
     <>
@@ -45,7 +49,7 @@ export default function CreditCard({
             marginTop={10}
             marginLeft={30}
             value={cardName}
-            color={theme.COLORS.GREY}
+            color={theme.COLORS.DARK_GREY}
           />
           <ParagraphBold
             marginLeft={30}
@@ -73,8 +77,10 @@ export default function CreditCard({
           <View style={style.buttonView}>
             <ModalButton
               value={i18n.t('savedCardsPage.buttonEditCard')}
-              color={theme.COLORS.ACTION}
+              color={theme.COLORS.PRIMARY}
               marginTop={10}
+              width={110}
+              callFunction={() => navigation.navigate('EditCard', {docId: documentId})}
             />
           </View>
         </View>
@@ -104,7 +110,7 @@ const styles = (theme: {
       alignSelf: 'flex-start',
       marginStart: 20
     },
-    imageStyle: { height: 100, width: 150 },
+    imageStyle: { height: 100, width: 150, marginTop: 30},
     column: { flexDirection: 'column' },
-    buttonView: { alignSelf: 'flex-end' }
+    buttonView: { alignSelf: 'center', justifyContent:'center' }
   });

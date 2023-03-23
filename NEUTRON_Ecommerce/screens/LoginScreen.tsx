@@ -11,26 +11,17 @@ import Hyperlink from '../components/atoms/typographies/HyperLink';
 import Login from '../components/organisms/forms/users/logins/login';
 
 export default function LoginScreen() {
-  const [locale, setLocale] = useState(Localization.locale);
- 
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
 
   return (
     <SafeAreaView style={style.container}>
        <ScrollView>
         <View style={style.imageView}>
       <Image 
-       source={NeutronLogo}
+       source={{
+        uri: 'https://firebasestorage.googleapis.com/v0/b/ctsereactnativeneutron.appspot.com/o/logo.png?alt=media&token=135f327b-5fdd-4f40-87b3-914c84251948'
+       }}
        style={style.image}/>
        </View>
        <Login/>

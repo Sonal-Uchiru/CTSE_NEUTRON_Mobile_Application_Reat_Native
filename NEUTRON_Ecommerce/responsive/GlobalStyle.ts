@@ -3,8 +3,7 @@ import { Platform, StyleSheet, StatusBar } from 'react-native';
 export const mainStyle = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    backgroundColor: '#fff'
   },
   errorText: {
     fontSize: 10,

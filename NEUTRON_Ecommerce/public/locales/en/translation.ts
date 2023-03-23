@@ -58,6 +58,9 @@ const en = {
     address: 'Address',
     addressRequiredError: 'Address is required',
     addressPlaceholder: 'Address',
+
+    lengthShort: 'Cannot be shorter than 16 numbers',
+    lengthLong: 'Cannot be longer than 16 numbers'
   },
   
   deleteconfirmDialog: {
@@ -67,7 +70,8 @@ const en = {
   },
   confirmDialog: {
     confirm: 'Confirm',
-    confirmDescription: 'Do you want to save the changes?'
+    confirmDescription: 'Do you want to save the changes?',
+    checkOutComplete: 'Thank you for your purchase! We just received your order and we’ll get started right away.'
   },
   errorDialog: {
     error: 'Error!',
@@ -244,7 +248,8 @@ const en = {
     searchLabel: 'Search Items',
     searchPlaceHolder: 'Search Items....',
     removeBtn: 'Remove',
-    editBtn: 'Edit'
+    editBtn: 'Edit',
+    addBtn: 'Add Items'
   },
 
   adminViewCustomersPage:{
@@ -305,7 +310,8 @@ const en = {
   editProfilePage:{
     title: 'Edit User Profile',
     subTitle: 'Edit User Deatails',
-    saveButtonTitle: 'Save'
+    saveButtonTitle: 'Save',
+    delete: 'Delete Account'
   }
 };
 

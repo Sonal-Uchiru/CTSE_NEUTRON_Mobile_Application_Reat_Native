@@ -11,6 +11,9 @@ import { uploadFile } from '../../utils/firebase/cloud_storage/UploadFile';
 import { ImagePickerAsset } from 'expo-image-picker';
 
 export class UserService {
+  static getUserAsync(): import("react").SetStateAction<UserModel | undefined> | PromiseLike<import("react").SetStateAction<UserModel | undefined>> {
+    throw new Error('Method not implemented.');
+  }
   async loginAsync(credentials: AuthenticationData): Promise<void> {
     try {
       await AuthenticationRepository.loginAsync(credentials);

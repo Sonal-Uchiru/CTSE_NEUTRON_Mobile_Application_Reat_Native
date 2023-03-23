@@ -18,11 +18,14 @@ import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCa
 import AddCardForm from '../components/organisms/forms/cards/addCard/AddCardForm';
 import FlipCard from 'react-native-flip-card'
 import EditCardForm from '../components/organisms/forms/cards/editCard/EditCardForm';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function EditCardScreen() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
+  const navigation = useNavigation();
+  
   return (
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
@@ -58,7 +61,6 @@ export default function EditCardScreen() {
         </View>
         </FlipCard>
      </View>
-
       <ScrollView>
         <EditCardForm/>
       </ScrollView>

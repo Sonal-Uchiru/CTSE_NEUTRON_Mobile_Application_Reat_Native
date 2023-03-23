@@ -4,7 +4,8 @@ import {
   TouchableHighlight,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Formik } from 'formik';
@@ -31,12 +32,15 @@ import { UpdateUserData } from '../../../../../types/users/UpdateUserData';
 import { UserModel } from '../../../../../types/users/UserModel';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
-import { Edit, Logo } from '../../../../../assets/image';
+import { CameraIcon, CanceIcon, Edit, Logo } from '../../../../../assets/image';
 import HeadLine3 from '../../../../atoms/typographies/HeadLine3';
 import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
 import HeadLine4 from '../../../../atoms/typographies/HeadLine4';
 import { Camera, CameraType } from 'expo-camera';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 export default function EditProfileForm() {
   const theme = useTheme();
@@ -51,28 +55,48 @@ export default function EditProfileForm() {
   const [cameraVisible, setCameraVisibility] = useState(true);
   const ref = useRef(null);
   let camera: Camera | null = null;
-  const [isDataChanged,setIsDataChanged] = useState<boolean>(false);
+  const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+
+  const isFocused = useIsFocused();
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
+
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
-    UserService.loginAsync(
-      new AuthenticationData('sonal@gmail.com', 'Sonal123$')
-    ).then(() => {
-      UserService.getUserAsync()
-        .then((res) => {
-          setInitailValue(res);
-          setUser(res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  }, [isDataChanged]);
+    getUserDetailsAsync();
+  }, [isFocused, isDataChanged]);
+
+  const getUserDetailsAsync = async () => {
+    setLoading(true);
+    try {
+      const res = await UserService.getUserAsync();
+      setInitailValue(res);
+      setUser(res);
+      setLoading(false);
+    } catch (error: any) {
+      setLoading(false);
+      setError(true);
+      setErrorMsg(error.message);
+      console.log(error);
+    }
+  };
 
   const editProfileAsync = async (values: IEditProfileFormFields) => {
     try {
+      setLoading(true);
       let imageUrl = '';
-      if(profilePicture != ''){
-        imageUrl = await UserService.updateUserProfilePictureAsync(profilePicture);
+      if (profilePicture != '') {
+        imageUrl = await UserService.updateUserProfilePictureAsync(
+          profilePicture
+        );
       }
       const editedUser = new UpdateUserData(
         values.firstName,
@@ -84,7 +108,12 @@ export default function EditProfileForm() {
 
       await UserService.updateUserAsync(editedUser);
       setIsDataChanged(!isDataChanged);
-    } catch (error) {
+      setSuccess(true);
+      setLoading(false);
+    } catch (error: any) {
+      setError(true);
+      setErrorMsg(error.message);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -102,6 +131,21 @@ export default function EditProfileForm() {
     if (!camera) return;
     const photo = await camera.takePictureAsync();
     setProfilePicture(photo.uri);
+  };
+
+  const deleteAccountAsync = async () => {
+    try {
+      setLoading(true);
+      await UserService.deleteUserAsync();
+      await UserService.signOut();
+      navigation.navigate('Login');
+      setSuccess(true);
+      setLoading(false);
+    } catch (error) {
+      setError(true);
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   return (
@@ -147,7 +191,11 @@ export default function EditProfileForm() {
             </View>
             <View style={style.userHeader}>
               <HeadLine2
-                value={`${user?.firstName} ${user?.lastName}`}
+                value={
+                  user
+                    ? `${user?.firstName} ${user?.lastName}`
+                    : 'Full name and Email'
+                }
                 color={theme.COLORS.BLACK}
               />
 
@@ -233,6 +281,7 @@ export default function EditProfileForm() {
                     borderColor={
                       errors.contact ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                     }
+                    keyBoardType="numeric"
                   />
 
                   <FormGroup
@@ -255,16 +304,32 @@ export default function EditProfileForm() {
                 </View>
 
                 <View style={style.marginView}></View>
-
-                <ModalButton
-                  width={horizontalScale(140)}
-                  value={i18n.t('editProfilePage.saveButtonTitle')}
-                  color={theme.COLORS.PRIMARY}
-                  marginTop={25}
-                  marginRight={10}
-                  marginBottom={20}
-                  callFunction={handleSubmit}
-                />
+                {loading ? (
+                  <View style={style.loading}>
+                    <ActivityIndicator size="large" />
+                  </View>
+                ) : (
+                  <>
+                    <ModalButton
+                      width={horizontalScale(140)}
+                      value={i18n.t('editProfilePage.saveButtonTitle')}
+                      color={theme.COLORS.PRIMARY}
+                      marginTop={25}
+                      marginRight={10}
+                      marginBottom={20}
+                      callFunction={handleSubmit}
+                    />
+                    <ModalButton
+                      width={horizontalScale(140)}
+                      value={i18n.t('editProfilePage.delete')}
+                      color={theme.COLORS.ERROR}
+                      marginTop={25}
+                      marginRight={10}
+                      marginBottom={20}
+                      callFunction={deleteAccountAsync}
+                    />
+                  </>
+                )}
               </View>
             )}
           </Formik>
@@ -287,17 +352,40 @@ export default function EditProfileForm() {
         >
           <View style={style.buttonContainer}>
             <TouchableOpacity style={style.button} onPress={snapAsync}>
-              <Text style={style.text}>Take Photo</Text>
+              {/* <Text style={style.text}>Take Photo</Text> */}
+              <Image
+                resizeMode="contain"
+                source={CameraIcon}
+                style={style.cameraIcon}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={style.button}
               onPress={() => setCameraVisibility(!cameraVisible)}
             >
-              <Text style={style.text}>Close</Text>
+              {/* <Text style={style.text}>Close</Text> */}
+              <Image
+                resizeMode="contain"
+                source={CanceIcon}
+                style={style.cameraIcon}
+              />
             </TouchableOpacity>
           </View>
         </Camera>
       )}
+
+      <ErrorSnackbar
+        text={errorMsg}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'Profile updated successfully!'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
+      />
     </>
   );
 }
@@ -331,6 +419,7 @@ const styles = (theme: {
       alignSelf: 'flex-end',
       alignItems: 'center'
     },
+
     text: {
       fontSize: 24,
       fontWeight: 'bold',
@@ -345,14 +434,16 @@ const styles = (theme: {
     imageView: {
       backgroundColor: 'white',
       marginTop: 20,
-      height: 180,
-      width: 250,
-      borderRadius: 250 / 2,
+      height: 200,
+      width: 200,
+      marginLeft: 60,
+      borderRadius: 200 / 2,
       // add shadows for Android only
       // No options for shadow offset, shadow opacity like iOS
       elevation: 10,
       // shadow color
-      shadowColor: 'black'
+      shadowColor: 'black',
+      alignSelf: 'center'
     },
     profileImageEditIcon: {
       marginTop: 0
@@ -362,10 +453,16 @@ const styles = (theme: {
       marginTop: 25,
       backgroundColor: theme.COLORS.WHITE
     },
+
     imageIcon: {
       height: 25,
       width: 25,
       marginTop: verticalScale(180)
+    },
+
+    cameraIcon: {
+      width: 70,
+      height: 70
     },
 
     textInputError2: {
@@ -412,9 +509,10 @@ const styles = (theme: {
       alignItems: 'center'
     },
     imageStyle: {
-      height: 150,
-      width: 300,
-      borderRadius: 400 / 2
+      height: 200,
+      width: 200,
+      borderRadius: 200 / 2,
+      alignSelf: 'center'
       // alignSelf: 'center'
     },
     row1: {

@@ -1,4 +1,10 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  ScrollView,
+  ActivityIndicator
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -13,6 +19,8 @@ import ItemService from '../api/services/ItemService';
 import { ItemModel } from '../types/items/ItemModel';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import ManageItems from './ManageItems';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 
 export default function AdminViewItemScreen() {
   const theme = useTheme();
@@ -23,24 +31,40 @@ export default function AdminViewItemScreen() {
   const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [itemDocId, setItemDocId] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const navigation = useNavigation();
+
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const resItems = await ItemService.getItemListAsync();
+    loadItemsAsnc();
+  }, [isFocused, isDataChanged]);
 
-        if (resItems.length > 0) {
-          setItems(resItems);
-          setCopyItems(resItems);
-        }
-        setError(false);
-      } catch (error) {
-        setError(true);
-        console.log(error);
+  const loadItemsAsnc = async () => {
+    setItemDocId(null);
+
+    try {
+      setLoading(true);
+      const resItems = await ItemService.getItemListAsync();
+
+      if (resItems.length > 0) {
+        setItems(resItems);
+        setCopyItems(resItems);
+      } else {
+        setItems([]);
+        setCopyItems([]);
       }
-    })();
-  }, [isDataChanged]);
+      setLoading(false);
+      setError(false);
+    } catch (error: any) {
+      setLoading(false);
+      setError(true);
+      setErrorMsg(error.message);
+      console.log(error);
+    }
+  };
 
   const searchItems = (input: any) => {
     if (input.length == 1) return setItems(copyItems);
@@ -60,7 +84,6 @@ export default function AdminViewItemScreen() {
           docId={itemDocId}
           onCancel={() => {
             setIsDataChanged(!isDataChanged);
-            setItemDocId(null);
             setIsEditing(false);
           }}
         />
@@ -76,6 +99,7 @@ export default function AdminViewItemScreen() {
               color={theme.COLORS.PRIMARY}
             />
           </View>
+
           <View>
             <FormGroupWithIcon
               name={i18n.t('viewItemPage.searchLabel')}
@@ -93,43 +117,51 @@ export default function AdminViewItemScreen() {
               callFunction={undefined}
             />
           </View>
+
           <View>
             <ModalButton
               value={i18n.t('viewItemPage.addBtn')}
               color={theme.COLORS.PRIMARY}
               marginTop={10}
               marginLeft={5}
-              width={horizontalScale(100)}
+              width={160}
               callFunction={() => {
                 setItemDocId(null);
                 setIsEditing(true);
               }}
             />
           </View>
+           {loading ? (
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
+      ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
           <ScrollView>
-            {items.length > 0 &&
+            {items.length > 0 ?
               items.map((item, index) => {
                 return (
                   <AdminViewItemCard
-                    docId={item.docId}
-                    key={index}
-                    brand={item.brand}
-                    itemName={item.itemName}
-                    skuNumber={item.stockKeepingUnits}
-                    description={item.description}
-                    price={item.unitPrice}
-                    image={item.imageUrl}
-                    onRemove={() => setIsDataChanged(!isDataChanged)}
-                    onEdit={(id) => {
-                      setItemDocId(id);
-                      setIsEditing(true);
-                    }}
-                  />
+                  docId={item.docId}
+                  key={index}
+                  brand={item.brand}
+                  itemName={item.itemName}
+                  skuNumber={item.stockKeepingUnits}
+                  description={item.description}
+                  price={item.unitPrice}
+                  image={item.imageUrl}
+                  onRemove={() => setIsDataChanged(!isDataChanged)}
+                  onEdit={(id) => {
+                    setItemDocId(id);
+                    setIsEditing(true);
+                  }}
+                />
                 );
-              })}
+              }): (<View><HeadLine4 value={'Items Not Available'} color={theme.COLORS.PRIMARY}/></View>)}
           </ScrollView>
           <ErrorSnackbar
-            text={'Something went wrong!'}
+            text={errorMsg}
             iconName={'error'}
             isVisible={error}
             dismissFunc={() => {}}
@@ -164,6 +196,9 @@ const styles = (theme: {
       width: horizontalScale(300),
       marginTop: 20,
       backgroundColor: theme.COLORS.WHITE
+    },
+    loading: {
+      marginTop: 20
     },
 
     column: { flexDirection: 'column' },

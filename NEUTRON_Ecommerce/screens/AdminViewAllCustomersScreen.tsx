@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -17,6 +17,8 @@ import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
 import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCard';
 import UserService from '../api/services/UserService';
 import { UserModel } from '../types/users/UserModel';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 
 export default function AdminViewAllCustomersScreen() {
   const theme = useTheme();
@@ -26,23 +28,36 @@ export default function AdminViewAllCustomersScreen() {
   const [users, setUsers] = useState<UserModel[]>([]);
   const [copyUsers, setCopyUsers] = useState<UserModel[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const resUsers = await UserService.getUserListAsync();
+    fetchCardList();
+  }, [isFocused]);
 
-        if (resUsers.length > 0) {
-          setUsers(resUsers);
-          setCopyUsers(resUsers);
-        }
-        setError(false);
-      } catch (error) {
-        setError(true);
-        console.log(error);
+  const fetchCardList = async () => {
+    try {
+      setLoading(true);
+      const resUsers = await UserService.getUserListAsync();
+
+      if (resUsers.length > 0) {
+        setUsers(resUsers);
+        setCopyUsers(resUsers);
+      } else {
+        setUsers([]);
+        setCopyUsers([]);
       }
-    })();
-  }, []);
+      setLoading(false);
+      setError(false);
+    } catch (error: any) {
+      setError(true);
+      setLoading(false);
+      setErrorMsg(error.message);
+      console.log(error);
+    }
+  };
 
   const searchUsers = (input: any) => {
     if (input.length == 1) return setUsers(copyUsers);
@@ -58,6 +73,7 @@ export default function AdminViewAllCustomersScreen() {
   };
 
   return (
+    <>
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
         <HeadLine3
@@ -86,8 +102,15 @@ export default function AdminViewAllCustomersScreen() {
           callFunction={undefined}
         />
       </View>
+      {loading ? (
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
+      ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
       <ScrollView>
-        {users.length > 0 &&
+        {users.length > 0 ?
           users.map((user, index) => {
             return (
               <AdminViewCustomersCard
@@ -101,9 +124,16 @@ export default function AdminViewAllCustomersScreen() {
                 profileUrl={user.profileImageUrl}
               />
             );
-          })}
+          }): (<View><HeadLine4 value={'Customers Not Available'} color={theme.COLORS.PRIMARY}/></View>)}
       </ScrollView>
     </SafeAreaView>
+    <ErrorSnackbar
+    text={errorMsg}
+    iconName={'error'}
+    isVisible={error}
+    dismissFunc={() => setError(false)}
+  />
+  </>
   );
 }
 

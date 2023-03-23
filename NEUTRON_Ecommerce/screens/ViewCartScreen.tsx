@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -15,6 +15,9 @@ import { CartItemModel } from '../types/cart_Items/CartItemModel';
 import CartItemService from '../api/services/CartService';
 import UserService from '../api/services/UserService';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import ConfirmDialog from '../hooks/dialogs/Confirm';
+import SuccessDialog from '../hooks/dialogs/SuccessDialog';
 
 export default function ViewCart() {
   const theme = useTheme();
@@ -23,29 +26,34 @@ export default function ViewCart() {
   const [itemList, setItemList] = useState<CartItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
 
-  const credentials = {
-    email: 'sonal@gmail.com',
-    password: 'Sonal123$'
-  };
   useEffect(() => {
     fetchCartList();
-  }, []);
+  }, [isFocused, isDataChanged]);
 
   async function fetchCartList() {
-    const ss = await UserService.loginAsync(credentials);
     setLoading(true);
     try {
       const resItems = await CartItemService.getCartItemListAsync();
       if (resItems.length > 0) {
         setCount(resItems.length);
         setItemList(resItems);
+      } else {
+        setItemList([]);
       }
       calculateTotal(resItems);
       setError(false);
-    } catch (error) {
+      setLoading(false);
+    } catch (error: any) {
       setError(true);
+      setLoading(false);
+      setErrorMsg(error.message);
       console.log(error);
     }
     setLoading(false);
@@ -61,6 +69,33 @@ export default function ViewCart() {
     }
   }
 
+  const proceedCheckoutAsync = async () => {
+    try {
+      setError(false);
+      setLoading(true);
+
+      if (itemList.length == 0) {
+        return;
+      }
+
+      const cartItemIds: string[] = [];
+
+      await itemList.forEach((item) => {
+        cartItemIds.push(item.docId);
+      });
+      
+      await CartItemService.deleteAllCartItemsAsync(cartItemIds);
+
+      setDialogVisible(!dialogVisible);
+      setIsDataChanged(!isDataChanged);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
@@ -71,29 +106,26 @@ export default function ViewCart() {
       </View>
 
       {loading ? (
-        <HeadLine4
-          value={'Loading...'}
-          marginTop={10}
-          marginBottom={0}
-          color={theme.COLORS.WARNING}
-        />
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
       ) : (
         <HeadLine4 value={''} marginTop={17} marginBottom={0} />
       )}
 
       <ScrollView>
-        {itemList.map((selectedItem, i) => {
+        {itemList.length > 0 ?
+         itemList.map((selectedItem, i) => {
           return (
             <CartCard
               key={i}
-              item={selectedItem.item}
               cartItem={selectedItem}
-              refreshFunc={fetchCartList}
+              refreshFunc={() => setIsDataChanged(!isDataChanged)}
               loadingStatus={setLoading}
               passinError={setError}
             />
           );
-        })}
+        }): (<View><HeadLine4 value={'Cart Is Empty'} color={theme.COLORS.PRIMARY}/></View>)}
       </ScrollView>
       <View style={style.row}>
         <HeadLine4
@@ -141,12 +173,17 @@ export default function ViewCart() {
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+        callFunction={() => proceedCheckoutAsync()}
       />
       <ErrorSnackbar
-        text={'Something went wrong please try again'}
+        text={errorMsg}
         iconName={undefined}
         isVisible={error}
         dismissFunc={() => setError(false)}
+      />
+      <SuccessDialog
+        isVisible={dialogVisible}
+        dismissFunc={() => setDialogVisible(!dialogVisible)}
       />
     </SafeAreaView>
   );

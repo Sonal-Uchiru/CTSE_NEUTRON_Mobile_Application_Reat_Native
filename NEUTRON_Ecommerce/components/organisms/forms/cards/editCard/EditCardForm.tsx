@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -22,21 +22,40 @@ import { COLORS } from '../../../../../theme/styles/Colors';
 import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
 import CardService from '../../../../../api/services/CardService';
 import { CardModel } from '../../../../../types/cards/CardModel';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function EditCardForm() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const [card, setCard] = useState<CardModel>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const route = useRoute<any>();
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const docId = route.params?.docId;
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+    goBack: () => void;
+  };
+
+  const navigation = useNavigation<Nav>();
 
   useEffect(() => {
     (async () => {
       try {
-        const resCard = await CardService.getCardByIdAsync(
-          '6aXzgS2fVomy8sg883UQ'
-        );
-        setCard(resCard);
-        setValues(resCard);
-      } catch (error) {
+        setLoading(true);
+        const resCard = await CardService.getCardByIdAsync(docId);
+        await setValues(resCard);
+        await setCard(resCard);
+        setLoading(false);
+      } catch (error: any) {
+        setLoading(false);
+        setErrorMsg(error.message);
+        setError(true);
         console.log(error);
       }
     })();
@@ -44,6 +63,7 @@ export default function EditCardForm() {
 
   const editCardAsync = async (values: IEditCardFormFields) => {
     try {
+      setLoading(true);
       const editedCard: UpdateCardData = new UpdateCardData(
         values.displayName,
         +values.cardNumber,
@@ -52,12 +72,17 @@ export default function EditCardForm() {
       );
 
       await CardService.updateCardAsync(card?.docId!, editedCard);
+      setSuccess(true);
+      setLoading(false);
+      navigation.navigate('ViewItems');
     } catch (error) {
+      setLoading(false);
+      setError(true);
       console.log(error);
     }
   };
 
-  const setValues = (card: CardModel) => {
+  const setValues = async (card: CardModel) => {
     EditCardInitialValues.displayName = card.displayName;
     EditCardInitialValues.cardNumber = card.cardNumber.toString();
     EditCardInitialValues.date = String(card.expiryDate);
@@ -65,10 +90,14 @@ export default function EditCardForm() {
   };
 
   const removeCardAsync = () => {
+    
     try {
+      setLoading(true);
       CardService.deleteCardAsync(card?.docId!);
-      //navigate to cards page
+      setLoading(false);
+      navigation.navigate('ViewItems');
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -76,7 +105,7 @@ export default function EditCardForm() {
     <>
       <Formik
         initialValues={EditCardInitialValues}
-        onSubmit={(values) => editCardAsync(values)}
+        onSubmit={(values, { resetForm }) => editCardAsync(values)}
         validationSchema={EditCardValidationSchema}
       >
         {({
@@ -159,6 +188,8 @@ export default function EditCardForm() {
                 }
               />
 
+
+         
               <View style={style.buttonView}>
                 <View style={style.row1}>
                   <ModalButton
@@ -166,8 +197,8 @@ export default function EditCardForm() {
                     color={theme.COLORS.DARK_GREY}
                     width={130}
                     marginRight={15}
+                    callFunction={() => navigation.goBack()}
                   />
-
                   <ModalButton
                     value={i18n.t('editCardPage.saveButtonTitle')}
                     color={theme.COLORS.PRIMARY}
@@ -176,7 +207,11 @@ export default function EditCardForm() {
                     marginLeft={15}
                   />
                 </View>
-
+                {loading ? (
+          <View style={style.loading}>
+            <ActivityIndicator size="large" />
+          </View>
+         ) : (
                 <ModalButton
                   value={i18n.t('editCardPage.deleteButtonTitle')}
                   color={theme.COLORS.ERROR}
@@ -184,11 +219,27 @@ export default function EditCardForm() {
                   marginTop={20}
                   callFunction={removeCardAsync}
                 />
+                )}
               </View>
+
+
             </View>
+        
           </View>
         )}
       </Formik>
+      <ErrorSnackbar
+        text={errorMsg}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'Card updated successfully!'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
+      />
     </>
   );
 }

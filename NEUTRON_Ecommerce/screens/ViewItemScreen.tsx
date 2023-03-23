@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -14,6 +14,10 @@ import * as Location from 'expo-location';
 import { GetDistance } from '../utils/expo/GetDistance';
 import { Coordinations } from '../types/items/Coordinations';
 import { expoGetCurrentPositionAsync } from '../utils/expo/GeoLocation';
+import AppHeader from '../Navigation/appbar/Appbar';
+import { useIsFocused } from '@react-navigation/native';
+import HeadLine4 from '../components/atoms/typographies/HeadLine4';
+import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 
 export default function ViewItemScreen() {
   const theme = useTheme();
@@ -22,10 +26,14 @@ export default function ViewItemScreen() {
   const [items, setItems] = useState<ItemModel[]>([]);
   const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const isFoucused = useIsFocused();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         setError(false);
         const resItems = await ItemService.getItemListAsync();
 
@@ -39,11 +47,14 @@ export default function ViewItemScreen() {
           setItems(nearbyItems);
           setCopyItems(nearbyItems);
         }
+        setLoading(false);
       } catch (error: any) {
         setError(true);
+        setErrorMsg(error.message);
+        setLoading(false);
       }
     })();
-  }, []);
+  }, [isFoucused]);
 
   const searchItems = (input: any) => {
     if (input.length == 1) return setItems(copyItems);
@@ -69,7 +80,7 @@ export default function ViewItemScreen() {
         new Coordinations(i.latitude, i.longitude)
       );
 
-      if (distance <= 10000) {
+      if (distance <= 10000000) {
         return true;
       }
       return false;
@@ -79,6 +90,7 @@ export default function ViewItemScreen() {
 
   return (
     <SafeAreaView style={style.container}>
+     
       <View style={style.headerStyle}>
         <HeadLine3
           value={i18n.t('viewItemPage.title')}
@@ -106,12 +118,27 @@ export default function ViewItemScreen() {
           callFunction={undefined}
         />
       </View>
+      {loading ? (
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
+      ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
       <ScrollView>
-        {items.length > 0 &&
+        {items.length > 0 ?
           items.map((item, index) => {
             return <ViewItemCard item={item} key={index} />;
-          })}
+          }): (<View><HeadLine4 value={'Items Not Available'} color={theme.COLORS.PRIMARY}/></View>)}
       </ScrollView>
+
+      <ErrorSnackbar
+        text={errorMsg}
+        iconName={undefined}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+
     </SafeAreaView>
   );
 }

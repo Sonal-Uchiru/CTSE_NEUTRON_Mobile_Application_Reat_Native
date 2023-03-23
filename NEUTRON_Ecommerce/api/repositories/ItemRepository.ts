@@ -22,9 +22,9 @@ class ItemRepository {
     }
   }
 
-  async updateItemAsync(item: UpdateItemData): Promise<void> {
+  async updateItemAsync(docId:string, item: UpdateItemData): Promise<void> {
     try {
-      await setDoc(doc(FireStoreDB, 'items', item.docId), { ...item });
+      await setDoc(doc(FireStoreDB, 'items', docId), { ...item });
     } catch (error) {
       throw new Error((error as Error).message);
     }

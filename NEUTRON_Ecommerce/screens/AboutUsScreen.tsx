@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Text, Image, View } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Image, View, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -16,29 +16,27 @@ export default function AboutUsScreen() {
   const [showCard, setShowCard] = useState(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
-
+  
   return (
     <SafeAreaView style={style.container}>
+      <ScrollView>
+        <View style={style.title}>
       <HeadLine3
         value={i18n.t('aboutUsPage.aboutUs')}
         color={theme.COLORS.PRIMARY}
         marginBottom={10}
       />
-      <Image source={AboutUs} style={{ height: 250, width: 250 }} />
+      </View>
+      <Image source={AboutUs} style={{ height: 250, width: 250, alignSelf:'center' }} />
       <View style={style.paragraphStyle}>
         <Paragraph value={i18n.t('aboutUsPage.para1')} />
         <Paragraph value={i18n.t('aboutUsPage.para2')} marginTop={20} />
       </View>
-      <Hyperlink value={i18n.t('aboutUsPage.back')} />
+      {/* <View style={style.back}>
+      <Hyperlink value={i18n.t('aboutUsPage.back')}/>
+      </View> */}
+      
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -53,10 +51,17 @@ const styles = (theme: {
     container: {
       flex: 1,
       backgroundColor: theme.COLORS.WHITE,
-      alignItems: 'center'
+      alignSelf: 'center'
     },
     paragraphStyle: {
       textAlign: 'justify',
       padding: 20
+    },
+    back:{
+      alignSelf:'center'
+    },
+
+    title:{
+      alignSelf:'center'
     }
   });

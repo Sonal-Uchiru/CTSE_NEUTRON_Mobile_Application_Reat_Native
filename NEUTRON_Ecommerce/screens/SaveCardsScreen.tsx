@@ -1,4 +1,10 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  ScrollView,
+  ActivityIndicator
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -14,6 +20,7 @@ import { CardModel } from '../types/cards/CardModel';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import { AuthenticationData } from '../types/authentication/AuthenticationData';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 export default function SavedCards() {
   const [searchText, setSearchText] = useState('');
@@ -25,25 +32,40 @@ export default function SavedCards() {
   const [cardList, setCardList] = useState<CardModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [copyCards, setCopyCards] = useState<CardModel[]>([]);
-  
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
+
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     fetchCardList();
-  }, []);
+  }, [isFocused]);
 
   async function fetchCardList() {
     setLoading(true);
     try {
-      UserService.loginAsync(new AuthenticationData('sonal@gmail.com','Sonal123'))
       const resCards = await CardService.getCardListAsync();
       if (resCards.length > 0) {
         setCount(resCards.length);
         setCardList(resCards);
         setCopyCards(resCards);
+      }else{
+        setCount(0);
+        setCardList([]);
+        setCopyCards([]);
       }
       setError(false);
-    } catch (error) {
+      setLoading(false);
+    } catch (error: any) {
       console.log(error);
+      setLoading(false);
       setError(true);
+      setErrorMsg(error.message);
     }
     setLoading(false);
   }
@@ -86,14 +108,13 @@ export default function SavedCards() {
         iconSecond={'magnify'}
         callFunction={undefined}
       />
-      {loading ? (
-        <HeadLine4
-          value={'Loading...'}
-          marginLeft={20}
-          marginBottom={30}
-          color={theme.COLORS.WARNING}
-        />
+        {loading ? (
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
       ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
         <ScrollView>
           {cardList.map((card, i) => {
             return (
@@ -104,20 +125,23 @@ export default function SavedCards() {
                 type={card.type}
                 passedDate={card.expiryDate}
                 owner={card.nameOnCard}
+                documentId={card.docId}
               />
             );
           })}
         </ScrollView>
-      )}
 
       <ModalButton
         value={i18n.t('savedCardsPage.buttonAddCard')}
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+        marginTop={40}
+        callFunction={() => navigation.navigate('AddCards')}
       />
+
       <ErrorSnackbar
-        text={'Something went wrong please try again'}
+        text={errorMsg}
         iconName={undefined}
         isVisible={error}
         dismissFunc={() => setError(false)}
@@ -149,6 +173,17 @@ const styles = (theme: {
       backgroundColor: theme.COLORS.WHITE,
       marginTop: 40
     },
+
+    // loading: {
+    //   position: 'absolute',
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
+    //   left: 0,
+    //   right: 0,
+    //   top: '60%',
+    //   bottom: 0,
+    // },
+
     headerStyle: {
       alignSelf: 'flex-start',
       marginStart: 20

@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { AddCardModel} from './AddCardFormModel';
+import { AddCardModel } from './AddCardFormModel';
 
 export const AddCardValidationSchema = yup.object().shape({
   displayName: yup
@@ -7,16 +7,12 @@ export const AddCardValidationSchema = yup.object().shape({
     .required(AddCardModel.displayName.requiredErrorMessage),
 
   cardNumber: yup
-    .number()
-    .max(16)
-    .min(14)
+    .string()
+    .max(16, AddCardModel.cardNumber.lengthLongErrorMessage)
+    .min(16, AddCardModel.cardNumber.lengthShortErrorMessage)
     .required(AddCardModel.cardNumber.requiredErrorMessage),
 
-  name: yup
-    .string()
-    .required(AddCardModel.name.requiredErrorMessage),
+  name: yup.string().required(AddCardModel.name.requiredErrorMessage),
 
-  date: yup
-    .string()
-    .required(AddCardModel.date.requiredErrorMessage),
+  date: yup.string().required(AddCardModel.date.requiredErrorMessage)
 });

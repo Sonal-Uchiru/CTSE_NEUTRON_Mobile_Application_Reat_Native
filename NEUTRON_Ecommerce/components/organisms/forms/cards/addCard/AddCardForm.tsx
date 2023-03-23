@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -21,13 +21,29 @@ import Hyperlink from '../../../../atoms/typographies/HyperLink';
 import { COLORS } from '../../../../../theme/styles/Colors';
 import { CreateCardData } from '../../../../../types/cards/CreateCardData';
 import CardService from '../../../../../api/services/CardService';
+import { useNavigation } from '@react-navigation/native';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function AddCardForm() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
   const theme = useTheme();
   const style = useThemedStyles(styles);
 
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
+
   const addCardAsync = async (values: IAddCardFormFields) => {
     try {
+      setLoading(true);
       const newCard: CreateCardData = new CreateCardData(
         values.displayName,
         +values.cardNumber,
@@ -36,7 +52,13 @@ export default function AddCardForm() {
       );
 
       await CardService.addCardAsync(newCard);
-    } catch (error) {
+      setSuccess(true);
+      setLoading(false);
+      navigation.navigate('ViewItems');
+    } catch (error: any) {
+      setError(true);
+      setLoading(false);
+      setErrorMsg(error.message);
       console.log(error);
     }
   };
@@ -93,6 +115,7 @@ export default function AddCardForm() {
                 borderColor={
                   errors.cardNumber ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
+                keyBoardType="numeric"
               />
 
               <FormGroup
@@ -126,7 +149,11 @@ export default function AddCardForm() {
                   errors.date ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                 }
               />
-
+          {loading ? (
+            <View style={style.loading}>
+              <ActivityIndicator size="large" />
+            </View>
+           ) : (
               <View style={style.buttonView}>
                 <ModalButton
                   value={i18n.t('addCardPage.buttonTitle')}
@@ -137,10 +164,24 @@ export default function AddCardForm() {
                   }}
                 />
               </View>
+                )}
             </View>
+         
           </View>
         )}
       </Formik>
+      <ErrorSnackbar
+        text={errorMsg}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'Card added successfully!'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
+      />
     </>
   );
 }
