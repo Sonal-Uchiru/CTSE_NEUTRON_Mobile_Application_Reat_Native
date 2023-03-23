@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -28,6 +28,7 @@ export default function ViewCart() {
   const [loading, setLoading] = useState<boolean>(false);
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const navigation = useNavigation();
 
   const focusHandler = navigation.addListener('focus', () => {
@@ -47,8 +48,11 @@ export default function ViewCart() {
       }
       calculateTotal(resItems);
       setError(false);
-    } catch (error) {
+      setLoading(false);
+    } catch (error: any) {
       setError(true);
+      setLoading(false);
+      setErrorMsg(error.message);
       console.log(error);
     }
     setLoading(false);
@@ -74,12 +78,9 @@ export default function ViewCart() {
       </View>
 
       {loading ? (
-        <HeadLine4
-          value={'Loading...'}
-          marginTop={10}
-          marginBottom={0}
-          color={theme.COLORS.WARNING}
-        />
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
       ) : (
         <HeadLine4 value={''} marginTop={17} marginBottom={0} />
       )}
@@ -143,11 +144,11 @@ export default function ViewCart() {
         value={i18n.t('viewCartPage.checkoutBtn')}
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
-        width={160}
+        width={210}
         callFunction={() => setDialogVisible(!dialogVisible)}
       />
       <ErrorSnackbar
-        text={'Something went wrong please try again'}
+        text={errorMsg}
         iconName={undefined}
         isVisible={error}
         dismissFunc={() => setError(false)}

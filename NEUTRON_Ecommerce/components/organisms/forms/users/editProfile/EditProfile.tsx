@@ -4,7 +4,8 @@ import {
   TouchableHighlight,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Formik } from 'formik';
@@ -31,7 +32,7 @@ import { UpdateUserData } from '../../../../../types/users/UpdateUserData';
 import { UserModel } from '../../../../../types/users/UserModel';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 import UploadPhotoDialog from '../../../../../hooks/dialogs/UploadPhoto';
-import { Edit, Logo } from '../../../../../assets/image';
+import { CameraIcon, CanceIcon, Edit, Logo } from '../../../../../assets/image';
 import HeadLine3 from '../../../../atoms/typographies/HeadLine3';
 import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
 import HeadLine4 from '../../../../atoms/typographies/HeadLine4';
@@ -57,7 +58,7 @@ export default function EditProfileForm() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-
+  const [errorMsg, setErrorMsg] = useState<string>('');
  
   useEffect(() => {
     setLoading(true);
@@ -67,8 +68,9 @@ export default function EditProfileForm() {
         setUser(res);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         setLoading(false);
+        setErrorMsg(error.message);
         setError(true);
         console.log(error);
       });
@@ -95,8 +97,9 @@ export default function EditProfileForm() {
       setIsDataChanged(!isDataChanged);
       setSuccess(true);
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       setError(true);
+      setErrorMsg(error.message);
       setLoading(false);
       console.log(error);
     }
@@ -268,7 +271,11 @@ export default function EditProfileForm() {
                 </View>
 
                 <View style={style.marginView}></View>
-
+                {loading ? (
+              <View style={style.loading}>
+                <ActivityIndicator size="large" />
+              </View>
+            ) : (
                 <ModalButton
                   width={horizontalScale(140)}
                   value={i18n.t('editProfilePage.saveButtonTitle')}
@@ -278,6 +285,7 @@ export default function EditProfileForm() {
                   marginBottom={20}
                   callFunction={handleSubmit}
                 />
+            )}
               </View>
             )}
           </Formik>
@@ -300,20 +308,30 @@ export default function EditProfileForm() {
         >
           <View style={style.buttonContainer}>
             <TouchableOpacity style={style.button} onPress={snapAsync}>
-              <Text style={style.text}>Take Photo</Text>
+              {/* <Text style={style.text}>Take Photo</Text> */}
+              <Image
+                  resizeMode="contain"
+                  source={CameraIcon}
+                  style={style.cameraIcon}
+                />
             </TouchableOpacity>
             <TouchableOpacity
               style={style.button}
               onPress={() => setCameraVisibility(!cameraVisible)}
             >
-              <Text style={style.text}>Close</Text>
+              {/* <Text style={style.text}>Close</Text> */}
+              <Image
+                  resizeMode="contain"
+                  source={CanceIcon}
+                  style={style.cameraIcon}
+                />
             </TouchableOpacity>
           </View>
         </Camera>
       )}
 
       <ErrorSnackbar
-        text={'Something went wrong!'}
+        text={errorMsg}
         iconName={'error'}
         isVisible={error}
         dismissFunc={() => setError(false)}
@@ -357,6 +375,8 @@ const styles = (theme: {
       alignSelf: 'flex-end',
       alignItems: 'center'
     },
+
+  
     text: {
       fontSize: 24,
       fontWeight: 'bold',
@@ -391,10 +411,16 @@ const styles = (theme: {
       marginTop: 25,
       backgroundColor: theme.COLORS.WHITE
     },
+    
     imageIcon: {
       height: 25,
       width: 25,
       marginTop: verticalScale(180)
+    },
+
+    cameraIcon:{
+        width: 70,
+        height: 70,
     },
 
     textInputError2: {

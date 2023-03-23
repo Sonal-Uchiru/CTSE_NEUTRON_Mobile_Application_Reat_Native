@@ -26,8 +26,8 @@ export default function UserRegisterScreen() {
 
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView>
-        <View style={style.imageView}>
+           
+      <View style={style.imageView}>
           <Image
             source={{
               uri: 'https://firebasestorage.googleapis.com/v0/b/ctsereactnativeneutron.appspot.com/o/logo.png?alt=media&token=135f327b-5fdd-4f40-87b3-914c84251948'
@@ -35,6 +35,7 @@ export default function UserRegisterScreen() {
             style={style.image}
           />
         </View>
+        <ScrollView>
         <View style={style.formView}>
           <RegisterForm />
         </View>
@@ -58,6 +59,8 @@ const styles = (theme: {
     image: {
       height: 190,
       width: 220,
+     
+      marginBottom: 20,
       borderWidth: 2,
       borderColor: theme.COLORS.PRIMARY,
       borderRadius: 10,
@@ -66,7 +69,7 @@ const styles = (theme: {
     },
 
     imageView: {
-      marginTop: -110
+      marginTop: 90
     },
 
     formView: {

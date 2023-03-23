@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, View, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -47,6 +47,7 @@ export default function HelpScreen() {
           marginTop={20}
         />
       </View>
+      <ScrollView>
       <Card mode="outlined" style={style.cardStyle}>
         <CardTitleView
           visible={showProfile}
@@ -134,6 +135,7 @@ export default function HelpScreen() {
           <Paragraph value={i18n.t('helpPage.cartStep03')} marginTop={5} />
         </Card.Content>
       </Card>
+      </ScrollView>
     </SafeAreaView>
   );
 }

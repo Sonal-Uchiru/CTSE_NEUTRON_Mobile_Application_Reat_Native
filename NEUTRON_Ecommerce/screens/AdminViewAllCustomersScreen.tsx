@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -18,6 +18,7 @@ import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCa
 import UserService from '../api/services/UserService';
 import { UserModel } from '../types/users/UserModel';
 import { useNavigation } from '@react-navigation/native';
+import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 
 export default function AdminViewAllCustomersScreen() {
   const theme = useTheme();
@@ -27,19 +28,25 @@ export default function AdminViewAllCustomersScreen() {
   const [users, setUsers] = useState<UserModel[]>([]);
   const [copyUsers, setCopyUsers] = useState<UserModel[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const navigation = useNavigation();
 
   const focusHandler = navigation.addListener('focus', async () => {
     try {
+      setLoading(true);
       const resUsers = await UserService.getUserListAsync();
 
       if (resUsers.length > 0) {
         setUsers(resUsers);
         setCopyUsers(resUsers);
       }
+      setLoading(false);
       setError(false);
-    } catch (error) {
+    } catch (error: any) {
       setError(true);
+      setLoading(false);
+      setErrorMsg(error.message);
       console.log(error);
     }
   });
@@ -64,6 +71,7 @@ export default function AdminViewAllCustomersScreen() {
   };
 
   return (
+    <>
     <SafeAreaView style={style.container}>
       <View style={style.headerStyle}>
         <HeadLine3
@@ -92,6 +100,13 @@ export default function AdminViewAllCustomersScreen() {
           callFunction={undefined}
         />
       </View>
+      {loading ? (
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
+      ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
       <ScrollView>
         {users.length > 0 &&
           users.map((user, index) => {
@@ -110,6 +125,13 @@ export default function AdminViewAllCustomersScreen() {
           })}
       </ScrollView>
     </SafeAreaView>
+    <ErrorSnackbar
+    text={errorMsg}
+    iconName={'error'}
+    isVisible={error}
+    dismissFunc={() => setError(false)}
+  />
+  </>
   );
 }
 

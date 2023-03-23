@@ -99,11 +99,6 @@ export default function RegisterForm() {
           isSubmitting
         }) => (
           <>
-            {loading ? (
-              <View style={style.loading}>
-                <ActivityIndicator size="large" />
-              </View>
-            ) : (
               <View style={style.container}>
                 <View style={style.tabView}>
                   <View style={style.tabView2}>
@@ -249,7 +244,11 @@ export default function RegisterForm() {
                     />
                   </Pressable>
                 </View>
-
+                {loading ? (
+              <View style={style.loading}>
+                <ActivityIndicator size="large" />
+              </View>
+            ) : (
                 <ModalButton
                   width={horizontalScale(150)}
                   value={i18n.t('registerPage.registerBtnTitle')}
@@ -258,7 +257,7 @@ export default function RegisterForm() {
                   disabled={!isValid}
                   marginTop={25}
                 />
-
+                )}
                 <View style={style.row1}>
                   <Paragraph
                     value={i18n.t('registerPage.alreadyHaveAccount')}
@@ -284,7 +283,7 @@ export default function RegisterForm() {
                   />
                 </Pressable>
               </View>
-            )}
+       
           </>
         )}
       </Formik>

@@ -30,6 +30,7 @@ export default function SavedCards() {
   const [cardList, setCardList] = useState<CardModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [copyCards, setCopyCards] = useState<CardModel[]>([]);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const navigation = useNavigation();
 
   const [focusState, setFocusState] = useState();
@@ -52,9 +53,12 @@ export default function SavedCards() {
         setCopyCards(resCards);
       }
       setError(false);
-    } catch (error) {
+      setLoading(false);
+    } catch (error: any) {
       console.log(error);
+      setLoading(false);
       setError(true);
+      setErrorMsg(error.message);
     }
     setLoading(false);
   }
@@ -98,11 +102,13 @@ export default function SavedCards() {
         iconSecond={'magnify'}
         callFunction={undefined}
       />
-      {loading ? (
-                  <View style={style.loading}>
-                  <ActivityIndicator size="large" />
-                </View>
+        {loading ? (
+        <View style={style.loading}>
+        <ActivityIndicator size="large" />
+      </View>
       ) : (
+        <HeadLine4 value={''} marginTop={12} marginBottom={0} />
+      )}
         <ScrollView>
           {cardList.map((card, i) => {
             return (
@@ -118,8 +124,6 @@ export default function SavedCards() {
             );
           })}
         </ScrollView>
-      )}
-
 
       <ModalButton
         value={i18n.t('savedCardsPage.buttonAddCard')}
@@ -131,7 +135,7 @@ export default function SavedCards() {
       />
 
       <ErrorSnackbar
-        text={'Something went wrong!'}
+        text={errorMsg}
         iconName={undefined}
         isVisible={error}
         dismissFunc={() => setError(false)}

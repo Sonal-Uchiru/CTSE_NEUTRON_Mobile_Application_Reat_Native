@@ -43,12 +43,13 @@ export default function Login() {
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(true);
   const [selected, setSelected] = useState<boolean>(false);
   const navigation = useNavigation();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   const loginAsync = async (values: ILoginFormFields) => {
     try {
@@ -68,8 +69,9 @@ export default function Login() {
         //@ts-ignore
         navigation.navigate('Admin', { userRole: user?.role });
       }
-    } catch (error) {
+    } catch (error: any) {
       setError(true);
+      setErrorMsg(error.message);
       setLoading(false);
       console.log(error);
     }
@@ -168,7 +170,7 @@ export default function Login() {
       />
 
       <ErrorSnackbar
-        text={'Invalid Credentials!'}
+        text={errorMsg}
         iconName={'error'}
         isVisible={error}
         dismissFunc={() => setError(false)}

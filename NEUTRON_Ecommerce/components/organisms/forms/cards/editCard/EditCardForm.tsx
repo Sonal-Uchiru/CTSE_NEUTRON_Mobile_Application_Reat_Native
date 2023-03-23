@@ -34,6 +34,7 @@ export default function EditCardForm() {
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const navigation = useNavigation();
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const route = useRoute();
   const docId = route.params?.docId;
 
@@ -45,8 +46,9 @@ export default function EditCardForm() {
         await setValues(resCard);
         await setCard(resCard);
         setLoading(false);
-      } catch (error) {
+      } catch (error: any) {
         setLoading(false);
+        setErrorMsg(error.message);
         setError(true);
         console.log(error);
       }
@@ -111,11 +113,6 @@ export default function EditCardForm() {
           isSubmitting
         }) => (
           <View style={style.container}>
-            {loading ? (
-          <View style={style.loading}>
-            <ActivityIndicator size="large" />
-          </View>
-         ) : (
             <View style={style.tabView}>
               <FormGroup
                 name={i18n.t('formFields.displayName')}
@@ -185,6 +182,8 @@ export default function EditCardForm() {
                 }
               />
 
+
+         
               <View style={style.buttonView}>
                 <View style={style.row1}>
                   <ModalButton
@@ -202,7 +201,11 @@ export default function EditCardForm() {
                     marginLeft={15}
                   />
                 </View>
-
+                {loading ? (
+          <View style={style.loading}>
+            <ActivityIndicator size="large" />
+          </View>
+         ) : (
                 <ModalButton
                   value={i18n.t('editCardPage.deleteButtonTitle')}
                   color={theme.COLORS.ERROR}
@@ -210,14 +213,17 @@ export default function EditCardForm() {
                   marginTop={20}
                   callFunction={removeCardAsync}
                 />
+                )}
               </View>
+
+
             </View>
-               )}
+        
           </View>
         )}
       </Formik>
       <ErrorSnackbar
-        text={'Something went wrong!'}
+        text={errorMsg}
         iconName={'error'}
         isVisible={error}
         dismissFunc={() => setError(false)}
