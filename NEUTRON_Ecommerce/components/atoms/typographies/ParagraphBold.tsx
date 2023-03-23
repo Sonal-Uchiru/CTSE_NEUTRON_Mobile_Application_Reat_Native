@@ -9,7 +9,9 @@ export default function ParagraphBold({
   color = COLORS.BLACK,
   textCenter = false,
   marginTop = 0,
-  marginBottom = 0
+  marginBottom = 0,
+  marginLeft = 0,
+  marginRight = 0
 }: typographyProps) {
   return (
     <Text
@@ -19,6 +21,8 @@ export default function ParagraphBold({
         fontWeight: 'bold',
         textAlign: textCenter ? 'center' : 'auto',
         marginTop: marginTop,
+        marginLeft: marginLeft,
+        marginRight: marginRight,
         marginBottom: marginBottom
       }}
     >

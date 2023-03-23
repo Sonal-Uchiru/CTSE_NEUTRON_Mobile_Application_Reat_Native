@@ -1,5 +1,5 @@
 import { TextInput } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { KeyboardTypeOptions, StyleSheet } from 'react-native';
 import { COLORS } from '../../theme/styles/Colors';
 
 interface props {
@@ -13,6 +13,9 @@ interface props {
   onChangeText: any;
   onBlur: any;
   borderColor?: string;
+  multiLine?: boolean;
+  noOfLines?: number;
+  keyBoardType?: KeyboardTypeOptions;
 }
 export default function InputField({
   name,
@@ -24,13 +27,17 @@ export default function InputField({
   fieldstyle,
   onChangeText,
   onBlur,
-  borderColor = COLORS.GREY
+  borderColor = COLORS.GREY,
+  multiLine = false,
+  noOfLines = 1,
+  keyBoardType = 'default'
 }: props) {
   return (
     <TextInput
       label={name}
       // id={id}
       mode={'outlined'}
+      keyboardType={keyBoardType!}
       placeholder={placeholder}
       style={fieldstyle}
       onChangeText={onChangeText}
@@ -38,12 +45,9 @@ export default function InputField({
       value={value}
       theme={{ colors: { primary: borderColor } }}
       autoCapitalize="none"
+      multiline={multiLine}
+      numberOfLines={noOfLines}
     />
   );
 }
 
-const styles = StyleSheet.create({
-  textInput: {
-    width: '80%'
-  }
-});

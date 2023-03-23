@@ -48,6 +48,7 @@ export default function InputFieldWithIcon({
       right={
         <TextInput.Icon
           icon={hiddenStatus ? iconFirst : iconSecond}
+          iconColor={COLORS.PRIMARY}
           onPress={callFunction}
         />
       }

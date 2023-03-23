@@ -14,12 +14,12 @@ interface props {
   placeholder: string;
   fieldstyle: any;
   onChangeText: any;
-  onBlur: any;
+  onBlur?: any;
   error: any;
   iconFirst: string;
   iconSecond: string;
-  hiddenStatus: boolean;
-  callFunction: any;
+  hiddenStatus?: boolean;
+  callFunction?: any;
   borderColor?: string;
 }
 export default function FormGroupWithIcon({
@@ -33,7 +33,7 @@ export default function FormGroupWithIcon({
   error,
   iconFirst,
   iconSecond,
-  hiddenStatus,
+  hiddenStatus = false,
   callFunction,
   borderColor
 }: props) {
@@ -53,8 +53,10 @@ export default function FormGroupWithIcon({
         callFunction={callFunction}
         borderColor={borderColor}
       />
-      {error && (
+      {error ? (
         <InputLabel value={i18n.t(error)} labelstyle={mainStyle.errorText} />
+      ) : (
+        <InputLabel value={''} />
       )}
     </>
   );
@@ -64,4 +66,5 @@ const styles = StyleSheet.create({
   labelView: {
     alignItems: 'flex-start'
   }
+
 });
