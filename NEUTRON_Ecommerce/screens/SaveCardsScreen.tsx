@@ -1,4 +1,10 @@
-import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  ScrollView,
+  ActivityIndicator
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -14,7 +20,7 @@ import { CardModel } from '../types/cards/CardModel';
 import HeadLine4 from '../components/atoms/typographies/HeadLine4';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import { AuthenticationData } from '../types/authentication/AuthenticationData';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 interface props {
   onClick: any;
@@ -30,17 +36,18 @@ export default function SavedCards() {
   const [cardList, setCardList] = useState<CardModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [copyCards, setCopyCards] = useState<CardModel[]>([]);
-  const navigation = useNavigation();
 
-  const [focusState, setFocusState] = useState();
-  
-  const focusHandler = navigation.addListener('focus', () => {
-    fetchCardList();
-  });
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
+
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    return focusHandler;
-  }, []);
+    fetchCardList();
+  }, [isFocused]);
 
   async function fetchCardList() {
     setLoading(true);
@@ -50,6 +57,10 @@ export default function SavedCards() {
         setCount(resCards.length);
         setCardList(resCards);
         setCopyCards(resCards);
+      }else{
+        setCount(0);
+        setCardList([]);
+        setCopyCards([]);
       }
       setError(false);
     } catch (error) {
@@ -72,7 +83,6 @@ export default function SavedCards() {
 
   return (
     <SafeAreaView style={style.container}>
-    
       <View style={style.headerStyle}>
         <HeadLine3
           value={i18n.t('savedCardsPage.title')}
@@ -99,9 +109,9 @@ export default function SavedCards() {
         callFunction={undefined}
       />
       {loading ? (
-                  <View style={style.loading}>
-                  <ActivityIndicator size="large" />
-                </View>
+        <View style={style.loading}>
+          <ActivityIndicator size="large" />
+        </View>
       ) : (
         <ScrollView>
           {cardList.map((card, i) => {
@@ -120,7 +130,6 @@ export default function SavedCards() {
         </ScrollView>
       )}
 
-
       <ModalButton
         value={i18n.t('savedCardsPage.buttonAddCard')}
         color={theme.COLORS.PRIMARY}
@@ -136,7 +145,6 @@ export default function SavedCards() {
         isVisible={error}
         dismissFunc={() => setError(false)}
       />
- 
     </SafeAreaView>
   );
 }

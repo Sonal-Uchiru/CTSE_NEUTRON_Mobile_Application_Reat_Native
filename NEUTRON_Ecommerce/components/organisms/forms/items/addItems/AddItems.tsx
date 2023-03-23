@@ -107,7 +107,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
 
       if (image) {
         imageUrl = await uploadFile(
-          image,
+          image.uri,
           'items',
           `${values.itemName}_${new Date().valueOf()}`
         );
@@ -159,7 +159,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
 
       if (image) {
         imageUrl = await uploadFile(
-          image,
+          image.uri,
           'items',
           `${values.itemName}_${new Date().valueOf()}`
         );

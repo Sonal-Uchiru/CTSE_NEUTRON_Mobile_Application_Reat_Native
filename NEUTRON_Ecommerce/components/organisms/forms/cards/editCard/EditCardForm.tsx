@@ -33,9 +33,15 @@ export default function EditCardForm() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  const navigation = useNavigation();
-  const route = useRoute();
+  const route = useRoute<any>();
   const docId = route.params?.docId;
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+    goBack: () => void;
+  };
+
+  const navigation = useNavigation<Nav>();
 
   useEffect(() => {
     (async () => {

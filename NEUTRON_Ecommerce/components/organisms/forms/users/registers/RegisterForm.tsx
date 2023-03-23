@@ -36,7 +36,6 @@ import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function RegisterForm() {
   const [selected, setSelected] = useState<boolean>(false);
-
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const [showPassword, setShowPassword] = useState<boolean>(true);
@@ -44,8 +43,13 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  const navigation = useNavigation();
   const [errorMsg, setErrorMsg] = useState<string>('');
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
 
   const registerAsync = async (values: IRegisterFormFields) => {
     try {

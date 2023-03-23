@@ -43,7 +43,7 @@ export default function AdminNavigation() {
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName: string = '';
+            let iconName: any = '';
 
             if (route.name === 'Customes') {
               iconName = focused ? 'home' : 'home-outline';

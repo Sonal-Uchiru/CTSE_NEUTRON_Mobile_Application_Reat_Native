@@ -21,22 +21,14 @@ import { COLORS } from '../theme/styles/Colors';
 import { useNavigation } from '@react-navigation/native';
 
 export default function TermsAndConditionsScreen() {
-  const [locale, setLocale] = useState(Localization.locale);
-  const [showProfile, setShowProfile] = useState(false);
-  const [showCart, setShowCart] = useState(false);
-  const [showCard, setShowCard] = useState(false);
   const theme = useTheme();
   const style = useThemedStyles(styles);
-  const navigation = useNavigation();
 
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
   };
+
+  const navigation = useNavigation<Nav>();
 
   return (
     <SafeAreaView style={style.container}>

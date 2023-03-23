@@ -1,4 +1,10 @@
-import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  ScrollView,
+  ActivityIndicator
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -13,7 +19,7 @@ import ItemService from '../api/services/ItemService';
 import { ItemModel } from '../types/items/ItemModel';
 import ErrorSnackbar from '../hooks/snackbar/ErrorSnackbar';
 import ManageItems from './ManageItems';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 export default function AdminViewItemScreen() {
   const theme = useTheme();
@@ -28,15 +34,13 @@ export default function AdminViewItemScreen() {
   const [itemDocId, setItemDocId] = useState<string | null>(null);
   const navigation = useNavigation();
 
-  const focusHandler = navigation.addListener('focus', () => {
-    loadItems();
-  });
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    return focusHandler;
-  }, []);
+    loadItemsAsnc();
+  }, [isFocused, isDataChanged]);
 
-  const loadItems = async () => {
+  const loadItemsAsnc = async () => {
     setItemDocId(null);
 
     try {
@@ -46,6 +50,9 @@ export default function AdminViewItemScreen() {
       if (resItems.length > 0) {
         setItems(resItems);
         setCopyItems(resItems);
+      } else {
+        setItems([]);
+        setCopyItems([]);
       }
       setLoading(false);
       setError(false);
@@ -55,6 +62,7 @@ export default function AdminViewItemScreen() {
       console.log(error);
     }
   };
+
   const searchItems = (input: any) => {
     if (input.length == 1) return setItems(copyItems);
 
@@ -74,7 +82,6 @@ export default function AdminViewItemScreen() {
           onCancel={() => {
             setIsDataChanged(!isDataChanged);
             setIsEditing(false);
-            loadItems();
           }}
         />
       ) : (
@@ -123,30 +130,30 @@ export default function AdminViewItemScreen() {
             <View style={style.loading}>
               <ActivityIndicator size="large" />
             </View>
-           ) : (
-          <ScrollView>
-            {items.length > 0 &&
-              items.map((item, index) => {
-                return (
-                  <AdminViewItemCard
-                    docId={item.docId}
-                    key={index}
-                    brand={item.brand}
-                    itemName={item.itemName}
-                    skuNumber={item.stockKeepingUnits}
-                    description={item.description}
-                    price={item.unitPrice}
-                    image={item.imageUrl}
-                    onRemove={() => loadItems()}
-                    onEdit={(id) => {
-                      setItemDocId(id);
-                      setIsEditing(true);
-                    }}
-                  />
-                );
-              })}
-          </ScrollView>
-           )}
+          ) : (
+            <ScrollView>
+              {items.length > 0 &&
+                items.map((item, index) => {
+                  return (
+                    <AdminViewItemCard
+                      docId={item.docId}
+                      key={index}
+                      brand={item.brand}
+                      itemName={item.itemName}
+                      skuNumber={item.stockKeepingUnits}
+                      description={item.description}
+                      price={item.unitPrice}
+                      image={item.imageUrl}
+                      onRemove={() => setIsDataChanged(!isDataChanged)}
+                      onEdit={(id) => {
+                        setItemDocId(id);
+                        setIsEditing(true);
+                      }}
+                    />
+                  );
+                })}
+            </ScrollView>
+          )}
           <ErrorSnackbar
             text={'Something went wrong!'}
             iconName={'error'}
@@ -184,7 +191,7 @@ const styles = (theme: {
       marginTop: 20,
       backgroundColor: theme.COLORS.WHITE
     },
-    loading:{
+    loading: {
       marginTop: 20
     },
 

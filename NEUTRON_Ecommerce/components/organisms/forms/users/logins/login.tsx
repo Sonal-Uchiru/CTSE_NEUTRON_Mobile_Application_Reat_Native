@@ -40,15 +40,19 @@ import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
-
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [selected, setSelected] = useState<boolean>(false);
-  const navigation = useNavigation();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
 
   const loginAsync = async (values: ILoginFormFields) => {
     try {
@@ -59,13 +63,10 @@ export default function Login() {
       setSuccess(true);
       console.log('login Success');
       setLoading(false);
-      // console.log(user?.firstName);
 
       if (user?.role == 0) {
-        //@ts-ignore
         navigation.navigate('Client', { userRole: user?.role });
       } else {
-        //@ts-ignore
         navigation.navigate('Admin', { userRole: user?.role });
       }
     } catch (error) {
@@ -150,10 +151,7 @@ export default function Login() {
                 marginRight={5}
               />
 
-              <Pressable
-                //@ts-ignore
-                onPress={() => navigation.navigate('Register')}
-              >
+              <Pressable onPress={() => navigation.navigate('Register')}>
                 <Hyperlink value={i18n.t('loginPage.signUp')} marginTop={2} />
               </Pressable>
             </View>

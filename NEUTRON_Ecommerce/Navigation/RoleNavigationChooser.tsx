@@ -15,7 +15,7 @@ import { useRoute } from '@react-navigation/native';
 
 export default function RoleNavigationChooser() {
   const Stack = createNativeStackNavigator();
-  const route = useRoute();
+  const route = useRoute<any>();
 
   const [userRole, setUserRole] = useState<number>(0);
 

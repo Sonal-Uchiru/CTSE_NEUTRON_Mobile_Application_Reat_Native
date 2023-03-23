@@ -17,7 +17,7 @@ import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
 import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCard';
 import UserService from '../api/services/UserService';
 import { UserModel } from '../types/users/UserModel';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 export default function AdminViewAllCustomersScreen() {
   const theme = useTheme();
@@ -28,27 +28,29 @@ export default function AdminViewAllCustomersScreen() {
   const [copyUsers, setCopyUsers] = useState<UserModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
-  const focusHandler = navigation.addListener('focus', async () => {
+  useEffect(() => {
+    fetchCardList();
+  }, [isFocused]);
+
+  const fetchCardList = async () => {
     try {
       const resUsers = await UserService.getUserListAsync();
 
       if (resUsers.length > 0) {
         setUsers(resUsers);
         setCopyUsers(resUsers);
+      } else {
+        setUsers([]);
+        setCopyUsers([]);
       }
       setError(false);
     } catch (error) {
       setError(true);
       console.log(error);
     }
-  });
-
-  useEffect(() => {
-    return focusHandler;
-  }, []);
-
-  function fetchCardList() {}
+  };
 
   const searchUsers = (input: any) => {
     if (input.length == 1) return setUsers(copyUsers);

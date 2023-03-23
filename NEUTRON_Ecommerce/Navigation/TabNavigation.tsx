@@ -53,7 +53,7 @@ export default function TabNavigation() {
           screenOptions={({ route }) => ({
             headerShown: false,
             tabBarIcon: ({ focused, color, size }) => {
-              let iconName: string = '';
+              let iconName: any = '';
 
               if (route.name === 'Home') {
                 iconName = focused ? 'home' : 'home-outline';
