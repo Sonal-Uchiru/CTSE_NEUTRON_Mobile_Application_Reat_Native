@@ -11,19 +11,8 @@ import Hyperlink from '../components/atoms/typographies/HyperLink';
 import Login from '../components/organisms/forms/users/logins/login';
 
 export default function LoginScreen() {
-  const [locale, setLocale] = useState(Localization.locale);
- 
   const theme = useTheme();
   const style = useThemedStyles(styles);
-
-  const changeLanguage = () => {
-    if (locale == 'sin') {
-      setLocale('en');
-      return;
-    }
-
-    setLocale('sin');
-  };
 
   return (
     <SafeAreaView style={style.container}>
