@@ -15,10 +15,10 @@ class ItemService {
     }
   }
 
-  async updateItemAsync(docId:string, item: UpdateItemData): Promise<void> {
+  async updateItemAsync(docId: string, item: UpdateItemData): Promise<void> {
     try {
       await ItemRepository.getItemByIdAsync(docId);
-      await ItemRepository.updateItemAsync(item);
+      await ItemRepository.updateItemAsync(docId, item);
     } catch (error) {
       throw new Error((error as Error).message);
     }

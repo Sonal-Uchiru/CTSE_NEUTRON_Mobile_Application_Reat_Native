@@ -180,6 +180,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         values.skuNumber,
         imageUrl == null ? '' : imageUrl
       );
+
       await ItemService.updateItemAsync(docId!, updatedItem);
       setSuccess(true);
       onCancel();
@@ -234,217 +235,234 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
 
   return (
     <>
-
-    <ScrollView>
-      <Formik
-        initialValues={AddItemsInitialValues}
-        onSubmit={(values) => submitAsync(values)}
-        validationSchema={AddItemsValidationSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isValid,
-          isSubmitting
-        }) => (
-          <>
-          
-            <View style={isHidden ? style.displayFormView : style.hideFormView}>
-           
-              <View style={style.row}>
-                <Image
-                  resizeMode="contain"
-                  source={Iphone}
-                  style={style.imageStyle}
-                />
-                <TouchableHighlight
-                  underlayColor={theme.COLORS.WHITE}
-                  onPress={() => setPhotoDialogVisible(true)}
-                >
-                  {/* <Ionicons name={'keypad-outline'} style={style.icon} /> */}
+      <ScrollView>
+        <Formik
+          initialValues={AddItemsInitialValues}
+          onSubmit={(values) => submitAsync(values)}
+          validationSchema={AddItemsValidationSchema}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isValid,
+            isSubmitting
+          }) => (
+            <>
+              <View
+                style={isHidden ? style.displayFormView : style.hideFormView}
+              >
+                <View style={style.row}>
                   <Image
                     resizeMode="contain"
-                    source={Edit}
-                    style={style.imageIcon}
+                    source={{
+                      uri: docId
+                        ? item?.imageUrl == ''
+                          ? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'
+                          : item?.imageUrl
+                        : !image?.uri
+                        ? 'https://leaveitwithme.com.au/wp-content/uploads/2013/11/dummy-image-square.jpg'
+                        : image.uri
+                    }}
+                    style={style.imageStyle}
                   />
-                </TouchableHighlight>
+                  <TouchableHighlight
+                    underlayColor={theme.COLORS.WHITE}
+                    onPress={() => setPhotoDialogVisible(true)}
+                  >
+                    {/* <Ionicons name={'keypad-outline'} style={style.icon} /> */}
+                    <Image
+                      resizeMode="contain"
+                      source={Edit}
+                      style={style.imageIcon}
+                    />
+                  </TouchableHighlight>
+                </View>
+                <>
+                  <FormGroupWithDropDown
+                    fieldstyle={
+                      errors.itemCategory ? style.dropdownError : style.dropdown
+                    }
+                    onChangeText={handleChange('itemCategory')}
+                    placeholder={i18n.t(
+                      AddItemsFormModel.itemCategory.itemCategoryPlaceholder
+                    )}
+                    fieldvalue={values.itemCategory}
+                    error={errors.itemCategory}
+                    data={data}
+                  />
+                  <FormGroup
+                    name={i18n.t('addItemsForm.itemName')}
+                    id={'itemName'}
+                    fieldstyle={
+                      errors.itemName ? style.textInputError : style.textInput
+                    }
+                    onChangeText={handleChange('itemName')}
+                    onBlur={handleBlur('itemName')}
+                    placeholder={i18n.t(
+                      AddItemsFormModel.itemName.itemNamePlaceholder
+                    )}
+                    fieldvalue={values.itemName}
+                    error={errors.itemName}
+                    borderColor={
+                      errors.itemName
+                        ? theme.COLORS.ERROR
+                        : theme.COLORS.PRIMARY
+                    }
+                  />
+                  <FormGroup
+                    name={i18n.t('addItemsForm.brand')}
+                    id={'brand'}
+                    fieldstyle={
+                      errors.brand ? style.textInputError : style.textInput
+                    }
+                    onChangeText={handleChange('brand')}
+                    onBlur={handleBlur('brand')}
+                    placeholder={i18n.t(
+                      AddItemsFormModel.brand.brandPlaceholder
+                    )}
+                    fieldvalue={values.brand}
+                    error={errors.brand}
+                    borderColor={
+                      errors.brand ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+                    }
+                  />
+                  <FormGroup
+                    name={i18n.t('addItemsForm.quantity')}
+                    id={'quantity'}
+                    fieldstyle={
+                      errors.quantity ? style.textInputError : style.textInput
+                    }
+                    onChangeText={handleChange('quantity')}
+                    onBlur={handleBlur('quantity')}
+                    placeholder={i18n.t(
+                      AddItemsFormModel.quantity.quantityPlaceholder
+                    )}
+                    fieldvalue={values.quantity}
+                    error={errors.quantity}
+                    borderColor={
+                      errors.quantity
+                        ? theme.COLORS.ERROR
+                        : theme.COLORS.PRIMARY
+                    }
+                  />
+                  <FormGroup
+                    name={i18n.t('addItemsForm.unitPrice')}
+                    id={'unitPrice'}
+                    fieldstyle={
+                      errors.unitPrice ? style.textInputError : style.textInput
+                    }
+                    onChangeText={handleChange('unitPrice')}
+                    onBlur={handleBlur('unitPrice')}
+                    placeholder={i18n.t(
+                      AddItemsFormModel.unitPrice.unitPricePlaceholder
+                    )}
+                    fieldvalue={values.unitPrice}
+                    error={errors.unitPrice}
+                    borderColor={
+                      errors.unitPrice
+                        ? theme.COLORS.ERROR
+                        : theme.COLORS.PRIMARY
+                    }
+                  />
+                  <ModalButton
+                    value={i18n.t('addItemsForm.next')}
+                    color={theme.COLORS.PRIMARY}
+                    marginBottom={20}
+                    callFunction={async () => {
+                      await viewSecondStep(errors);
+                    }}
+                    marginTop={20}
+                  />
+                </>
               </View>
-            <>
-          
-              <FormGroupWithDropDown
-                fieldstyle={
-                  errors.itemCategory ? style.dropdownError : style.dropdown
-                }
-                onChangeText={handleChange('itemCategory')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.itemCategory.itemCategoryPlaceholder
-                )}
-                fieldvalue={values.itemCategory}
-                error={errors.itemCategory}
-                data={data}
-              />
-              <FormGroup
-                name={i18n.t('addItemsForm.itemName')}
-                id={'itemName'}
-                fieldstyle={
-                  errors.itemName ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('itemName')}
-                onBlur={handleBlur('itemName')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.itemName.itemNamePlaceholder
-                )}
-                fieldvalue={values.itemName}
-                error={errors.itemName}
-                borderColor={
-                  errors.itemName ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <FormGroup
-                name={i18n.t('addItemsForm.brand')}
-                id={'brand'}
-                fieldstyle={
-                  errors.brand ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('brand')}
-                onBlur={handleBlur('brand')}
-                placeholder={i18n.t(AddItemsFormModel.brand.brandPlaceholder)}
-                fieldvalue={values.brand}
-                error={errors.brand}
-                borderColor={
-                  errors.brand ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <FormGroup
-                name={i18n.t('addItemsForm.quantity')}
-                id={'quantity'}
-                fieldstyle={
-                  errors.quantity ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('quantity')}
-                onBlur={handleBlur('quantity')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.quantity.quantityPlaceholder
-                )}
-                fieldvalue={values.quantity}
-                error={errors.quantity}
-                borderColor={
-                  errors.quantity ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <FormGroup
-                name={i18n.t('addItemsForm.unitPrice')}
-                id={'unitPrice'}
-                fieldstyle={
-                  errors.unitPrice ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('unitPrice')}
-                onBlur={handleBlur('unitPrice')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.unitPrice.unitPricePlaceholder
-                )}
-                fieldvalue={values.unitPrice}
-                error={errors.unitPrice}
-                borderColor={
-                  errors.unitPrice ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <ModalButton
-                value={i18n.t('addItemsForm.next')}
-                color={theme.COLORS.PRIMARY}
-                marginBottom={20}
-                callFunction={async () => {
-                  await viewSecondStep(errors);
-                }}
-                marginTop={20}
-              />
-
-          </>
-            </View>
-            <View style={isHidden ? style.hideFormView : style.displayFormView}>
-              <FormGroup
-                name={i18n.t('addItemsForm.skuNumber')}
-                id={'skuNumber'}
-                fieldstyle={
-                  errors.skuNumber ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('skuNumber')}
-                onBlur={handleBlur('skuNumber')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.skuNumber.skuNumberPlaceholder
-                )}
-                fieldvalue={values.skuNumber}
-                error={errors.skuNumber}
-                borderColor={
-                  errors.skuNumber ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <FormGroup
-                name={i18n.t('addItemsForm.description')}
-                id={'description'}
-                fieldstyle={
-                  errors.description ? style.multiLineError : style.multiLine
-                }
-                onChangeText={handleChange('description')}
-                onBlur={handleBlur('description')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.description.descriptionPlaceholder
-                )}
-                fieldvalue={values.description}
-                error={errors.description}
-                borderColor={
-                  errors.description ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-                multiLine={true}
-                noOfLines={5}
-              />
-              <FormGroup
-                name={i18n.t('addItemsForm.itemAddress')}
-                id={'itemAddress'}
-                fieldstyle={
-                  errors.itemAddress ? style.textInputError : style.textInput
-                }
-                onChangeText={handleChange('itemAddress')}
-                onBlur={handleBlur('itemAddress')}
-                placeholder={i18n.t(
-                  AddItemsFormModel.itemAddress.itemAddressPlaceholder
-                )}
-                fieldvalue={values.itemAddress}
-                error={errors.itemAddress}
-                borderColor={
-                  errors.itemAddress ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-                }
-              />
-              <View style={style.row}>
-                <ModalButton
-                  value={docId ? 'Edit' : 'Add'}
-                  color={theme.COLORS.PRIMARY}
-                  callFunction={() => {
-                    handleSubmit();
-                  }}
-                  marginRight={20}
-                  marginTop={40}
+              <View
+                style={isHidden ? style.hideFormView : style.displayFormView}
+              >
+                <FormGroup
+                  name={i18n.t('addItemsForm.skuNumber')}
+                  id={'skuNumber'}
+                  fieldstyle={
+                    errors.skuNumber ? style.textInputError : style.textInput
+                  }
+                  onChangeText={handleChange('skuNumber')}
+                  onBlur={handleBlur('skuNumber')}
+                  placeholder={i18n.t(
+                    AddItemsFormModel.skuNumber.skuNumberPlaceholder
+                  )}
+                  fieldvalue={values.skuNumber}
+                  error={errors.skuNumber}
+                  borderColor={
+                    errors.skuNumber ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
+                  }
                 />
-                <ModalButton
-                  value={i18n.t('addItemsForm.back')}
-                  color={theme.COLORS.GREY}
-                  callFunction={() => {
-                    setIsHidden(true);
-                  }}
-                  marginLeft={20}
-                  marginTop={40}
+                <FormGroup
+                  name={i18n.t('addItemsForm.description')}
+                  id={'description'}
+                  fieldstyle={
+                    errors.description ? style.multiLineError : style.multiLine
+                  }
+                  onChangeText={handleChange('description')}
+                  onBlur={handleBlur('description')}
+                  placeholder={i18n.t(
+                    AddItemsFormModel.description.descriptionPlaceholder
+                  )}
+                  fieldvalue={values.description}
+                  error={errors.description}
+                  borderColor={
+                    errors.description
+                      ? theme.COLORS.ERROR
+                      : theme.COLORS.PRIMARY
+                  }
+                  multiLine={true}
+                  noOfLines={5}
                 />
+                <FormGroup
+                  name={i18n.t('addItemsForm.itemAddress')}
+                  id={'itemAddress'}
+                  fieldstyle={
+                    errors.itemAddress ? style.textInputError : style.textInput
+                  }
+                  onChangeText={handleChange('itemAddress')}
+                  onBlur={handleBlur('itemAddress')}
+                  placeholder={i18n.t(
+                    AddItemsFormModel.itemAddress.itemAddressPlaceholder
+                  )}
+                  fieldvalue={values.itemAddress}
+                  error={errors.itemAddress}
+                  borderColor={
+                    errors.itemAddress
+                      ? theme.COLORS.ERROR
+                      : theme.COLORS.PRIMARY
+                  }
+                />
+                <View style={style.row}>
+                  <ModalButton
+                    value={docId ? 'Edit' : 'Add'}
+                    color={theme.COLORS.PRIMARY}
+                    callFunction={() => {
+                      handleSubmit();
+                    }}
+                    marginRight={20}
+                    marginTop={40}
+                  />
+                  <ModalButton
+                    value={i18n.t('addItemsForm.back')}
+                    color={theme.COLORS.GREY}
+                    callFunction={() => {
+                      setIsHidden(true);
+                    }}
+                    marginLeft={20}
+                    marginTop={40}
+                  />
+                </View>
               </View>
-          
-            </View>
-           
-          </>
-        )}
-      </Formik>
+            </>
+          )}
+        </Formik>
       </ScrollView>
       <ModalButton
         value={i18n.t('addItemsForm.cancel')}
@@ -474,7 +492,6 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         isVisible={success}
         dismissFunc={() => {}}
       />
-      
     </>
   );
 }
@@ -521,7 +538,6 @@ const styles = (theme: {
       paddingHorizontal: 8
     },
     dropdownError: {
-
       height: 50,
       borderColor: theme.COLORS.ERROR,
       marginTop: 10,
