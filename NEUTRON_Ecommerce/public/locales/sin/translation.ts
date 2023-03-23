@@ -58,12 +58,16 @@ const sin = {
 
     address: '',
     addressRequiredError: 'Address is required',
-    addressPlaceholder: 'Address'
+    addressPlaceholder: 'Address',
+
+    lengthShort: 'අංක 16 ට වඩා කෙටි විය නොහැක',
+    lengthLong: 'අංක 16 ට වඩා දිගු විය නොහැක'
   },
   confirmDialog: {
     confirm: 'තහවුරු කරන්න',
     confirmDescription: 'ඔබට වෙනස්කම් සුරැකීමට අවශ්‍යද?',
-    checkOutComplete: 'ඔබගේ මිලදී ගැනීම සඳහා ස්තූතියි! අපට ඔබගේ ඇණවුම ලැබී ඇති අතර අපි වහාම ආරම්භ කරන්නෙමු.'
+    checkOutComplete:
+      'ඔබගේ මිලදී ගැනීම සඳහා ස්තූතියි! අපට ඔබගේ ඇණවුම ලැබී ඇති අතර අපි වහාම ආරම්භ කරන්නෙමු.'
   },
   deleteconfirmDialog: {
     confirm: 'අවවාදයයි!',

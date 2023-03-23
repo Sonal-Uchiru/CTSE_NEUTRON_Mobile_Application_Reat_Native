@@ -58,6 +58,9 @@ const en = {
     address: 'Address',
     addressRequiredError: 'Address is required',
     addressPlaceholder: 'Address',
+
+    lengthShort: 'Cannot be shorter than 16 numbers',
+    lengthLong: 'Cannot be longer than 16 numbers'
   },
   
   deleteconfirmDialog: {
