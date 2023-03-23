@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -22,14 +22,21 @@ import { COLORS } from '../../../../../theme/styles/Colors';
 import { CreateCardData } from '../../../../../types/cards/CreateCardData';
 import CardService from '../../../../../api/services/CardService';
 import { useNavigation } from '@react-navigation/native';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function AddCardForm() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const navigation = useNavigation();
 
   const addCardAsync = async (values: IAddCardFormFields) => {
     try {
+      setLoading(true);
       const newCard: CreateCardData = new CreateCardData(
         values.displayName,
         +values.cardNumber,
@@ -38,8 +45,12 @@ export default function AddCardForm() {
       );
 
       await CardService.addCardAsync(newCard);
+      setSuccess(true);
+      setLoading(false);
       navigation.navigate('ViewItems');
     } catch (error) {
+      setError(true);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -61,6 +72,11 @@ export default function AddCardForm() {
           isSubmitting
         }) => (
           <View style={style.container}>
+            {loading ? (
+            <View style={style.loading}>
+              <ActivityIndicator size="large" />
+            </View>
+           ) : (
             <View style={style.tabView}>
               <FormGroup
                 name={i18n.t('formFields.displayName')}
@@ -141,9 +157,22 @@ export default function AddCardForm() {
                 />
               </View>
             </View>
+           )}
           </View>
         )}
       </Formik>
+      <ErrorSnackbar
+        text={'Something went wrong!'}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'Card added successfully!'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
+      />
     </>
   );
 }

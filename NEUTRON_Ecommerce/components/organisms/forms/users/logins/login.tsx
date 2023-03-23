@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -34,6 +35,8 @@ import UserService from '../../../../../api/services/UserService';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 import { useNavigation } from '@react-navigation/native';
 import { UserModel } from '../../../../../types/users/UserModel';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function Login() {
   const [isError, setIsError] = useState<boolean>(false);
@@ -43,13 +46,19 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [selected, setSelected] = useState<boolean>(false);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const loginAsync = async (values: ILoginFormFields) => {
     try {
+      setLoading(true);
       const newlogin = new AuthenticationData(values.email, values.password);
       await UserService.loginAsync(newlogin);
       let user: UserModel = await UserService.getUserAsync();
+      setSuccess(true);
       console.log('login Success');
+      setLoading(false);
       // console.log(user?.firstName);
 
       if (user?.role == 0) {
@@ -57,8 +66,12 @@ export default function Login() {
       } else {
         navigation.navigate('Admin', { userRole: user?.role });
       }
+     
     } catch (error) {
+      setError(true);
+      setLoading(false);
       console.log(error);
+      
     }
   };
 
@@ -85,63 +98,79 @@ export default function Login() {
           isValid,
           isSubmitting
         }) => (
-          <View style={style.inputView}>
-            <FormGroup
-              name={i18n.t('formFields.email')}
-              id={'password'}
-              fieldstyle={style.textInput}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('Email')}
-              placeholder={i18n.t('formFields.emailPlaceholder')}
-              fieldvalue={values.email}
-              error={errors.email}
-              borderColor={
-                errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
-            <FormGroupWithIcon
-              name={i18n.t('formFields.password')}
-              id={'password'}
-              fieldvalue={values.password}
-              placeholder={i18n.t('formFields.passwordPlaceholder')}
-              fieldstyle={style.textInput}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('Password')}
-              error={errors.password}
-              iconFirst={'eye-off'}
-              iconSecond={'eye'}
-              hiddenStatus={showPassword}
-              callFunction={() => setShowPassword(!showPassword)}
-              borderColor={
-                errors.password ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
-              }
-            />
-            <View style={style.buttonView}>
-              <ModalButton
-                value={i18n.t('loginPage.login')}
-                color={theme.COLORS.PRIMARY}
-                callFunction={() => handleSubmit()}
-                disabled={!isValid}
-              />
-            </View>
-            <View style={style.marginView}>
-              <Paragraph
-                value={i18n.t('loginPage.createAccountLink')}
-                marginTop={2}
-                marginRight={5}
-              />
-              <Pressable onPress={() => navigation.navigate('Register')}>
-                <Hyperlink value={i18n.t('loginPage.signUp')} marginTop={2} />
-              </Pressable>
-            </View>
+
+          <>
+          {loading ? (
+          <View style={style.loading}>
+            <ActivityIndicator size="large" />
           </View>
+         ) : (
+          <View style={style.inputView}>
+              <FormGroup
+                name={i18n.t('formFields.email')}
+                id={'password'}
+                fieldstyle={style.textInput}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('Email')}
+                placeholder={i18n.t('formFields.emailPlaceholder')}
+                fieldvalue={values.email}
+                error={errors.email}
+                borderColor={errors.email ? theme.COLORS.ERROR : theme.COLORS.PRIMARY} />
+              <FormGroupWithIcon
+                name={i18n.t('formFields.password')}
+                id={'password'}
+                fieldvalue={values.password}
+                placeholder={i18n.t('formFields.passwordPlaceholder')}
+                fieldstyle={style.textInput}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('Password')}
+                error={errors.password}
+                iconFirst={'eye-off'}
+                iconSecond={'eye'}
+                hiddenStatus={showPassword}
+                callFunction={() => setShowPassword(!showPassword)}
+                borderColor={errors.password ? theme.COLORS.ERROR : theme.COLORS.PRIMARY} />
+              <View style={style.buttonView}>
+                <ModalButton
+                  value={i18n.t('loginPage.login')}
+                  color={theme.COLORS.PRIMARY}
+                  callFunction={() => handleSubmit()}
+                  disabled={!isValid} />
+              </View>
+              <View style={style.marginView}>
+                <Paragraph
+                  value={i18n.t('loginPage.createAccountLink')}
+                  marginTop={2}
+                  marginRight={5} />
+                <Pressable onPress={() => navigation.navigate('Register')}>
+                  <Hyperlink value={i18n.t('loginPage.signUp')} marginTop={2} />
+                </Pressable>
+              </View>
+            </View>
+               )}
+            </>
+
         )}
+     
       </Formik>
       <ErrorDialog
         isVisible={isError}
         dismissFunc={() => {
           setIsError(false);
         }}
+      />
+
+      <ErrorSnackbar
+        text={'Invalid Credentials!'}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'Logged in successfully'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
       />
     </>
   );
@@ -171,6 +200,16 @@ const styles = (theme: {
       alignItems: 'center',
       alignSelf: 'center',
       marginTop: 50
+    },
+
+    loading: {
+      position: 'absolute',
+      alignItems: 'center',
+      justifyContent: 'center',
+      left: 0,
+      right: 0,
+      top: '60%',
+      bottom: 0,
     },
 
     errroStyle: {

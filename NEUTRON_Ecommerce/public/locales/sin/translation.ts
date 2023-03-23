@@ -248,7 +248,8 @@ const sin = {
     searchLabel: 'අයිතම සොයන්න',
     searchPlaceHolder: 'අයිතම සොයන්න....',
     removeBtn: 'ඉවත් කරන්න',
-    editBtn: 'සංස්කරණය කරන්න'
+    editBtn: 'සංස්කරණය කරන්න',
+    addBtn: 'අයිතම එකතු කරන්න'
   },
 
   adminViewCustomersPage: {

@@ -77,8 +77,9 @@ export default function CreditCard({
           <View style={style.buttonView}>
             <ModalButton
               value={i18n.t('savedCardsPage.buttonEditCard')}
-              color={theme.COLORS.ACTION}
+              color={theme.COLORS.PRIMARY}
               marginTop={10}
+              width={110}
               callFunction={() => navigation.navigate('EditCard', {docId: documentId})}
             />
           </View>
@@ -109,7 +110,7 @@ const styles = (theme: {
       alignSelf: 'flex-start',
       marginStart: 20
     },
-    imageStyle: { height: 100, width: 150 },
+    imageStyle: { height: 100, width: 150, marginTop: 30},
     column: { flexDirection: 'column' },
-    buttonView: { alignSelf: 'flex-end' }
+    buttonView: { alignSelf: 'center', justifyContent:'center' }
   });
