@@ -59,6 +59,7 @@ export default function AdminViewAllCustomersScreen() {
     }
   };
 
+ //search function
   const searchUsers = (input: any) => {
     if (input.length == 1) return setUsers(copyUsers);
 
