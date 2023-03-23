@@ -70,6 +70,7 @@ const styles = (theme: {
     COLORS: {
         WHITE: string;
         PRIMARY: string;
+        SECONDARY: string;
     };
 }) =>
     StyleSheet.create({
