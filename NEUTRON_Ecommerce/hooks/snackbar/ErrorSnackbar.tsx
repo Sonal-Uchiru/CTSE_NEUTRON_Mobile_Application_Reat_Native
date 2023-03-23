@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 
 import { Snackbar } from 'react-native-paper';
@@ -23,19 +23,20 @@ export default function ErrorSnackbar({
   const theme = useTheme();
   const style = useThemedStyles(styles);
   return (
-    <View>
-      <Snackbar
-        visible={isVisible}
-        style={style.successBackground}
-        duration={1000}
-        onDismiss={dismissFunc}
-      >
-        <View style={style.iconView}>
-          <Ionicons name={'close-circle'} style={style.icon} />
-          <ParagraphBold value={text} color={theme.COLORS.WHITE} />
-        </View>
-      </Snackbar>
-    </View>
+    <Snackbar
+      visible={isVisible}
+      style={style.successBackground}
+      duration={1000}
+      onDismiss={dismissFunc}
+    >
+      <View style={style.iconView}>
+        <Ionicons name={'close-circle'} style={style.icon} />
+        <ParagraphBold value={text} color={theme.COLORS.WHITE} />
+        <Pressable style={style.iconHolder} onPress={() => dismissFunc()}>
+          <Ionicons name={'close'} style={style.icon} />
+        </Pressable>
+      </View>
+    </Snackbar>
   );
 }
 
@@ -54,10 +55,12 @@ const styles = (theme: {
       fontSize: theme.TYPOGRAPHY.FONT_SIZE.M1,
       color: theme.COLORS.WHITE
     },
+    iconHolder: {
+      marginLeft: 'auto'
+    },
     iconView: {
-      flex: 1,
       flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'flex-start'
+      alignItems: 'center'
+      // justifyContent: 'flex-start'
     }
   });

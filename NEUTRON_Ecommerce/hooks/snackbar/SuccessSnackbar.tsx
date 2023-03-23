@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 
 import { Snackbar } from 'react-native-paper';
@@ -33,6 +33,9 @@ export default function SuccessSnackbar({
         <View style={style.iconView}>
           <Ionicons name={'checkmark-circle'} style={style.icon} />
           <ParagraphBold value={text} color={theme.COLORS.WHITE} />
+          <Pressable style={style.iconHolder} onPress={() => dismissFunc()}>
+            <Ionicons name={'close'} style={style.icon} />
+          </Pressable>
         </View>
       </Snackbar>
     </View>
@@ -53,6 +56,9 @@ const styles = (theme: {
     icon: {
       fontSize: theme.TYPOGRAPHY.FONT_SIZE.M1,
       color: theme.COLORS.WHITE
+    },
+    iconHolder: {
+      marginLeft: 'auto'
     },
     iconView: {
       flex: 1,
