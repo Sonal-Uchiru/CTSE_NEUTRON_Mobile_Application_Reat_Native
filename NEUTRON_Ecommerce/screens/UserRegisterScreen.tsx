@@ -62,6 +62,7 @@ const styles = (theme: {
       borderWidth: 2,
       borderColor: theme.COLORS.PRIMARY,
       borderRadius: 10,
+      
       resizeMode: 'contain',
       alignSelf: 'center'
     },
