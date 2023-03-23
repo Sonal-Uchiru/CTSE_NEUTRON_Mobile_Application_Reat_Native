@@ -80,7 +80,6 @@ const styles = (theme: {
 
             //   paddingStart: 20
         },
-
         headerStyle: {
             alignSelf: 'flex-start',
             marginStart: 20,
@@ -99,19 +98,16 @@ const styles = (theme: {
             marginTop: 20,
             marginBottom: 20
         },
-
         image: {
             height: verticalScale(200),
             width: horizontalScale(260),
             resizeMode: 'cover',
             alignSelf: 'center'
         },
-
         card: {
             justifyContent: 'center',
             alignSelf: 'center'
         },
-
         cardView: {
             alignSelf: 'center',
             width: horizontalScale(360),
