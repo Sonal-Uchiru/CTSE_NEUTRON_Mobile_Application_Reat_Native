@@ -65,7 +65,9 @@ export default function AddToCartButton({
       ]
     };
   });
+
   function activeAnimation() {
+    callFunction();
     offset.value = withRepeat(
       withSequence(withTiming(130), withDelay(1500, withTiming(-60))),
       1,
@@ -92,7 +94,6 @@ export default function AddToCartButton({
           marginBottom: marginBottom
         }}
         mode="contained"
-        //   onPress={() => callFunction()}
         onPress={() => activeAnimation()}
         disabled={disabled}
       >
