@@ -29,6 +29,7 @@ import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 import { ItemModel } from '../../../../../types/items/ItemModel';
 import { UpdateItemData } from '../../../../../types/items/UpdateItemData';
 import { useNavigation } from '@react-navigation/native';
+import { horizontalScale } from '../../../../../responsive/Metrics';
 
 interface Props {
   docId: string | null;
@@ -234,6 +235,8 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
 
   return (
     <>
+
+    <ScrollView>
       <Formik
         initialValues={AddItemsInitialValues}
         onSubmit={(values) => submitAsync(values)}
@@ -250,7 +253,9 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
           isSubmitting
         }) => (
           <>
+          
             <View style={isHidden ? style.displayFormView : style.hideFormView}>
+           
               <View style={style.row}>
                 <Image
                   resizeMode="contain"
@@ -269,7 +274,8 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                   />
                 </TouchableHighlight>
               </View>
-
+            <>
+          
               <FormGroupWithDropDown
                 fieldstyle={
                   errors.itemCategory ? style.dropdownError : style.dropdown
@@ -351,11 +357,14 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
               <ModalButton
                 value={i18n.t('addItemsForm.next')}
                 color={theme.COLORS.PRIMARY}
+                marginBottom={20}
                 callFunction={async () => {
                   await viewSecondStep(errors);
                 }}
-                marginTop={10}
+                marginTop={20}
               />
+
+          </>
             </View>
             <View style={isHidden ? style.hideFormView : style.displayFormView}>
               <FormGroup
@@ -431,13 +440,17 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                   marginTop={40}
                 />
               </View>
+          
             </View>
+           
           </>
         )}
       </Formik>
+      </ScrollView>
       <ModalButton
         value={i18n.t('addItemsForm.cancel')}
         color={theme.COLORS.ERROR}
+        marginBottom={10}
         callFunction={() => {
           onCancel();
         }}
@@ -462,6 +475,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
         isVisible={success}
         dismissFunc={() => {}}
       />
+      
     </>
   );
 }
@@ -489,12 +503,13 @@ const styles = (theme: {
       alignItems: 'center'
     },
     textInput: {
-      width: '80%',
+      width: horizontalScale(300),
       marginTop: 10,
+
       backgroundColor: theme.COLORS.WHITE
     },
     textInputError: {
-      width: '80%',
+      width: horizontalScale(300),
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
     },
@@ -507,6 +522,7 @@ const styles = (theme: {
       paddingHorizontal: 8
     },
     dropdownError: {
+
       height: 50,
       borderColor: theme.COLORS.ERROR,
       marginTop: 10,
@@ -515,13 +531,13 @@ const styles = (theme: {
       paddingHorizontal: 8
     },
     multiLine: {
-      width: '80%',
+      width: horizontalScale(300),
       height: 130,
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE
     },
     multiLineError: {
-      width: '80%',
+      width: horizontalScale(300),
       height: 130,
       marginTop: 10,
       backgroundColor: theme.COLORS.WHITE

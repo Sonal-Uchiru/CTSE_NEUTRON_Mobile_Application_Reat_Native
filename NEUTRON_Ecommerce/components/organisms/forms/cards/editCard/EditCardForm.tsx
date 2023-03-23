@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -23,11 +23,16 @@ import { UpdateCardData } from '../../../../../types/cards/UpdateCardData';
 import CardService from '../../../../../api/services/CardService';
 import { CardModel } from '../../../../../types/cards/CardModel';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function EditCardForm() {
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const [card, setCard] = useState<CardModel>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
   const navigation = useNavigation();
   const route = useRoute();
   const docId = route.params?.docId;
@@ -35,10 +40,14 @@ export default function EditCardForm() {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const resCard = await CardService.getCardByIdAsync(docId);
         await setValues(resCard);
         await setCard(resCard);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
+        setError(true);
         console.log(error);
       }
     })();
@@ -46,6 +55,7 @@ export default function EditCardForm() {
 
   const editCardAsync = async (values: IEditCardFormFields) => {
     try {
+      setLoading(true);
       const editedCard: UpdateCardData = new UpdateCardData(
         values.displayName,
         +values.cardNumber,
@@ -54,9 +64,12 @@ export default function EditCardForm() {
       );
 
       await CardService.updateCardAsync(card?.docId!, editedCard);
-
+      setSuccess(true);
+      setLoading(false);
       navigation.navigate('ViewItems');
     } catch (error) {
+      setLoading(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -69,10 +82,14 @@ export default function EditCardForm() {
   };
 
   const removeCardAsync = () => {
+    
     try {
+      setLoading(true);
       CardService.deleteCardAsync(card?.docId!);
+      setLoading(false);
       navigation.navigate('ViewItems');
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -94,6 +111,11 @@ export default function EditCardForm() {
           isSubmitting
         }) => (
           <View style={style.container}>
+            {loading ? (
+          <View style={style.loading}>
+            <ActivityIndicator size="large" />
+          </View>
+         ) : (
             <View style={style.tabView}>
               <FormGroup
                 name={i18n.t('formFields.displayName')}
@@ -190,9 +212,22 @@ export default function EditCardForm() {
                 />
               </View>
             </View>
+               )}
           </View>
         )}
       </Formik>
+      <ErrorSnackbar
+        text={'Something went wrong!'}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'Card updated successfully!'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
+      />
     </>
   );
 }

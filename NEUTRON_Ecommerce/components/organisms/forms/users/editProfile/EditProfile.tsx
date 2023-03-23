@@ -37,6 +37,8 @@ import HeadLine2 from '../../../../atoms/typographies/HeadLine2';
 import HeadLine4 from '../../../../atoms/typographies/HeadLine4';
 import { Camera, CameraType } from 'expo-camera';
 import { uploadFile } from '../../../../../utils/firebase/cloud_storage/UploadFile';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function EditProfileForm() {
   const theme = useTheme();
@@ -52,20 +54,29 @@ export default function EditProfileForm() {
   const ref = useRef(null);
   let camera: Camera | null = null;
   const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
+ 
   useEffect(() => {
+    setLoading(true);
     UserService.getUserAsync()
       .then((res) => {
         setInitailValue(res);
         setUser(res);
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
+        setError(true);
         console.log(error);
       });
   }, [isDataChanged]);
 
   const editProfileAsync = async (values: IEditProfileFormFields) => {
     try {
+      setLoading(true);
       let imageUrl = '';
       if (profilePicture != '') {
         imageUrl = await UserService.updateUserProfilePictureAsync(
@@ -82,7 +93,11 @@ export default function EditProfileForm() {
 
       await UserService.updateUserAsync(editedUser);
       setIsDataChanged(!isDataChanged);
+      setSuccess(true);
+      setLoading(false);
     } catch (error) {
+      setError(true);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -296,6 +311,19 @@ export default function EditProfileForm() {
           </View>
         </Camera>
       )}
+
+      <ErrorSnackbar
+        text={'Something went wrong!'}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'Profile updated successfully!'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
+      />
     </>
   );
 }
@@ -341,16 +369,19 @@ const styles = (theme: {
     },
 
     imageView: {
+    
       backgroundColor: 'white',
       marginTop: 20,
-      height: 180,
-      width: 250,
-      borderRadius: 250 / 2,
+      height: 200,
+      width: 200,
+      marginLeft: 60,
+      borderRadius: 200 / 2,
       // add shadows for Android only
       // No options for shadow offset, shadow opacity like iOS
       elevation: 10,
       // shadow color
-      shadowColor: 'black'
+      shadowColor: 'black',
+      alignSelf:'center'
     },
     profileImageEditIcon: {
       marginTop: 0
@@ -410,9 +441,10 @@ const styles = (theme: {
       alignItems: 'center'
     },
     imageStyle: {
-      height: 150,
-      width: 300,
-      borderRadius: 400 / 2
+      height: 200,
+      width: 200,
+      borderRadius: 200 / 2,
+      alignSelf:'center'
       // alignSelf: 'center'
     },
     row1: {

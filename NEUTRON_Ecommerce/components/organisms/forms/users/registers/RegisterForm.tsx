@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import i18n from 'i18n-js';
@@ -24,6 +24,8 @@ import { UserRoles } from '../../../../../types/enums/UserRoles';
 import UserService from '../../../../../api/services/UserService';
 import { AuthenticationData } from '../../../../../types/authentication/AuthenticationData';
 import { useNavigation } from '@react-navigation/native';
+import ErrorSnackbar from '../../../../../hooks/snackbar/ErrorSnackbar';
+import SuccessSnackbar from '../../../../../hooks/snackbar/SuccessSnackbar';
 
 export default function RegisterForm() {
   const [selected, setSelected] = useState<boolean>(false);
@@ -32,12 +34,17 @@ export default function RegisterForm() {
   const style = useThemedStyles(styles);
   const [showPassword, setShowPassword] = useState<boolean>(true);
   const [showReEnterPassword, setShowReEnterPassword] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
   const navigation = useNavigation();
 
   const registerAsync = async (values: IRegisterFormFields) => {
     try {
+      setLoading(true);
       if (values.password != values.reEnterPassword) {
-        console.log('password mismatch');
+        setLoading(false);
+        Alert.alert('Password mismatch');
         return;
       }
       const newUser = new CreateUserData(
@@ -54,9 +61,13 @@ export default function RegisterForm() {
         values.password
       );
       await UserService.registerAsync(newUser, newCredentials);
+      setSuccess(true);
+      setLoading(false);
       console.log(values);
       navigation.navigate('Login');
     } catch (error) {
+      setError(true);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -78,6 +89,12 @@ export default function RegisterForm() {
           isValid,
           isSubmitting
         }) => (
+          <>
+          {loading ? (
+            <View style={style.loading}>
+              <ActivityIndicator size="large" />
+            </View>
+           ) : (
           <View style={style.container}>
             <View style={style.tabView}>
               <View style={style.tabView2}>
@@ -222,10 +239,6 @@ export default function RegisterForm() {
               marginTop={25}
             />
 
-            {/* <Information
-              value={i18n.t('registerPage.termsAndConditions')}
-              marginTop={5}
-            /> */}
             <View style={style.row1}>
               <Paragraph
                 value={i18n.t('registerPage.alreadyHaveAccount')}
@@ -250,9 +263,24 @@ export default function RegisterForm() {
                 marginTop={10}
               />
             </Pressable>
+           
           </View>
+           )}
+          </>
         )}
       </Formik>
+      <ErrorSnackbar
+        text={'Something went wrong!'}
+        iconName={'error'}
+        isVisible={error}
+        dismissFunc={() => setError(false)}
+      />
+      <SuccessSnackbar
+        text={'User added successfully!'}
+        iconName={'success'}
+        isVisible={success}
+        dismissFunc={() => setSuccess(false)}
+      />
     </>
   );
 }

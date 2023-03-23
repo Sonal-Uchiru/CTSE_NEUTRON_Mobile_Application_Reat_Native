@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -24,6 +24,7 @@ export default function AdminViewItemScreen() {
   const [copyItems, setCopyItems] = useState<ItemModel[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [itemDocId, setItemDocId] = useState<string | null>(null);
   const navigation = useNavigation();
 
@@ -39,14 +40,17 @@ export default function AdminViewItemScreen() {
     setItemDocId(null);
 
     try {
+      setLoading(true);
       const resItems = await ItemService.getItemListAsync();
 
       if (resItems.length > 0) {
         setItems(resItems);
         setCopyItems(resItems);
       }
+      setLoading(false);
       setError(false);
     } catch (error) {
+      setLoading(false);
       setError(true);
       console.log(error);
     }
@@ -108,13 +112,18 @@ export default function AdminViewItemScreen() {
               color={theme.COLORS.PRIMARY}
               marginTop={10}
               marginLeft={5}
-              width={horizontalScale(100)}
+              width={160}
               callFunction={() => {
                 setItemDocId(null);
                 setIsEditing(true);
               }}
             />
           </View>
+          {loading ? (
+            <View style={style.loading}>
+              <ActivityIndicator size="large" />
+            </View>
+           ) : (
           <ScrollView>
             {items.length > 0 &&
               items.map((item, index) => {
@@ -137,6 +146,7 @@ export default function AdminViewItemScreen() {
                 );
               })}
           </ScrollView>
+           )}
           <ErrorSnackbar
             text={'Something went wrong!'}
             iconName={'error'}

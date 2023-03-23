@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
 import useTheme from '../theme/hooks/UseTheme';
@@ -72,6 +72,7 @@ export default function SavedCards() {
 
   return (
     <SafeAreaView style={style.container}>
+    
       <View style={style.headerStyle}>
         <HeadLine3
           value={i18n.t('savedCardsPage.title')}
@@ -98,12 +99,9 @@ export default function SavedCards() {
         callFunction={undefined}
       />
       {loading ? (
-        <HeadLine4
-          value={'Loading...'}
-          marginLeft={20}
-          marginBottom={30}
-          color={theme.COLORS.WARNING}
-        />
+                  <View style={style.loading}>
+                  <ActivityIndicator size="large" />
+                </View>
       ) : (
         <ScrollView>
           {cardList.map((card, i) => {
@@ -121,19 +119,24 @@ export default function SavedCards() {
           })}
         </ScrollView>
       )}
+
+
       <ModalButton
         value={i18n.t('savedCardsPage.buttonAddCard')}
         color={theme.COLORS.PRIMARY}
         marginBottom={25}
         width={160}
+        marginTop={40}
         callFunction={() => navigation.navigate('AddCards')}
       />
+
       <ErrorSnackbar
-        text={'Something went wrong please try again'}
+        text={'Something went wrong!'}
         iconName={undefined}
         isVisible={error}
         dismissFunc={() => setError(false)}
       />
+ 
     </SafeAreaView>
   );
 }
@@ -161,6 +164,17 @@ const styles = (theme: {
       backgroundColor: theme.COLORS.WHITE,
       marginTop: 40
     },
+
+    // loading: {
+    //   position: 'absolute',
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
+    //   left: 0,
+    //   right: 0,
+    //   top: '60%',
+    //   bottom: 0,
+    // },
+
     headerStyle: {
       alignSelf: 'flex-start',
       marginStart: 20
