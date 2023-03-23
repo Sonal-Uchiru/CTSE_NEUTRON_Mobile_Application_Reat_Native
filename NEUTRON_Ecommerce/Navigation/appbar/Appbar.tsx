@@ -10,12 +10,21 @@ import UserService from '../../api/services/UserService';
 export default function AppHeader() {
   const [visible, setVisible] = useState(true);
   const theme = useTheme();
-  const navigation = useNavigation();
   const [userRole, setUserRole] = useState<number>(-99);
 
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
+
   const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
+  const closeMenu = async () => {
+    await UserService.signOut(),
+    setVisible(false);
+  }
+
+  type Nav = {
+    navigate: (value: string, metaData?: any) => void;
+  };
+
+  const navigation = useNavigation<Nav>();
 
   useEffect(() => {
     (async () => {
@@ -29,13 +38,8 @@ export default function AppHeader() {
   }, [userRole]);
   return (
     <View>
-      {/* {console.log(userRole)} */}
       {userRole != -99 ? (
         <Appbar.Header>
-          {/* <Appbar.BackAction
-            color={theme.COLORS.PRIMARY}
-            onPress={() => navigation.goBack()}
-          /> */}
           <Appbar.Content
             title="Neutron"
             color={theme.COLORS.PRIMARY}
@@ -72,7 +76,6 @@ export default function AppHeader() {
                   <Menu.Item
                     leadingIcon="help-circle-outline"
                     onPress={async () => {
-                      await UserService.signOut(),
                         navigation.navigate('Help'),
                         closeMenu();
                     }}
