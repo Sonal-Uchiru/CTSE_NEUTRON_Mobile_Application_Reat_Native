@@ -188,8 +188,8 @@ export default function RegisterForm() {
                   borderColor={
                     errors.contact ? theme.COLORS.ERROR : theme.COLORS.PRIMARY
                   }
+                  keyBoardType="numeric"
                 />
-
                 <FormGroupWithIcon
                   name={i18n.t('formFields.password')}
                   id={'password'}

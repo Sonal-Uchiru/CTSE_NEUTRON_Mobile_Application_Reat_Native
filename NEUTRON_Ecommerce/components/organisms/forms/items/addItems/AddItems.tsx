@@ -348,6 +348,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                         ? theme.COLORS.ERROR
                         : theme.COLORS.PRIMARY
                     }
+                    keyBoardType='numeric'
                   />
                   <FormGroup
                     name={i18n.t('addItemsForm.unitPrice')}
@@ -367,6 +368,7 @@ export default function AddItemsForm({ docId, onCancel }: Props) {
                         ? theme.COLORS.ERROR
                         : theme.COLORS.PRIMARY
                     }
+                    keyBoardType='numeric'
                   />
                   <ModalButton
                     value={i18n.t('addItemsForm.next')}
