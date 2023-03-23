@@ -12,24 +12,15 @@ import useTheme from '../theme/hooks/UseTheme';
 import useThemedStyles from '../theme/hooks/UseThemedStyles';
 import HeadLine3 from '../components/atoms/typographies/HeadLine3';
 import Paragraph from '../components/atoms/typographies/Paragraph';
-import CreditCard from '../components/molecules/CreditCard';
-import ModalButton from '../components/atoms/buttons/ModalButton';
-import FormGroupWithIcon from '../components/molecules/FormGroupWithIcon';
-import CartCard from '../components/molecules/CartCard';
 import {
     CreditCardBack,
     CreditCardFront,
     Iphone,
     NeutronLogo
 } from '../assets/image';
-import HeadLine4 from '../components/atoms/typographies/HeadLine4';
-import ViewItemCard from '../components/molecules/ViewItemCard';
 import { horizontalScale, verticalScale } from '../responsive/Metrics';
-import AdminViewItemCard from '../components/molecules/AdminViewItemCard';
-import AdminViewCustomersCard from '../components/molecules/AdminViewCustomersCard';
 import AddCardForm from '../components/organisms/forms/cards/addCard/AddCardForm';
 import FlipCard from 'react-native-flip-card';
-import { useNavigation } from '@react-navigation/native';
 
 export default function AddCardScreen() {
     const theme = useTheme();
